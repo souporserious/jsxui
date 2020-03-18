@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "site",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "develop": "gatsby develop --host 0.0.0.0 --port 5000",
+    "build": "gatsby build",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+  },
+  "dependencies": {
+    "faker": "^4.1.0",
+    "gatsby": "^2.19.28",
+    "jsx-ui": "*"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["react-app", "plugin:jsx-a11y/recommended"],
+  "plugins": ["react-hooks", "jsx-a11y"],
+  "rules": {
+    "semi": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}

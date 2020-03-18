@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "site": "yarn workspace site",
+    "jsx-ui": "yarn workspace jsx-ui"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
