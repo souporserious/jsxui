@@ -17,4 +17,14 @@ export default () => {
 }
 ```
 
+TODO:
+
+[ ] internalization (LTR)
+[ ] accessibility
+[ ] layout primitives
+[ ] theming (styles, colors, space)
+[ ] variants (make things like A/B testing / permissions / etc easy / how to turn something like DND on/off without loading extra code)
+[ ] auto documentation
+[ ] property controls
+
 Thank you to [alitskevich](https://github.com/alitskevich) for the package name.

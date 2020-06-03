@@ -1,32 +1,50 @@
 import * as React from 'react'
 
-import { PropsOf } from './utils'
+import { useModifierProps } from './Modifiers'
+import { useTokens } from './Tokens'
+import { SharedProps } from './index'
 
-export interface TextOwnProps<E extends React.ElementType = React.ElementType> {
-  // composition
-  as?: E
+export type TextProps = {
+  as?: any
+  family?: string
+  size?: string
+  weight?: string
+  color?: string
+  style?: React.CSSProperties
   children?: React.ReactNode
+} & SharedProps
 
-  // style (tokens) <Theme Text={{ family: 'sans-serif' }}>
-  family?: String
-  size?: Number
-  weight?: Number
-}
-
-export type TextProps<E extends React.ElementType> = TextOwnProps<E> &
-  Omit<PropsOf<E>, keyof TextOwnProps>
-
-const defaultElement = 'span'
-
-export const Text = React.forwardRef(
-  ({ as, children, ...restProps }: TextOwnProps, ref: React.Ref<Element>) => {
-    const Element = as || defaultElement
+export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
+  (props, ref) => {
+    const {
+      as: Component = 'span',
+      column,
+      row,
+      family,
+      size,
+      weight,
+      color,
+      style,
+      children,
+      ...restProps
+    } = useModifierProps<TextProps>(Text, props)
+    const { fontSizes, fontFamilies, fontWeights } = useTokens()
     return (
-      <Element ref={ref} {...restProps}>
+      <Component
+        ref={ref}
+        style={{
+          gridColumn: column,
+          gridRow: row,
+          fontFamily: fontFamilies[family] || family,
+          fontSize: fontSizes[size] || size,
+          fontWeight: fontWeights[weight] || weight,
+          color,
+          ...style,
+        }}
+        {...restProps}
+      >
         {children}
-      </Element>
+      </Component>
     )
   }
-) as <E extends React.ElementType = typeof defaultElement>(
-  props: TextProps<E>
-) => JSX.Element
+)

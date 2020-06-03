@@ -54,5 +54,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "dlv": "^1.1.3"
+  }
 }

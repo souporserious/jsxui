@@ -9,8 +9,13 @@
     "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
   "dependencies": {
+    "@state-designer/react": "^1.2.6",
     "faker": "^4.1.0",
+    "framer-motion": "^1.11.0",
     "gatsby": "^2.19.28",
-    "jsx-ui": "*"
+    "gatsby-plugin-google-fonts": "^1.0.1",
+    "gatsby-plugin-layout": "^1.3.2",
+    "jsx-ui": "*",
+    "react-router-dom": "^5.2.0"
   }
 }

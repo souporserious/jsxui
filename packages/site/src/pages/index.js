@@ -1,28 +1,20 @@
 import React from 'react'
-import { Stack, Text, View } from 'jsx-ui'
+import { Stack, Text } from 'jsx-ui'
+import { Link } from 'gatsby'
 
-const sizes = {
-  xs: 12,
-  sm: 18,
-  md: 22,
-  lg: 32,
-}
-
-const sizeKeys = Object.keys(sizes)
-
-function Heading({ children, level = 1 }) {
-  return <Text size={sizes[sizeKeys[level]]}>{children}</Text>
-}
-
-export default () => {
+export default ({ style }) => {
   return (
-    <Stack>
-      <Heading level={1} style={{}}>
-        JSX UI
-      </Heading>
-      <Text>
-        Primitive elements to build isomorphic user interfaces in React.
-      </Text>
+    <Stack
+      as={Link}
+      to="/users"
+      alignment="center"
+      spaceStart="1fr"
+      spaceEnd="1fr"
+      mainSize="100vh"
+      space="1fr"
+      style={style}
+    >
+      <Text>Press the PS button to use the controller.</Text>
     </Stack>
   )
 }
