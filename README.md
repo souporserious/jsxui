@@ -2,29 +2,21 @@
 
 Primitive elements to build isomorphic user interfaces in React.
 
+⚠️ Currently under development, not ready for production use yet
+
 ## Usage
 
 ```jsx
 import React from 'react'
-import { Stack, Text } from 'jsx-ui'
+import { Stack, Text } from '@jsxui/react'
 
 export default () => {
   return (
-    <Stack>
-      <Text color="orange">JSX UI</Text>
+    <Stack space="1fr">
+      <Text size={48} color="hotpink">
+        JSX UI
+      </Text>
     </Stack>
   )
 }
 ```
-
-TODO:
-
-[ ] internalization (LTR)
-[ ] accessibility
-[ ] layout primitives
-[ ] theming (styles, colors, space)
-[ ] variants (make things like A/B testing / permissions / etc easy / how to turn something like DND on/off without loading extra code)
-[ ] auto documentation
-[ ] property controls
-
-Thank you to [alitskevich](https://github.com/alitskevich) for the package name.
