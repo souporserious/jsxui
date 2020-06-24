@@ -13,6 +13,10 @@ export function getInstance(instance) {
   )
 }
 
+export function isSameInstance(element1, element2) {
+  return getInstance(element1).toString() === getInstance(element2).toString()
+}
+
 export function useModifierProps<Props>(instance, props) {
   const modifiersStack = useModifiers()
   let modifiedProps = {} as Props

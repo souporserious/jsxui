@@ -7,9 +7,12 @@ import { SharedProps } from './index'
 export type TextProps = {
   as?: any
   family?: string
-  size?: string
-  weight?: string
+  size?: string | number
+  weight?: string | number
   color?: string
+  x?: string | number
+  y?: string | number
+  visible?: boolean
   style?: React.CSSProperties
   children?: React.ReactNode
 } & SharedProps
@@ -24,11 +27,19 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       size,
       weight,
       color,
+      x = 0,
+      y = 0,
+      visible,
       style,
       children,
       ...restProps
     } = useModifierProps<TextProps>(Text, props)
     const { fontSizes, fontFamilies, fontWeights } = useTokens()
+
+    if (visible === false) {
+      return null
+    }
+
     return (
       <Component
         ref={ref}
@@ -38,6 +49,7 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           fontFamily: fontFamilies[family] || family,
           fontSize: fontSizes[size] || size,
           fontWeight: fontWeights[weight] || weight,
+          transform: x ?? y ? `translate(${x}, ${y})` : undefined,
           color,
           ...style,
         }}
@@ -48,3 +60,5 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
     )
   }
 )
+
+Text.displayName = 'Text'

@@ -1,18 +1,35 @@
 import * as React from 'react'
 
-import { getInstance, useModifierProps } from './Modifiers'
+import { isSameInstance, useModifierProps } from './Modifiers'
 import { Spacer } from './Spacer'
+import { Text } from './Text'
 import { SharedProps } from './index'
 
 export type StackProps = {
   as?: any
   axis?: 'horizontal' | 'vertical'
-  size?: Number | string
-  alignment?: 'start' | 'center' | 'end'
-  spaceStart?: Number | String
-  spaceBetween?: Number | String
-  spaceEnd?: Number | String
+  size?: number | string
+  width?: number | string
+  height?: number | string
+  minWidth?: number | string
+  minHeight?: number | string
+  maxWidth?: number | string
+  maxHeight?: number | string
+  space?: number | string
+  spaceMain?: number | string
+  spaceMainStart?: number | string
+  spaceMainEnd?: number | string
+  spaceMainBefore?: number | string
+  spaceMainAfter?: number | string
+  spaceCross?: number | string
+  spaceCrossStart?: number | string
+  spaceCrossEnd?: number | string
+  spaceCrossBefore?: number | string
+  spaceCrossAfter?: number | string
+  spaceBetween?: number | string
+  position?: string
   background?: string
+  visible?: boolean
   style?: React.CSSProperties
   children?: React.ReactNode
 } & SharedProps
@@ -32,48 +49,80 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       row,
       axis,
       size,
-      alignment,
-      spaceStart,
-      spaceBetween,
-      spaceEnd,
-      mainSize,
-      crossSize,
+      width,
+      height,
+      minWidth,
+      minHeight,
+      maxWidth,
+      maxHeight,
       space,
+      spaceMain,
+      spaceMainStart,
+      spaceMainEnd,
+      spaceMainBefore,
+      spaceMainAfter,
+      spaceCross,
+      spaceCrossStart,
+      spaceCrossEnd,
+      spaceCrossBefore,
+      spaceCrossAfter,
+      spaceBetween,
+      spaceBefore,
+      spaceAfter,
+      spaceStart,
+      spaceEnd,
       background,
+      position = 'relative',
+      visible,
       style,
       children,
       ...restProps
     } = useModifierProps<StackProps>(Stack, props)
-    const isHorizontal = axis === 'horizontal'
-    const mainSizeKey = isHorizontal ? 'width' : 'height'
-    const crossSizeKey = isHorizontal ? 'height' : 'width'
-    const trackCells = React.Children.toArray(children).reduce<Cell[]>(
-      (cells, element, index) => {
-        const cell = {
-          element,
-          size: React.isValidElement(element)
-            ? (isHorizontal ? element.props.width : element.props.height) ||
-              'auto'
-            : null,
-        }
-        // TODO: fragile, look into better way to detect children
-        if (getInstance(element).toString() === Spacer.toString()) {
-          // @ts-ignore
-          return [...cells, { size: element.props.size }]
-        } else if (index === 0 || spaceBetween === undefined) {
-          // @ts-ignore
-          return cells.concat(cell)
-        } else {
-          return [...cells, { size: spaceBetween }, cell]
-        }
-      },
-      []
-    )
-    if (spaceStart) {
-      trackCells.unshift({ size: spaceStart })
+
+    if (visible === false) {
+      return null
     }
-    if (spaceEnd) {
-      trackCells.push({ size: spaceEnd })
+
+    const isHorizontal = axis === 'horizontal'
+    const childrenArray = React.Children.toArray(children)
+    const trackCells = childrenArray.reduce<Cell[]>((cells, element, index) => {
+      const previousElement = childrenArray[index - 1]
+      const cell = {
+        element,
+        size: isSameInstance(element, Text)
+          ? 'max-content'
+          : React.isValidElement(element)
+          ? element.props.width ??
+            element.props.height ??
+            element.props.size ??
+            'min-content'
+          : null,
+      }
+      const spaceValue =
+        (React.isValidElement(previousElement) &&
+          previousElement?.props.spaceMainAfter) ??
+        (React.isValidElement(element) && element.props.spaceMainBefore) ??
+        spaceBetween ??
+        space
+      if (isSameInstance(element, Spacer)) {
+        // @ts-ignore
+        return [...cells, { size: element.props.size }]
+      } else if (index === 0 || spaceValue === undefined) {
+        // @ts-ignore
+        return cells.concat(cell)
+      } else {
+        return [...cells, { size: spaceValue }, cell]
+      }
+    }, [])
+    const spaceMainStartValue = spaceMainStart ?? spaceMain ?? space
+    const spaceMainEndValue = spaceMainEnd ?? spaceMain ?? space
+    const spaceCrossStartValue = spaceCrossStart ?? spaceCross ?? space
+    const spaceCrossEndValue = spaceCrossEnd ?? spaceCross ?? space
+    if (spaceMainStartValue) {
+      trackCells.unshift({ size: spaceMainStartValue })
+    }
+    if (spaceMainEndValue) {
+      trackCells.push({ size: spaceMainEndValue })
     }
     return (
       <Component
@@ -88,12 +137,16 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
               typeof cell.size === 'number' ? `${cell.size}px` : cell.size
             )
             .join(' '),
-          [`${isHorizontal ? 'align' : 'justify'}Items`]: alignment,
           gridColumn: column,
           gridRow: row,
-          [mainSizeKey]: mainSize ?? size,
-          [crossSizeKey]: crossSize ?? size,
+          width: width ?? size,
+          height: height ?? size,
+          minWidth,
+          minHeight,
+          maxWidth,
+          maxHeight,
           background,
+          position,
           ...style,
         }}
         {...restProps}
@@ -102,13 +155,28 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           .map((cell, index) => ({ ...cell, index: index + 1 }))
           .filter(cell => Boolean(cell.element))
           .map(cell => {
-            return trackCells.length > 1
-              ? React.cloneElement(cell.element, {
-                  [isHorizontal ? 'column' : 'row']: cell.index,
-                })
-              : cell.element
+            const cellProps = { [isHorizontal ? 'column' : 'row']: cell.index }
+            const childToRender =
+              trackCells.length > 1
+                ? React.cloneElement(cell.element, cellProps)
+                : cell.element
+            return spaceCrossStartValue ?? spaceCrossEndValue ? (
+              <Stack
+                key={cell.index}
+                axis={isHorizontal ? 'vertical' : 'horizontal'}
+                spaceMainStart={spaceCrossStartValue}
+                spaceMainEnd={spaceCrossEndValue}
+                {...cellProps}
+              >
+                {childToRender}
+              </Stack>
+            ) : (
+              childToRender
+            )
           })}
       </Component>
     )
   }
 )
+
+Stack.displayName = 'Stack'
