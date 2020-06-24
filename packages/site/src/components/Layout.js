@@ -1,6 +1,6 @@
 import React from 'react'
+import { globalHistory } from '@reach/router'
 import { Modifiers, Text, Tokens, Stack } from 'jsx-ui'
-import { motion, AnimatePresence } from 'framer-motion'
 
 const tokens = {
   fontFamilies: {
@@ -47,10 +47,10 @@ const modifiers = [
 const duration = 0.25
 
 const variants = {
-  initial: {
-    scale: 1.1,
+  initial: (direction) => ({
+    scale: direction === 1 ? 0.9 : 1.1,
     opacity: 0,
-  },
+  }),
   enter: {
     scale: 1,
     opacity: 1,
@@ -60,34 +60,44 @@ const variants = {
       when: 'beforeChildren',
     },
   },
-  exit: {
-    scale: 0.9,
+  exit: (direction) => ({
+    scale: direction === 1 ? 1.1 : 0.9,
     opacity: 0,
     transition: { duration: duration },
-  },
+  }),
 }
 
-document.body.style.margin = '0px'
+function getPathnameLevel(pathname) {
+  const pathnameChars = pathname.split('')
+  return pathnameChars.length <= 1
+    ? 0
+    : pathnameChars.reduce(
+        (count, char) => (char === '/' ? count + 1 : count),
+        0
+      )
+}
 
 function Layout({ children, location }) {
+  const [direction, setDirection] = React.useState(1)
+  const previousPathname = React.useRef(null)
+  React.useLayoutEffect(() => {
+    document.body.style.margin = 0
+    document.body.style.background =
+      'linear-gradient(-180deg, rgb(8, 60, 182), rgb(14, 30, 69))'
+
+    previousPathname.current = location.pathname
+    return globalHistory.listen((event) => {
+      if (event.action === 'POP') {
+        const currentLevel = getPathnameLevel(event.location.pathname)
+        const previousLevel = getPathnameLevel(previousPathname.current)
+        setDirection(currentLevel < previousLevel ? -1 : 1)
+      }
+      previousPathname.current = event.location.pathname
+    })
+  }, [])
   return (
     <Tokens value={tokens}>
-      <Modifiers value={modifiers}>
-        <Stack background="linear-gradient(-180deg, rgb(8, 60, 182), rgb(14, 30, 69))">
-          <AnimatePresence>
-            <Stack
-              key={location.pathname}
-              as={motion.div}
-              variants={variants}
-              initial="initial"
-              animate="enter"
-              exit="exit"
-            >
-              {children}
-            </Stack>
-          </AnimatePresence>
-        </Stack>
-      </Modifiers>
+      <Modifiers value={modifiers}>{children}</Modifiers>
     </Tokens>
   )
 }

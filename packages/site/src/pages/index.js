@@ -10,7 +10,7 @@ export default ({ style }) => {
       alignment="center"
       spaceStart="1fr"
       spaceEnd="1fr"
-      mainSize="100vh"
+      height="100vh"
       space="1fr"
       style={style}
     >

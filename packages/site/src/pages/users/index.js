@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, Spacer, Stack, Text } from 'jsx-ui'
 import { Link } from 'gatsby'
 
-function useUsers(amount = 5) {
+function useUsers(amount = 3) {
   const [users, setUsers] = React.useState([])
   React.useEffect(() => {
     fetch(`https://randomuser.me/api/?results=${amount}`)
@@ -16,12 +16,10 @@ export default ({ style }) => {
   const users = useUsers()
   return (
     <Stack
-      as={Link}
-      to="/"
       alignment="center"
       spaceStart="1fr"
       spaceEnd="1fr"
-      mainSize="100vh"
+      height="100vh"
       style={style}
     >
       <Text>DUALSHOCK 4 wireless controller connected.</Text>
@@ -29,11 +27,23 @@ export default ({ style }) => {
       <Text>Who is using this controller?</Text>
       <Spacer size="64px" />
       <Stack axis="horizontal" spaceBetween="32px">
+        <Stack
+          as={Link}
+          to="/users/new"
+          width="180px"
+          height="256px"
+          space="1fr"
+          background="#1a42ab"
+        >
+          <Text>New User</Text>
+        </Stack>
         {users.map((user, index) => (
           <Stack
             key={index}
-            mainSize="256px"
-            crossSize="180px"
+            as={Link}
+            to="/menu"
+            width="180px"
+            height="256px"
             background="#1a42ab"
           >
             <Image
