@@ -3,6 +3,7 @@ export type SharedProps = {
   row?: string
 }
 
+export * from './Divider'
 export * from './Grid'
 export * from './Image'
 export * from './Modifiers'
