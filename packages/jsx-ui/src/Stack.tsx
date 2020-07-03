@@ -15,18 +15,16 @@ export type StackProps = {
   minHeight?: number | string
   maxWidth?: number | string
   maxHeight?: number | string
-  space?: number | string
-  spaceMain?: number | string
-  spaceMainStart?: number | string
-  spaceMainEnd?: number | string
-  spaceMainBefore?: number | string
-  spaceMainAfter?: number | string
+  spaceAround?: number | string
+  spaceAfter?: number | string
+  spaceBefore?: number | string
+  spaceBetween?: number | string
   spaceCross?: number | string
   spaceCrossStart?: number | string
   spaceCrossEnd?: number | string
-  spaceCrossBefore?: number | string
-  spaceCrossAfter?: number | string
-  spaceBetween?: number | string
+  spaceMain?: number | string
+  spaceMainStart?: number | string
+  spaceMainEnd?: number | string
   position?: string
   background?: string
   visible?: boolean
@@ -55,22 +53,16 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       minHeight,
       maxWidth,
       maxHeight,
-      space,
+      spaceAround,
       spaceMain,
       spaceMainStart,
       spaceMainEnd,
-      spaceMainBefore,
-      spaceMainAfter,
       spaceCross,
       spaceCrossStart,
       spaceCrossEnd,
-      spaceCrossBefore,
-      spaceCrossAfter,
       spaceBetween,
       spaceBefore,
       spaceAfter,
-      spaceStart,
-      spaceEnd,
       background,
       position = 'relative',
       visible,
@@ -92,18 +84,16 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
         size: isSameInstance(element, Text)
           ? 'max-content'
           : React.isValidElement(element)
-          ? element.props.width ??
-            element.props.height ??
+          ? (isHorizontal ? element.props.width : element.props.height) ??
             element.props.size ??
-            'min-content'
+            'max-content'
           : null,
       }
       const spaceValue =
         (React.isValidElement(previousElement) &&
-          previousElement?.props.spaceMainAfter) ??
-        (React.isValidElement(element) && element.props.spaceMainBefore) ??
-        spaceBetween ??
-        space
+          previousElement?.props.spaceAfter) ??
+        (React.isValidElement(element) && element.props.spaceBefore) ??
+        spaceBetween
       if (isSameInstance(element, Spacer)) {
         // @ts-ignore
         return [...cells, { size: element.props.size }]
@@ -114,10 +104,10 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
         return [...cells, { size: spaceValue }, cell]
       }
     }, [])
-    const spaceMainStartValue = spaceMainStart ?? spaceMain ?? space
-    const spaceMainEndValue = spaceMainEnd ?? spaceMain ?? space
-    const spaceCrossStartValue = spaceCrossStart ?? spaceCross ?? space
-    const spaceCrossEndValue = spaceCrossEnd ?? spaceCross ?? space
+    const spaceMainStartValue = spaceMainStart ?? spaceMain ?? spaceAround
+    const spaceMainEndValue = spaceMainEnd ?? spaceMain ?? spaceAround
+    const spaceCrossStartValue = spaceCrossStart ?? spaceCross ?? spaceAround
+    const spaceCrossEndValue = spaceCrossEnd ?? spaceCross ?? spaceAround
     if (spaceMainStartValue) {
       trackCells.unshift({ size: spaceMainStartValue })
     }

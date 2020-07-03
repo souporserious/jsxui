@@ -12,7 +12,7 @@ import { Stack, Text } from '@jsxui/react'
 
 export default () => {
   return (
-    <Stack space="1fr">
+    <Stack spaceAround="1fr">
       <Text size={48} color="hotpink">
         JSX UI
       </Text>

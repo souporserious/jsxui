@@ -15,24 +15,18 @@ function useUsers(amount = 3) {
 export default ({ style }) => {
   const users = useUsers()
   return (
-    <Stack
-      alignment="center"
-      spaceStart="1fr"
-      spaceEnd="1fr"
-      height="100vh"
-      style={style}
-    >
+    <Stack height="100vh" spaceAround="1fr" style={style}>
       <Text>DUALSHOCK 4 wireless controller connected.</Text>
-      <Spacer size="8px" />
+      <Spacer size={8} />
       <Text>Who is using this controller?</Text>
-      <Spacer size="64px" />
+      <Spacer size={64} />
       <Stack axis="horizontal" spaceBetween="32px">
         <Stack
           as={Link}
           to="/users/new"
           width="180px"
           height="256px"
-          space="1fr"
+          spaceAround="1fr"
           background="#1a42ab"
         >
           <Text>New User</Text>

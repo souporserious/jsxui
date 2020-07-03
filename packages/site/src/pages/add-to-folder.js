@@ -58,7 +58,7 @@ export default ({ style }) => {
   return (
     <Stack height="100vh" style={style}>
       <Spacer size="32px" />
-      <Stack axis="horizontal" spaceStart="64px" spaceEnd="1fr">
+      <Stack axis="horizontal" spaceMainStart="64px" spaceMainEnd="1fr">
         <Text
           size="40px"
           // modifiers={[

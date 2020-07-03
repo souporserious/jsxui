@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 type SpacerProps = {
-  size?: number
+  size?: number | string
 }
 
 export function Spacer(props: SpacerProps) {
