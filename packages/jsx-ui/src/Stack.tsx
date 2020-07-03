@@ -26,6 +26,8 @@ export type StackProps = {
   spaceMainStart?: number | string
   spaceMainEnd?: number | string
   position?: string
+  x?: string | number
+  y?: string | number
   background?: string
   visible?: boolean
   style?: React.CSSProperties
@@ -65,6 +67,8 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       spaceAfter,
       background,
       position = 'relative',
+      x = 0,
+      y = 0,
       visible,
       style,
       children,
@@ -86,7 +90,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           : React.isValidElement(element)
           ? (isHorizontal ? element.props.width : element.props.height) ??
             element.props.size ??
-            'max-content'
+            'min-content'
           : null,
       }
       const spaceValue =
@@ -131,6 +135,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           gridRow: row,
           width: width ?? size,
           height: height ?? size,
+          transform: x ?? y ? `translate(${x}, ${y})` : undefined,
           minWidth,
           minHeight,
           maxWidth,
