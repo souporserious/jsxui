@@ -12,6 +12,8 @@ export type TextProps = {
   color?: string
   x?: string | number
   y?: string | number
+  width?: string | number
+  height?: string | number
   visible?: boolean
   style?: React.CSSProperties
   children?: React.ReactNode
@@ -29,6 +31,8 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       color,
       x = 0,
       y = 0,
+      width,
+      height,
       visible,
       style,
       children,
@@ -50,6 +54,8 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           fontSize: fontSizes[size] || size,
           fontWeight: fontWeights[weight] || weight,
           transform: x ?? y ? `translate(${x}, ${y})` : undefined,
+          width,
+          height,
           color,
           ...style,
         }}
