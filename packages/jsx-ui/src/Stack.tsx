@@ -4,6 +4,7 @@ import { isSameInstance, useModifierProps } from './Modifiers'
 import { Spacer } from './Spacer'
 import { Text } from './Text'
 import { SharedProps } from './index'
+import { parseValue } from './utils'
 
 export type StackProps = {
   as?: any
@@ -86,11 +87,11 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       const cell = {
         element,
         size: isSameInstance(element, Text)
-          ? 'max-content'
+          ? 'auto'
           : React.isValidElement(element)
           ? (isHorizontal ? element.props.width : element.props.height) ??
             element.props.size ??
-            'min-content'
+            'auto'
           : null,
       }
       const spaceValue =
@@ -135,7 +136,10 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           gridRow: row,
           width: width ?? size,
           height: height ?? size,
-          transform: x ?? y ? `translate(${x}, ${y})` : undefined,
+          transform:
+            x ?? y
+              ? `translate(${parseValue(x)}, ${parseValue(y)})`
+              : undefined,
           minWidth,
           minHeight,
           maxWidth,

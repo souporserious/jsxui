@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useModifierProps } from './Modifiers'
 import { useTokens } from './Tokens'
 import { SharedProps } from './index'
+import { parseValue } from './utils'
 
 export type TextProps = {
   as?: any
@@ -53,7 +54,10 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           fontFamily: fontFamilies[family] || family,
           fontSize: fontSizes[size] || size,
           fontWeight: fontWeights[weight] || weight,
-          transform: x ?? y ? `translate(${x}, ${y})` : undefined,
+          transform:
+            x ?? y
+              ? `translate(${parseValue(x)}, ${parseValue(y)})`
+              : undefined,
           width,
           height,
           color,
