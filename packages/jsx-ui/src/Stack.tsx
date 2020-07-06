@@ -95,11 +95,11 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       const cell = {
         element,
         size: isSameInstance(element, Text)
-          ? 'auto'
+          ? 'max-content'
           : React.isValidElement(element)
           ? (isHorizontal ? element.props.width : element.props.height) ??
             element.props.size ??
-            'auto'
+            'min-content'
           : null,
       }
       const spaceValue =
@@ -164,7 +164,10 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           .map((cell, index) => ({ ...cell, index: index + 1 }))
           .filter(cell => Boolean(cell.element))
           .map(cell => {
-            const cellProps = { [isHorizontal ? 'column' : 'row']: cell.index }
+            const cellProps = {
+              parentAxis: axis,
+              [isHorizontal ? 'column' : 'row']: cell.index,
+            }
             const childToRender =
               trackCells.length > 1
                 ? React.cloneElement(cell.element, cellProps)
