@@ -11,8 +11,10 @@ export type TextProps = {
   size?: string | number
   weight?: string | number
   color?: string
-  x?: string | number
-  y?: string | number
+  offsetX?: string | number
+  offsetY?: string | number
+  translateX?: string | number
+  translateY?: string | number
   width?: string | number
   height?: string | number
   visible?: boolean
@@ -30,12 +32,14 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       size,
       weight,
       color,
-      x = 0,
-      y = 0,
-      width,
+      offsetX,
+      offsetY,
+      translateX = 0,
+      translateY = 0,
+      width = 'max-content',
       height,
       visible,
-      style,
+      style = {},
       children,
       ...restProps
     } = useModifierProps<TextProps>(Text, props)
@@ -43,6 +47,12 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
 
     if (visible === false) {
       return null
+    }
+
+    if (offsetX !== undefined || offsetY !== undefined) {
+      style.position = 'absolute'
+      style.top = offsetX
+      style.left = offsetY
     }
 
     return (
@@ -55,8 +65,10 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           fontSize: fontSizes[size] || size,
           fontWeight: fontWeights[weight] || weight,
           transform:
-            x ?? y
-              ? `translate(${parseValue(x)}, ${parseValue(y)})`
+            translateX ?? translateY
+              ? `translate(${parseValue(translateX)}, ${parseValue(
+                  translateY
+                )})`
               : undefined,
           width,
           height,

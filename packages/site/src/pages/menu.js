@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Spacer, Stack, Text } from 'jsx-ui'
+import { Stack, Text, useGeometry } from 'jsx-ui'
 import { useRovingIndex } from 'use-roving-index'
 import { Link } from 'gatsby'
 
@@ -27,10 +27,14 @@ export default () => {
     moveActiveIndex,
     moveBackwardDisabled,
     moveForwardDisabled,
-    setActiveIndex,
-  } = useRovingIndex({ maxIndex: menuItems.length - 1 })
+  } = useRovingIndex({
+    defaultIndex: 1,
+    maxIndex: menuItems.length - 1,
+  })
+  // const stackGeometry = useGeometry()
+  // const textGeometry = useGeometry()
   return (
-    <Stack height="100vh" spaceAround="1fr" spaceBetween="32px">
+    <Stack height="100vh" spaceAround="minmax(16px, 1fr)" spaceBetween="32px">
       <Stack axis="horizontal" spaceMain="1fr" spaceBetween="32px">
         {[...Array(11).keys()].map((value) => (
           <Stack key={value} size={24} background="white" />
@@ -39,56 +43,42 @@ export default () => {
       <Stack
         axis="horizontal"
         width="100%"
-        spaceMain="32px"
-        spaceBetween="4px"
-        x={`${activeIndex * -200}px`}
-        style={{ overflow: 'hidden' }}
-        // background={{
-        //   enter: {
-        //     value: '#000',
-        //     type: 'spring',
-        //   },
-        //   leave: {
-        //     value: '#fff',
-        //     type: 'spring',
-        //   },
-        // }}
+        spaceMain={32}
+        spaceBetween={4}
+        translateX={
+          activeIndex > 0 ? (activeIndex - 1) * -204 - 208 : undefined
+        }
       >
         {menuItems.map((item, index) => (
           <Stack
             key={item.title}
-            // as={Link}
-            // to="/add-to-folder"
+            as={Link}
+            to="/add-to-folder"
+            // ref={index === activeIndex ? stackGeometry : undefined}
             width={index === activeIndex ? 400 : 200}
             height={index === activeIndex ? 450 : 200}
-            spaceMainBefore={index === activeIndex ? 8 : undefined}
-            spaceMainAfter={index === activeIndex ? 8 : undefined}
-            spaceCrossBefore={index === 1 ? 32 : undefined}
+            spaceBefore={index === activeIndex ? 8 : undefined}
+            spaceAfter={index === activeIndex ? 8 : undefined}
             background="#1a42ab"
           >
             <Stack
               width={index === activeIndex ? 400 : 200}
               height={index === activeIndex ? 400 : 200}
-              // background="pink"
+              background="pink"
             />
-            <Stack
-              visible={index === activeIndex}
-              axis="horizontal"
-              width="100%"
-              height="100%"
-              spaceMainStart="1fr"
-              spaceCrossStart="1fr"
-              // relativeOrigin="20px 30px"
-              // relativeTo="parent"
-            >
+            {index === activeIndex && (
               <Text
+                // ref={textGeometry}
+                // offsetX={stackGeometry.maxX}
+                // offsetY={stackGeometry.maxY}
+                offsetX={0}
+                offsetY="calc(100% + 8px)"
                 size={40}
-                //x="calc(100% + 16px)"
-                style={{ color: 'white' }}
+                color="white"
               >
                 {item.title}
               </Text>
-            </Stack>
+            )}
           </Stack>
         ))}
       </Stack>

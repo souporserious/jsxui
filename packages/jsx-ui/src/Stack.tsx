@@ -26,9 +26,10 @@ export type StackProps = {
   spaceMain?: number | string
   spaceMainStart?: number | string
   spaceMainEnd?: number | string
-  position?: string
-  x?: string | number
-  y?: string | number
+  offsetX?: string | number
+  offsetY?: string | number
+  translateX?: string | number
+  translateY?: string | number
   background?: string
   visible?: boolean
   style?: React.CSSProperties
@@ -67,17 +68,24 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       spaceBefore,
       spaceAfter,
       background,
-      position = 'relative',
-      x = 0,
-      y = 0,
+      offsetX,
+      offsetY,
+      translateX = 0,
+      translateY = 0,
       visible,
-      style,
+      style = {},
       children,
       ...restProps
     } = useModifierProps<StackProps>(Stack, props)
 
     if (visible === false) {
       return null
+    }
+
+    if (offsetX !== undefined || offsetY !== undefined) {
+      style.position = 'absolute'
+      style.top = offsetX
+      style.left = offsetY
     }
 
     const isHorizontal = axis === 'horizontal'
@@ -137,15 +145,17 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           width: width ?? size,
           height: height ?? size,
           transform:
-            x ?? y
-              ? `translate(${parseValue(x)}, ${parseValue(y)})`
+            translateX ?? translateY
+              ? `translate(${parseValue(translateX)}, ${parseValue(
+                  translateY
+                )})`
               : undefined,
+          position: 'relative',
           minWidth,
           minHeight,
           maxWidth,
           maxHeight,
           background,
-          position,
           ...style,
         }}
         {...restProps}
