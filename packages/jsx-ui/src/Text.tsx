@@ -1,7 +1,10 @@
 import * as React from 'react'
+import capsize from 'capsize'
 
+import { StackContext } from './Contexts'
 import { useModifierProps } from './Modifiers'
 import { useTokens } from './Tokens'
+import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
 import { parseValue } from './utils'
 
@@ -9,6 +12,7 @@ export type TextProps = {
   as?: any
   family?: string
   size?: string | number
+  lineSpacing?: number
   weight?: string | number
   color?: string
   offsetX?: string | number
@@ -17,19 +21,21 @@ export type TextProps = {
   translateY?: string | number
   width?: string | number
   height?: string | number
-  visible?: boolean
   style?: React.CSSProperties
   children?: React.ReactNode
 } & SharedProps
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
   (props, ref) => {
+    const parentAxis = React.useContext(StackContext)
+    const modifierProps = useModifierProps<TextProps>(Text, props)
     const {
       as: Component = 'span',
       column,
       row,
       family,
       size,
+      lineSpacing = 12,
       weight,
       color,
       offsetX,
@@ -38,12 +44,19 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       translateY = 0,
       width = 'max-content',
       height,
-      visible,
+      visible = true,
+      stackChildStyles,
       style = {},
       children,
       ...restProps
-    } = useModifierProps<TextProps>(Text, props)
-    const { fontSizes, fontFamilies, fontWeights } = useTokens()
+    } = useVariantProps<TextProps>(modifierProps)
+    const { fontSizes, fontFamilies, fontWeights, fontMetrics } = useTokens()
+    const fontFamilyMetrics = fontMetrics && fontMetrics[family]
+    const fontStyles = capsize({
+      capHeight: fontSizes[size] || size,
+      lineGap: lineSpacing,
+      fontMetrics: fontFamilyMetrics,
+    })
 
     if (visible === false) {
       return null
@@ -51,8 +64,8 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
 
     if (offsetX !== undefined || offsetY !== undefined) {
       style.position = 'absolute'
-      style.top = offsetX
-      style.left = offsetY
+      style.top = offsetY
+      style.left = offsetX
     }
 
     return (
@@ -64,20 +77,31 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           fontFamily: fontFamilies[family] || family,
           fontSize: fontSizes[size] || size,
           fontWeight: fontWeights[weight] || weight,
-          transform:
-            translateX ?? translateY
-              ? `translate(${parseValue(translateX)}, ${parseValue(
-                  translateY
-                )})`
-              : undefined,
+          transform: `translate(${parseValue(translateX)}, ${parseValue(
+            translateY
+          )})`,
           width,
           height,
           color,
           ...style,
+          ...fontStyles,
+          ...stackChildStyles,
         }}
         {...restProps}
       >
+        <span
+          style={{
+            display: 'block',
+            marginTop: fontStyles['::before'].marginTop,
+          }}
+        />
         {children}
+        <span
+          style={{
+            display: 'block',
+            marginBottom: fontStyles['::after'].marginBottom,
+          }}
+        />
       </Component>
     )
   }

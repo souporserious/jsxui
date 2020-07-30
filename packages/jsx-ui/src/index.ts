@@ -1,6 +1,9 @@
 export type SharedProps = {
   column?: string
   row?: string
+  variants?: any
+  visible?: boolean | string
+  stackChildStyles?: object
 }
 
 export * from './Divider'
@@ -12,7 +15,7 @@ export * from './Spacer'
 export * from './Stack'
 export * from './Text'
 export * from './Tokens'
-export * from './Variant'
+export * from './Variants'
 export * from './View'
 export * from './Wrap'
 
