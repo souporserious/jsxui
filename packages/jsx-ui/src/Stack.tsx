@@ -193,11 +193,14 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     }
     const childrenToRender =
       spaceCrossStart ?? spaceCrossEnd ?? spaceCross ?? space
-        ? flattenedChildren.map((child: any) =>
+        ? flattenedChildren.map((child: any, index) =>
             child.type === Spacer || child.type === Divider ? (
               child
             ) : (
-              <StackContext.Provider value={getOrthogonalAxis(axis)}>
+              <StackContext.Provider
+                key={index}
+                value={getOrthogonalAxis(axis)}
+              >
                 <div
                   style={{
                     position: 'relative',
