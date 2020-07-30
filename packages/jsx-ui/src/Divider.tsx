@@ -15,14 +15,15 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
     const { color = '#000', column, row, size = 1 } = useModifierProps<
       DividerProps
     >(Divider, props)
+    const isHorizontal = parentAxis === 'horizontal'
     return (
       <div
         ref={ref}
         style={{
           gridColumn: column,
           gridRow: row,
-          width: parentAxis === 'vertical' ? size : '100%',
-          height: parentAxis === 'horizontal' ? size : '100%',
+          width: isHorizontal ? size : '100%',
+          height: isHorizontal ? '100%' : size,
           backgroundColor: color,
         }}
       />

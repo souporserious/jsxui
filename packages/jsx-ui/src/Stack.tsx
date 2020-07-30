@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { StackContext } from './Contexts'
+import { Divider } from './Divider'
 import { useModifierProps } from './Modifiers'
 import { Spacer } from './Spacer'
 import { useVariantProps } from './Variants'
@@ -193,7 +194,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     const childrenToRender =
       spaceCrossStart ?? spaceCrossEnd ?? spaceCross ?? space
         ? flattenedChildren.map((child: any) =>
-            child.type === Spacer ? (
+            child.type === Spacer || child.type === Divider ? (
               child
             ) : (
               <StackContext.Provider value={getOrthogonalAxis(axis)}>
