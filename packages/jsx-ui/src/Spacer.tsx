@@ -23,6 +23,7 @@ export function Spacer(props: SpacerProps) {
   const { fontFamilies } = useTokens()
   const [hover, setHover] = React.useState(false)
   const parentAxis = React.useContext(StackContext)
+  const mainDimension = parentAxis === 'horizontal' ? 'Width' : 'Height'
   const isFractional = typeof size === 'string' && size.includes('fr')
   const style = {
     position: 'relative',
@@ -34,29 +35,29 @@ export function Spacer(props: SpacerProps) {
   }
 
   if (typeof size === 'string' && size.includes('minmax')) {
-    const dimension = parentAxis === 'horizontal' ? 'Width' : 'Height'
     const [min, max] = parseMinMax(size)
-
-    // flip grow/shrink based on min/max
-    // this will determine whether we use minSize vs maxSize and flexGrow vs flexShrink
     if (max.includes('fr')) {
       const maxFloat = parseFloat(max)
       if (maxFloat < 0) {
-        throw new Error('Negative fractional units are invalid.')
+        throw new Error(
+          'Negative fractions cannot exist. Use a positive fraction.'
+        )
       }
       style.flexGrow = maxFloat
-    } else if (max.includes('px')) {
-      style[`max${dimension}`] = max
+    } else {
+      style[`max${mainDimension}`] = max
     }
     if (min.includes('fr')) {
-      throw new Error('Fractional minimums are invalid.')
-    } else if (min.includes('px')) {
-      style[`min${dimension}`] = min
+      throw new Error(
+        'Fractional minimums cannot exist. Use a maximum fraction "minmax(16px, 1fr)".'
+      )
+    } else {
+      style[`min${mainDimension}`] = min
     }
   } else if (typeof size === 'string' && size.includes('fr')) {
     style.flex = `${parseFloat(size)} 1 0`
   } else {
-    style[parentAxis === 'horizontal' ? 'width' : 'height'] = size
+    style[`min${mainDimension}`] = size
   }
 
   return (
