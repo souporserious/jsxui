@@ -1,7 +1,6 @@
 import * as React from 'react'
 import capsize from 'capsize'
 
-import { StackContext } from './Contexts'
 import { useModifierProps } from './Modifiers'
 import { useTokens } from './Tokens'
 import { useVariantProps } from './Variants'
@@ -27,7 +26,6 @@ export type TextProps = {
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
   (props, ref) => {
-    const parentAxis = React.useContext(StackContext)
     const modifierProps = useModifierProps<TextProps>(Text, props)
     const {
       as: Component = 'span',
@@ -50,7 +48,13 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       children,
       ...restProps
     } = useVariantProps<TextProps>(modifierProps)
-    const { fontSizes, fontFamilies, fontWeights, fontMetrics } = useTokens()
+    const {
+      colors,
+      fontSizes,
+      fontFamilies,
+      fontWeights,
+      fontMetrics,
+    } = useTokens()
     const fontFamilyMetrics = fontMetrics && fontMetrics[family]
     const fontStyles = capsize({
       capHeight: fontSizes[size] || size,
@@ -77,12 +81,12 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           fontFamily: fontFamilies[family] || family,
           fontSize: fontSizes[size] || size,
           fontWeight: fontWeights[weight] || weight,
+          color: colors[color] || color,
           transform: `translate(${parseValue(translateX)}, ${parseValue(
             translateY
           )})`,
           width,
           height,
-          color,
           ...style,
           ...fontStyles,
           ...stackChildStyles,
