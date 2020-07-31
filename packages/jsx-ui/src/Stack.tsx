@@ -4,6 +4,7 @@ import { StackContext } from './Contexts'
 import { Divider } from './Divider'
 import { useModifierProps } from './Modifiers'
 import { Spacer } from './Spacer'
+import { Text } from './Text'
 import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
 import { parseValue, parseSpaceValue } from './utils'
@@ -209,12 +210,16 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
                     ...getStackChildStyles({
                       width:
                         axis === 'horizontal'
-                          ? child.props.width ?? child.props.size
+                          ? child.props.width ?? child.type === Text
+                            ? 'auto'
+                            : child.props.size
                           : 'auto',
                       height:
                         axis === 'horizontal'
                           ? 'auto'
-                          : child.props.height ?? child.props.size,
+                          : child.props.height ?? child.type === Text
+                          ? 'auto'
+                          : child.props.size,
                     }),
                   }}
                 >
@@ -229,10 +234,14 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
                       width:
                         axis === 'horizontal'
                           ? 'auto'
-                          : child.props.width ?? child.props.size,
+                          : child.props.width ?? child.type === Text
+                          ? 'auto'
+                          : child.props.size,
                       height:
                         axis === 'horizontal'
-                          ? child.props.height ?? child.props.size
+                          ? child.props.height ?? child.type === Text
+                            ? 'auto'
+                            : child.props.size
                           : 'auto',
                     }),
                   })}
