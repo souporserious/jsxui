@@ -1,6 +1,5 @@
 import React from 'react'
-import { Image, Spacer, Stack, Text } from 'jsx-ui'
-import { Link } from 'gatsby'
+import { Spacer, Stack, Text } from 'jsx-ui'
 
 export default ({ style, column, row }) => {
   return (

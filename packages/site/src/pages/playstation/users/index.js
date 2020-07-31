@@ -23,7 +23,7 @@ export default function Users() {
       <Stack axis="horizontal" spaceBetween="32px">
         <Stack
           as={Link}
-          to="/users/new"
+          to="/playstation/users/new"
           width="180px"
           height="256px"
           space="1fr"
@@ -35,7 +35,7 @@ export default function Users() {
           <Stack
             key={index}
             as={Link}
-            to="/menu"
+            to="/playstation/menu"
             width="180px"
             height="256px"
             background="#1a42ab"

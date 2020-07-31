@@ -1,15 +1,5 @@
 import React from 'react'
-import { Divider, Image, Spacer, Stack, Text } from 'jsx-ui'
-import { Link } from 'gatsby'
-
-function Field({ label, children, ...props }) {
-  return (
-    <Stack as="label" axis="horizontal" spaceBetween={8} {...props}>
-      <Text>{label}</Text>
-      {children}
-    </Stack>
-  )
-}
+import { Divider, Spacer, Stack, Text } from 'jsx-ui'
 
 function TextInput({ value, row, column, onChange }) {
   return (
@@ -24,35 +14,13 @@ function TextInput({ value, row, column, onChange }) {
   )
 }
 
-function Button({ title }) {
-  return <Stack>{title}</Stack>
-}
-
-// const sizes = {
-//   small: {
-//     spaceBetween: 1,
-//   },
-//   medium: {
-//     spaceBetween: 2,
-//   },
-//   large: {
-//     spaceBetween: 3,
-//   },
-// }
-
-const variants = {
-  heading1: {
-    as: 'h1',
-    fontSize: 40,
-  },
-  heading2: {
-    as: 'h2',
-    fontSize: 24,
-  },
-  heading3: {
-    as: 'h3',
-    fontSize: 18,
-  },
+function Field({ label, children, ...props }) {
+  return (
+    <Stack as="label" axis="horizontal" spaceBetween={8} {...props}>
+      <Text>{label}</Text>
+      {children}
+    </Stack>
+  )
 }
 
 export default ({ style }) => {
@@ -70,9 +38,6 @@ export default ({ style }) => {
         </Field>
         <Field label="Number of items">
           <TextInput />
-        </Field>
-        <Field label="Content">
-          <Button title="Select" />
         </Field>
         <Field label="Sort">
           <TextInput />

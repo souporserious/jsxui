@@ -28,11 +28,13 @@ export default () => {
     moveBackwardDisabled,
     moveForwardDisabled,
   } = useRovingIndex({
-    defaultIndex: 1,
+    defaultIndex: 0,
     maxIndex: menuItems.length - 1,
   })
-  // const stackGeometry = useGeometry()
-  // const textGeometry = useGeometry()
+  const activeOffset = activeIndex * -200
+  const activeSpaceOffset = 16
+  const inactiveSpaceOffset = activeIndex > 0 ? (activeIndex - 1) * 2 : 0
+  const offset = activeOffset - activeSpaceOffset - inactiveSpaceOffset
   return (
     <Stack height="100vh" spaceMain="minmax(16px, 1fr)" spaceBetween="32px">
       <Stack axis="horizontal" spaceMain="1fr" spaceBetween="32px">
@@ -45,19 +47,16 @@ export default () => {
         width="100%"
         spaceMain="minmax(32px, 1fr)"
         spaceBetween={2}
-        translateX={
-          activeIndex > 0 ? (activeIndex - 1) * -202 - 208 : undefined
-        }
+        translateX={offset}
       >
         {menuItems.map((item, index) => (
           <React.Fragment key={item.title}>
-            <Spacer visible={index === activeIndex && index !== 0} size={8} />
+            <Spacer visible={index === activeIndex} size={8} />
             <Variants value={{ active: index === activeIndex }}>
               <Stack
                 key={item.title}
                 as={Link}
-                to="/add-to-folder"
-                // ref={index === activeIndex ? stackGeometry : undefined}
+                to="/playstation/add-to-folder"
                 width={200}
                 height={200}
                 background="#1a42ab"
@@ -70,9 +69,6 @@ export default () => {
               >
                 <Stack size={200} variants={{ active: { size: 400 } }} />
                 <Text
-                  // ref={textGeometry}
-                  // offsetX={stackGeometry.maxX}
-                  // offsetY={stackGeometry.maxY}
                   visible="active"
                   offsetX="calc(100% + 8px)"
                   offsetY="100%"
@@ -84,10 +80,7 @@ export default () => {
                 </Text>
               </Stack>
             </Variants>
-            <Spacer
-              visible={index === activeIndex && index !== menuItems.length - 1}
-              size={8}
-            />
+            <Spacer visible={index === activeIndex} size={8} />
           </React.Fragment>
         ))}
       </Stack>
