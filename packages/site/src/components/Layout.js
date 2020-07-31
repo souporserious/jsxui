@@ -1,6 +1,6 @@
 import React from 'react'
 import { globalHistory } from '@reach/router'
-import { Modifiers, Text, Tokens, Stack } from 'jsx-ui'
+import { DevTools, Modifiers, Text, Tokens, Stack } from 'jsx-ui'
 
 import './layout.css'
 
@@ -109,18 +109,20 @@ function Layout({ children, location }) {
     })
   }, [])
   return (
-    <Tokens value={tokens}>
-      <Modifiers value={overrides}>
-        <Stack>
-          {children}
-          {/* <Stack visible="gridOverlay">
+    <DevTools>
+      <Tokens value={tokens}>
+        <Modifiers value={overrides}>
+          <Stack>
+            {children}
+            {/* <Stack visible="gridOverlay">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(() => (
               <Stack background="orange" />
             ))}
           </Stack> */}
-        </Stack>
-      </Modifiers>
-    </Tokens>
+          </Stack>
+        </Modifiers>
+      </Tokens>
+    </DevTools>
   )
 }
 
