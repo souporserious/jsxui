@@ -7,6 +7,7 @@ import { Spacer } from './Spacer'
 import { Text } from './Text'
 import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
+import { useLayoutStyles } from './use-layout-styles'
 import { parseValue, parseSpaceValue } from './utils'
 
 export type StackProps = {
@@ -98,10 +99,10 @@ function getTransformValue({
 
 export function getStackChildStyles({ width, height }) {
   const style = {
-    minWidth: 0,
-    minHeight: 0,
+    // minWidth: 0,
+    // minHeight: 0,
     flexGrow: 0,
-    flexShrink: 1,
+    flexShrink: 0,
     flexBasis: 0,
   } as any
   if (typeof width === 'string' && width.includes('fr')) {
@@ -169,6 +170,10 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           // @ts-ignore
           React.isValidElement(child) && child.props.visible !== false
       )
+    const layoutStyles = useLayoutStyles(
+      (axis === 'horizontal' ? width : height) ?? size,
+      axis
+    )
     const style = {
       display: 'flex',
       flexDirection: axis === 'horizontal' ? 'row' : 'column',
@@ -189,7 +194,10 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       }),
       position: 'relative',
       zIndex: 1,
+      width: axis === 'horizontal' ? undefined : width ?? size,
+      height: axis === 'horizontal' ? height ?? size : undefined,
       ...stackChildStyles,
+      ...layoutStyles,
       ..._style,
     }
     const childrenToRender =
@@ -210,16 +218,14 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
                     ...getStackChildStyles({
                       width:
                         axis === 'horizontal'
-                          ? child.props.width ?? child.type === Text
-                            ? 'auto'
-                            : child.props.size
+                          ? child.props.width ??
+                            (child.type === Text ? 'auto' : child.props.size)
                           : 'auto',
                       height:
                         axis === 'horizontal'
                           ? 'auto'
-                          : child.props.height ?? child.type === Text
-                          ? 'auto'
-                          : child.props.size,
+                          : child.props.height ??
+                            (child.type === Text ? 'auto' : child.props.size),
                     }),
                   }}
                 >
@@ -234,14 +240,12 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
                       width:
                         axis === 'horizontal'
                           ? 'auto'
-                          : child.props.width ?? child.type === Text
-                          ? 'auto'
-                          : child.props.size,
+                          : child.props.width ??
+                            (child.type === Text ? 'auto' : child.props.size),
                       height:
                         axis === 'horizontal'
-                          ? child.props.height ?? child.type === Text
-                            ? 'auto'
-                            : child.props.size
+                          ? child.props.height ??
+                            (child.type === Text ? 'auto' : child.props.size)
                           : 'auto',
                     }),
                   })}
@@ -260,22 +264,19 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     if (visible === false) {
       return null
     }
-
     if (
-      (typeof width === 'string' && width.includes('fr')) ||
-      (typeof size === 'string' && size.includes('fr'))
+      typeof width === 'string' &&
+      width.includes('minmax') &&
+      !width.includes('fr')
     ) {
-      style.flex = `${width} 0 auto`
-    } else {
-      style.width = width ?? size
+      style.width = '100%'
     }
     if (
-      (typeof height === 'string' && height.includes('fr')) ||
-      (typeof size === 'string' && size.includes('fr'))
+      typeof height === 'string' &&
+      height.includes('minmax') &&
+      !height.includes('fr')
     ) {
-      style.flex = `${height ?? size} 0 auto`
-    } else {
-      style.height = height ?? size
+      style.height = '100%'
     }
 
     return (

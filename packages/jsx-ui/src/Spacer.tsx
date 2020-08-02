@@ -4,7 +4,7 @@ import { StackContext } from './Contexts'
 import { useModifierProps } from './Modifiers'
 import { useTokens } from './Tokens'
 import { useVariantProps } from './Variants'
-import { parseMinMax } from './utils'
+import { useLayoutStyles } from './use-layout-styles'
 
 type SpacerProps = {
   size?: number | string
@@ -15,11 +15,12 @@ type SpacerProps = {
 
 export function Spacer(props: SpacerProps) {
   const modifiedProps = useModifierProps<SpacerProps>(Spacer, props)
-  const { children, size = '1fr', visible = true } = useVariantProps<
-    SpacerProps
-  >(modifiedProps)
+  const { children, size, visible = true } = useVariantProps<SpacerProps>(
+    modifiedProps
+  )
   const { fontFamilies } = useTokens()
   const parentAxis = React.useContext(StackContext)
+  const layoutStyles = useLayoutStyles(size)
 
   if (visible === false) {
     return null
@@ -30,7 +31,7 @@ export function Spacer(props: SpacerProps) {
       style={{
         position: 'relative',
         fontFamily: fontFamilies.body,
-        ...parseMinMax(size, parentAxis),
+        ...layoutStyles,
       }}
     >
       {typeof children === 'function'

@@ -33,44 +33,6 @@ export function parseSpaceValue(value) {
 }
 
 /**
- * Parses minmax() string and returns a style object
- */
-export function parseMinMax(value, mainAxis) {
-  const style = {} as any
-  const mainDimension = mainAxis === 'horizontal' ? 'Width' : 'Height'
-  if (typeof value === 'string' && value.includes('minmax')) {
-    const [min, max] = value
-      .split('minmax(')[1]
-      .split(')')[0]
-      .split(',')
-      .map(value => value.trim())
-    if (max.includes('fr')) {
-      const maxFloat = parseFloat(max)
-      if (maxFloat < 0) {
-        throw new Error(
-          'Negative fractions cannot exist. Use a positive fraction.'
-        )
-      }
-      style.flexGrow = maxFloat
-    } else {
-      style[`max${mainDimension}`] = max
-    }
-    if (min.includes('fr')) {
-      throw new Error(
-        'Fractional minimums cannot exist. Use a maximum fraction "minmax(16px, 1fr)".'
-      )
-    } else {
-      style[`min${mainDimension}`] = min
-    }
-  } else if (typeof value === 'string' && value.includes('fr')) {
-    style.flex = `${parseFloat(value)} 1 0`
-  } else {
-    style[`min${mainDimension}`] = value
-  }
-  return style
-}
-
-/**
  * Returns the instance of a component.
  */
 export function getInstance(instance) {

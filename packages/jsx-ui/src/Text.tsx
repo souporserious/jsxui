@@ -20,6 +20,8 @@ export type TextProps = {
   translateY?: string | number
   width?: string | number
   height?: string | number
+  spaceAfter?: number | string
+  spaceBefore?: number | string
   style?: React.CSSProperties
   children?: React.ReactNode
 } & SharedProps
@@ -40,8 +42,10 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       offsetY,
       translateX = 0,
       translateY = 0,
-      width = 'max-content',
+      width,
       height,
+      spaceAfter,
+      spaceBefore,
       visible = true,
       stackChildStyles,
       style = {},
@@ -76,6 +80,7 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       <Component
         ref={ref}
         style={{
+          display: 'inline-block',
           gridColumn: column,
           gridRow: row,
           fontFamily: fontFamilies[family] || family,
