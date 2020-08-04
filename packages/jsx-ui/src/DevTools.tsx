@@ -7,7 +7,7 @@ const overrides = [
   [
     Spacer,
     {
-      children: ({ size, parentAxis }) => {
+      children: ({ size, mainAxis }) => {
         const [hover, setHover] = React.useState(false)
         const isFractional = typeof size === 'string' && size.includes('fr')
         return (
@@ -25,14 +25,14 @@ const overrides = [
             {hover && (
               <svg
                 width={
-                  parentAxis === 'horizontal' ? '100%' : isFractional ? 8 : 1
+                  mainAxis === 'horizontal' ? '100%' : isFractional ? 8 : 1
                 }
                 height={
-                  parentAxis === 'horizontal' ? (isFractional ? 8 : 1) : '100%'
+                  mainAxis === 'horizontal' ? (isFractional ? 8 : 1) : '100%'
                 }
                 style={{
                   position: 'absolute',
-                  [parentAxis === 'horizontal' ? 'top' : 'left']: `calc(50% - ${
+                  [mainAxis === 'horizontal' ? 'top' : 'left']: `calc(50% - ${
                     isFractional ? 4 : 0.5
                   }px)`,
                   zIndex: 100,
@@ -69,11 +69,7 @@ const overrides = [
                   </pattern>
                 </defs>
                 {isFractional ? (
-                  <rect
-                    width="100%"
-                    height="100%"
-                    fill={`url(#${parentAxis})`}
-                  />
+                  <rect width="100%" height="100%" fill={`url(#${mainAxis})`} />
                 ) : (
                   <rect width="100%" height="100%" fill="hotpink" />
                 )}
@@ -89,7 +85,7 @@ const overrides = [
                   left: 0,
                   zIndex: 100,
                   backgroundColor:
-                    parentAxis === 'horizontal'
+                    mainAxis === 'horizontal'
                       ? 'hsla(214, 72%, 56%, 0.5)'
                       : 'hsla(214, 84%, 74%, 0.5)',
                 }}

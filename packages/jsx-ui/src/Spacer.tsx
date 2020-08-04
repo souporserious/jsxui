@@ -19,7 +19,7 @@ export function Spacer(props: SpacerProps) {
     SpacerProps
   >(modifiedProps)
   const { fontFamilies } = useTokens()
-  const parentAxis = React.useContext(StackContext)
+  const mainAxis = React.useContext(StackContext)
   const layoutStyles = useLayoutStyles(size)
 
   if (visible === false) {
@@ -34,9 +34,7 @@ export function Spacer(props: SpacerProps) {
         ...layoutStyles,
       }}
     >
-      {typeof children === 'function'
-        ? children({ size, parentAxis })
-        : children}
+      {typeof children === 'function' ? children({ size, mainAxis }) : children}
     </div>
   )
 }
