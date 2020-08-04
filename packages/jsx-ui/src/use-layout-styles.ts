@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import { StackContext } from './Contexts'
 
-export function useLayoutStyles(value, axis?: 'vertical' | 'horizontal') {
+export function useLayoutStyles(value) {
   const mainAxis = React.useContext(StackContext)
-  const mainDimension = (axis || mainAxis) === 'horizontal' ? 'Width' : 'Height'
+  const mainDimension = mainAxis === 'horizontal' ? 'Width' : 'Height'
   const style = {
     flexGrow: 0,
     flexShrink: 0,
@@ -35,8 +35,7 @@ export function useLayoutStyles(value, axis?: 'vertical' | 'horizontal') {
       style.flexGrow = maxFloat
       style.flexBasis = 0
     } else {
-      style.flexGrow = 1
-      style.flexShrink = 1
+      style[mainDimension.toLowerCase()] = '100%'
       style[`max${mainDimension}`] = max
     }
   } else if (typeof value === 'string' && value.includes('fr')) {
