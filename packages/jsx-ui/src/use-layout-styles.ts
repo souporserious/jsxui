@@ -21,6 +21,8 @@ export function useLayoutStyles(value, axis?: 'vertical' | 'horizontal') {
         'Fractional minimums cannot exist. Use a maximum fraction "minmax(16px, 1fr)".'
       )
     } else {
+      style.flexGrow = 1
+      style.flexShrink = 1
       style[`min${mainDimension}`] = min
     }
     if (max.includes('fr')) {
@@ -31,7 +33,10 @@ export function useLayoutStyles(value, axis?: 'vertical' | 'horizontal') {
         )
       }
       style.flexGrow = maxFloat
+      style.flexBasis = 0
     } else {
+      style.flexGrow = 1
+      style.flexShrink = 1
       style[`max${mainDimension}`] = max
     }
   } else if (typeof value === 'string' && value.includes('fr')) {
@@ -42,11 +47,10 @@ export function useLayoutStyles(value, axis?: 'vertical' | 'horizontal') {
       )
     }
     style.flexGrow = parseFloat(value)
+    style.flexShrink = parseFloat(value)
+    style.flexBasis = 0
   } else {
     style[mainDimension.toLowerCase()] = value
-  }
-  if (style.flexGrow > 0) {
-    style.flexBasis = 0
   }
   return style
 }

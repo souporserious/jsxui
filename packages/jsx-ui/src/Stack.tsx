@@ -262,20 +262,6 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     if (visible === false) {
       return null
     }
-    if (
-      typeof width === 'string' &&
-      width.includes('minmax') &&
-      !width.includes('fr')
-    ) {
-      style.width = '100%'
-    }
-    if (
-      typeof height === 'string' &&
-      height.includes('minmax') &&
-      !height.includes('fr')
-    ) {
-      style.height = '100%'
-    }
 
     return (
       <StackContext.Provider value={axis}>
