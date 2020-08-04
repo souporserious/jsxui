@@ -2,40 +2,34 @@ import React from 'react'
 import { Circle, Stack, Text, Spacer, Modifiers } from 'jsx-ui'
 import { Link } from 'gatsby'
 
-// based on: https://dribbble.com/shots/13922164-Collab-Landing-Page-Kit-I
+// based on:
+// https://dribbble.com/shots/13922164-Collab-Landing-Page-Kit-I
+// https://ui8-collab.herokuapp.com/
 
 function Graphic() {
   return '🔍'
 }
 
-function Button({ title }) {
+function Button({ title, secondary }) {
   return (
-    <Stack width={180} height={72} space="1fr" radius={20} background="#FAB8C4">
-      <Text size={16} weight={500} color="#2522BA">
+    <Stack
+      space={24}
+      radius={20}
+      background={secondary ? '#5956E9' : '#FAB8C4'}
+    >
+      <Text size={16} weight={500} color={secondary ? 'white' : '#2522BA'}>
         {title}
       </Text>
     </Stack>
   )
 }
 
-function Frame({ children }) {
-  return <Stack>{children}</Stack>
-}
-
-// const geometry = useGeometry({ x: 100 }) // origin? How do we position something like bottom-start?
-// <HStack geometery={geometry} />
-// <HStack position={{ x: geometry.x }} />
-
-// const guide = useGuide({ x: 100 })
-// <HStack position={guide} />
-// <HStack position={guide} />
-
 export default function Index() {
   return (
     <Stack
       height="100vh"
       background={
-        <Frame>
+        <Stack>
           <Circle size={400} positionX={-200} positionY={-200} fill="#FFDC60" />
           <Circle size={48} positionX={200} positionY={200} fill="#FAB8C4" />
           <Circle
@@ -48,7 +42,7 @@ export default function Index() {
           <Circle
             size={32}
             positionX={-200}
-            positionY={100}
+            positionY={160}
             constraintX="center"
             fill="#5956E9"
           />
@@ -59,11 +53,12 @@ export default function Index() {
             constraintX="end"
             fill="#5956E9"
           />
-        </Frame>
+        </Stack>
       }
     >
+      <Spacer size={60} />
       <Stack axis="horizontal">
-        <Spacer />
+        <Spacer size="minmax(16px, 1fr)" />
         <Stack axis="horizontal" width="minmax(320px, 1140px)" spaceCross="1fr">
           <Text>Collab</Text>
           <Spacer size={60} />
@@ -73,45 +68,39 @@ export default function Index() {
             ))}
           </Stack>
           <Spacer size="minmax(16px, 1fr)" />
-          <Graphic name="search" />
-          <Spacer size={16} />
           <Button title="Get Started" />
         </Stack>
+        <Spacer size="minmax(16px, 1fr)" />
+      </Stack>
+
+      <Stack axis="horizontal">
         <Spacer />
+        <Stack>
+          <Spacer size={64} />
+          <Text size={72} weight={600}>
+            Create
+            <br />
+            Like
+            <br />
+            Never
+            <br />
+            Before.
+          </Text>
+          <Spacer size={32} />
+          <Text width={360} size={16}>
+            Create, build, collaborate and ship products faster. Good bye code!
+            👋
+          </Text>
+          <Spacer size={48} />
+          <Stack axis="horizontal" spaceBetween={8}>
+            <Button title="Get Started" secondary />
+            <Button title="See It In Action!" />
+          </Stack>
+        </Stack>
+        <Spacer size="3fr" />
       </Stack>
 
       <Spacer size={64} />
-
-      <Stack axis="horizontal">
-        <Spacer />
-        <Text size={72} weight={600}>
-          Create
-          <br />
-          Like
-          <br />
-          Never
-          <br />
-          Before.
-        </Text>
-        <Spacer size="3fr" />
-      </Stack>
-
-      <Spacer size={32} />
-
-      <Stack axis="horizontal">
-        <Spacer />
-        <Text width={360} size={16}>
-          Create, build, collaborate and ship products faster. Good bye code! 👋
-        </Text>
-        <Spacer size="3fr" />
-      </Stack>
-
-      <Spacer size={48} />
-
-      <Stack axis="horizontal">
-        <Button title="Get Started" />
-        <Button title="See It In Action!" />
-      </Stack>
 
       <Modifiers value={[[Text, { color: 'white' }]]}>
         <Stack

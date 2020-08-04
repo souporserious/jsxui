@@ -12,6 +12,9 @@ export default function Index() {
       <Text as={Link} to="collab">
         Collab
       </Text>
+      <Text as={Link} to="dashboard">
+        Dashboard
+      </Text>
     </Stack>
   )
 }
