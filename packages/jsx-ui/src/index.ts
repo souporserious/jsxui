@@ -6,6 +6,7 @@ export type SharedProps = {
   stackChildStyles?: object
 }
 
+export * from './Circle'
 export * from './DevTools'
 export * from './Divider'
 export * from './Grid'
