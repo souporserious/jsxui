@@ -1,10 +1,12 @@
 import * as React from 'react'
 import capsize from 'capsize'
 
+import { StackContext } from './Contexts'
 import { useModifierProps } from './Modifiers'
 import { useTokens } from './Tokens'
 import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
+import { useLayoutStyles } from './use-layout-styles'
 import { parseValue } from './utils'
 
 export type TextProps = {
@@ -28,6 +30,7 @@ export type TextProps = {
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
   (props, ref) => {
+    const mainAxis = React.useContext(StackContext)
     const modifierProps = useModifierProps<TextProps>(Text, props)
     const {
       as: Component = 'span',
@@ -52,6 +55,9 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       children,
       ...restProps
     } = useVariantProps<TextProps>(modifierProps)
+    const layoutStyles = useLayoutStyles(
+      mainAxis === 'horizontal' ? width : height
+    )
     const {
       colors,
       fontSizes,
@@ -95,6 +101,7 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           ...style,
           ...fontStyles,
           ...stackChildStyles,
+          ...layoutStyles,
         }}
         {...restProps}
       >

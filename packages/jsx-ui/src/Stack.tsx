@@ -40,7 +40,7 @@ export type StackProps = {
   scaleY?: number
   strokeWeight?: number
   strokeColor?: string
-  background?: string
+  background?: string | React.ReactNode
   style?: React.CSSProperties
   stackChildStyles?: {
     minWidth: number
@@ -99,8 +99,6 @@ function getTransformValue({
 
 export function getStackChildStyles({ width, height }) {
   const style = {
-    // minWidth: 0,
-    // minHeight: 0,
     flexGrow: 0,
     flexShrink: 0,
     flexBasis: 0,
@@ -125,6 +123,7 @@ export function getStackChildStyles({ width, height }) {
 
 export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
   (props: StackProps, ref) => {
+    const mainAxis = React.useContext(StackContext)
     const modifierProps = useModifierProps<StackProps>(Stack, props)
     const {
       as: Component = 'div',
@@ -171,8 +170,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
           React.isValidElement(child) && child.props.visible !== false
       )
     const layoutStyles = useLayoutStyles(
-      (axis === 'horizontal' ? width : height) ?? size,
-      axis
+      (mainAxis === 'horizontal' ? width : height) ?? size
     )
     const style = {
       display: 'flex',
@@ -194,8 +192,8 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       }),
       position: 'relative',
       zIndex: 1,
-      width: axis === 'horizontal' ? undefined : width ?? size,
-      height: axis === 'horizontal' ? height ?? size : undefined,
+      width: width ?? size,
+      height: height ?? size,
       ...stackChildStyles,
       ...layoutStyles,
       ..._style,
@@ -282,11 +280,6 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     return (
       <StackContext.Provider value={axis}>
         <Component ref={ref} style={style} {...restProps}>
-          {parseSpaceValue(spaceMainStart ?? spaceMain ?? space)}
-          {spaceBetween
-            ? joinChildren(childrenToRender, parseSpaceValue(spaceBetween))
-            : childrenToRender}
-          {parseSpaceValue(spaceMainEnd ?? spaceMain ?? space)}
           {React.isValidElement(background) && (
             <div
               style={{
@@ -302,6 +295,11 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
               {background}
             </div>
           )}
+          {parseSpaceValue(spaceMainStart ?? spaceMain ?? space)}
+          {spaceBetween
+            ? joinChildren(childrenToRender, parseSpaceValue(spaceBetween))
+            : childrenToRender}
+          {parseSpaceValue(spaceMainEnd ?? spaceMain ?? space)}
         </Component>
       </StackContext.Provider>
     )

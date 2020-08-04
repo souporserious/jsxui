@@ -15,9 +15,9 @@ type SpacerProps = {
 
 export function Spacer(props: SpacerProps) {
   const modifiedProps = useModifierProps<SpacerProps>(Spacer, props)
-  const { children, size, visible = true } = useVariantProps<SpacerProps>(
-    modifiedProps
-  )
+  const { children, size = '1fr', visible = true } = useVariantProps<
+    SpacerProps
+  >(modifiedProps)
   const { fontFamilies } = useTokens()
   const parentAxis = React.useContext(StackContext)
   const layoutStyles = useLayoutStyles(size)
