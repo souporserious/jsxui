@@ -69,6 +69,7 @@ export default () => {
               >
                 <Stack size={200} variants={{ active: { size: 400 } }} />
                 <Text
+                  width="max-content"
                   visible="active"
                   offsetX="calc(100% + 8px)"
                   offsetY="100%"

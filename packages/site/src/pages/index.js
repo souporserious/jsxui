@@ -10,10 +10,13 @@ export default function Index() {
         Playstation
       </Text>
       <Text as={Link} to="collab">
-        Collab
+        Collab (UI8)
       </Text>
       <Text as={Link} to="dashboard">
         Dashboard
+      </Text>
+      <Text as={Link} to="orderfood">
+        Order Food (Google)
       </Text>
     </Stack>
   )

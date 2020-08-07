@@ -7,7 +7,7 @@ export default function Index() {
   return (
     <Stack axis="horizontal" height="100vh">
       <Stack width="100px" />
-      <Stack width="1fr" space={64} background="#f3f3f3">
+      <Stack width="1fr" space={40} spaceCrossStart={60} background="#f3f3f3">
         <Stack axis="horizontal" width="1fr">
           <Stack width="1fr">
             <Stack
@@ -29,7 +29,7 @@ export default function Index() {
                 Development
               </Text>
             </Stack>
-            <Spacer size={120} />
+            <Spacer size={64} />
             <Text size={8} color="gray">
               Wednesday, 24 July
             </Text>
@@ -44,7 +44,7 @@ export default function Index() {
             <Stack space={16} radius={8} background="white">
               <input placeholder="Search" style={{ border: 'none' }} />
             </Stack>
-            <Spacer size={40} />
+            <Spacer size={64} />
             <Stack space={32} background="white">
               <Text size={14} weight={700}>
                 Project Estimate
@@ -82,8 +82,30 @@ export default function Index() {
           </Stack>
         </Stack>
         <Spacer size={120} />
-        <Stack>
-          <Text>Calendar</Text>
+        <Stack
+          axis="horizontal"
+          width="1fr"
+          spaceBetween="1fr"
+          background={
+            <Stack width="1fr" height="1fr" space="1fr">
+              <Text>Hello</Text>
+            </Stack>
+          }
+        >
+          {['Mon', 'Tues', 'Wed', 'Thu', 'Fri'].map((date, index) => (
+            <Stack key={date} height={400} spaceCross="1fr">
+              <Stack space="1fr" spaceBetween={16}>
+                <Text size={12} color="gray">
+                  {date}
+                </Text>
+                <Text size={16} weight={700}>
+                  {index}
+                </Text>
+              </Stack>
+              <Spacer size={16} />
+              <Stack width={1} height="1fr" background="gray" />
+            </Stack>
+          ))}
         </Stack>
       </Stack>
       <Stack width={320} spaceCross="1fr">
