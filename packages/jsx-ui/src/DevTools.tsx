@@ -9,7 +9,22 @@ const overrides = [
     {
       children: ({ size, mainAxis }) => {
         const [hover, setHover] = React.useState(false)
+        const [altDown, setAltDown] = React.useState(false)
         const isFractional = typeof size === 'string' && size.includes('fr')
+        React.useEffect(() => {
+          function handleKeyDown(event) {
+            setAltDown(event.key === 'Alt')
+          }
+          function handleKeyUp(event) {
+            setAltDown(false)
+          }
+          window.addEventListener('keydown', handleKeyDown)
+          window.addEventListener('keyup', handleKeyUp)
+          return () => {
+            window.removeEventListener('keydown', handleKeyDown)
+            window.removeEventListener('keyup', handleKeyUp)
+          }
+        }, [])
         return (
           <div
             onMouseEnter={() => setHover(true)}
@@ -22,7 +37,7 @@ const overrides = [
               left: 0,
             }}
           >
-            {hover && (
+            {altDown && hover && (
               <svg
                 width={
                   mainAxis === 'horizontal' ? '100%' : isFractional ? 8 : 1
@@ -75,7 +90,7 @@ const overrides = [
                 )}
               </svg>
             )}
-            {hover && (
+            {altDown && hover && (
               <div
                 style={{
                   position: 'absolute',
