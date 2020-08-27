@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { StackContext } from './Contexts'
-import { useModifierProps } from './Modifiers'
+import { useOverrideProps } from './Overrides'
 import { useTokens } from './Tokens'
 import { useVariantProps } from './Variants'
 import { useLayoutStyles } from './use-layout-styles'
@@ -14,7 +14,7 @@ type SpacerProps = {
 }
 
 export function Spacer(props: SpacerProps) {
-  const modifiedProps = useModifierProps<SpacerProps>(Spacer, props)
+  const modifiedProps = useOverrideProps<SpacerProps>(Spacer, props)
   const { children, size = '1fr', visible = true } = useVariantProps<
     SpacerProps
   >(modifiedProps)

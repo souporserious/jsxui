@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { StackContext } from './Contexts'
 import { Divider } from './Divider'
-import { useModifierProps } from './Modifiers'
+import { useOverrideProps } from './Overrides'
 import { Spacer } from './Spacer'
 import { Text } from './Text'
 import { useVariantProps } from './Variants'
@@ -43,8 +43,6 @@ export type StackProps = {
   background?: string | React.ReactNode
   style?: React.CSSProperties
   stackChildStyles?: {
-    minWidth: number
-    minHeight: number
     flexGrow: number
     flexShrink: number
     flexBasis: number
@@ -124,7 +122,7 @@ export function getStackChildStyles({ width, height }) {
 export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
   (props: StackProps, ref) => {
     const mainAxis = React.useContext(StackContext)
-    const modifierProps = useModifierProps<StackProps>(Stack, props)
+    const overrideProps = useOverrideProps<StackProps>(Stack, props)
     const {
       as: Component = 'div',
       axis = 'vertical',
@@ -159,7 +157,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       visible = true,
       style: _style,
       ...restProps
-    } = useVariantProps<StackProps>(modifierProps)
+    } = useVariantProps<StackProps>(overrideProps)
     const flattenedChildren = React.Children.toArray(children)
       .flatMap((child: any) =>
         child && child.type === React.Fragment ? child.props.children : child
@@ -175,7 +173,10 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     const style = {
       display: 'flex',
       flexDirection: axis === 'horizontal' ? 'row' : 'column',
-      boxShadow: `0px 0px 0px ${strokeWeight}px ${strokeColor}`,
+      boxShadow:
+        strokeWeight ?? strokeColor
+          ? `inset 0px 0px 0px ${strokeWeight}px ${strokeColor}`
+          : undefined,
       borderRadius: [
         parseValue(radiusTopLeft ?? radius),
         parseValue(radiusTopRight ?? radius),
@@ -225,6 +226,8 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
                           : child.props.height ??
                             (child.type === Text ? 'auto' : child.props.size),
                     }),
+                    // Can we be smart here and split layout props so we can pass them to the wrappers we create?
+                    ...child.props.style,
                   }}
                 >
                   {parseSpaceValue(

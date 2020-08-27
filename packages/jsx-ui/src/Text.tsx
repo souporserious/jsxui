@@ -2,7 +2,7 @@ import * as React from 'react'
 import capsize from 'capsize'
 
 import { StackContext } from './Contexts'
-import { useModifierProps } from './Modifiers'
+import { useOverrideProps } from './Overrides'
 import { useTokens } from './Tokens'
 import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
@@ -31,7 +31,7 @@ export type TextProps = {
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
   (props, ref) => {
     const mainAxis = React.useContext(StackContext)
-    const modifierProps = useModifierProps<TextProps>(Text, props)
+    const overrideProps = useOverrideProps<TextProps>(Text, props)
     const {
       as: Component = 'span',
       column,
@@ -54,7 +54,7 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       style = {},
       children,
       ...restProps
-    } = useVariantProps<TextProps>(modifierProps)
+    } = useVariantProps<TextProps>(overrideProps)
     const layoutStyles = useLayoutStyles(
       mainAxis === 'horizontal' ? width : height
     )

@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Modifiers } from './Modifiers'
+import { Overrides } from './Overrides'
 import { Spacer } from './Spacer'
 
 const overrides = [
@@ -15,7 +15,7 @@ const overrides = [
           function handleKeyDown(event) {
             setAltDown(event.key === 'Alt')
           }
-          function handleKeyUp(event) {
+          function handleKeyUp() {
             setAltDown(false)
           }
           window.addEventListener('keydown', handleKeyDown)
@@ -134,5 +134,5 @@ const overrides = [
 ]
 
 export function DevTools({ children }) {
-  return <Modifiers value={overrides}>{children}</Modifiers>
+  return <Overrides value={overrides}>{children}</Overrides>
 }
