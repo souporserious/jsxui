@@ -1,5 +1,5 @@
 import React from 'react'
-import { DevTools, Modifiers, Text, Tokens, Stack } from 'jsx-ui'
+import { DevTools, Overrides, Text, Tokens, Stack } from 'jsx-ui'
 
 import './layout.css'
 
@@ -91,7 +91,7 @@ function Layout({ children, location }) {
     return (
       <DevTools>
         <Tokens value={playstationTokens}>
-          <Modifiers value={overrides}>
+          <Overrides value={overrides}>
             <Stack
               width="100%"
               height="minmax(100vh, 1fr)"
@@ -99,7 +99,7 @@ function Layout({ children, location }) {
             >
               {children}
             </Stack>
-          </Modifiers>
+          </Overrides>
         </Tokens>
       </DevTools>
     )
@@ -108,7 +108,7 @@ function Layout({ children, location }) {
   return (
     <DevTools>
       <Tokens value={tokens}>
-        <Modifiers value={overrides}>{children}</Modifiers>
+        <Overrides value={overrides}>{children}</Overrides>
       </Tokens>
     </DevTools>
   )
