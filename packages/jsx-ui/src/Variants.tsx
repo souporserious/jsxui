@@ -5,11 +5,9 @@ const VariantsContext = React.createContext([])
 export function useVariantProps<Props>({
   variants,
   ...props
-}: {
-  variants?: object
-}) {
+}: { variants?: object } & Props): Omit<Props, 'variants'> {
   const contextVariants = React.useContext(VariantsContext)
-  let mergedProps = { ...props } as Props
+  let mergedProps = { ...props }
   if (variants) {
     const activeVariants = Object.entries(contextVariants)
       .filter(([, active]) => active)
@@ -37,7 +35,12 @@ export function useVariantProps<Props>({
   return mergedProps
 }
 
-export function Variants({ children, value }) {
+export type VariantsProps = {
+  value: object
+  children: React.ReactNode
+}
+
+export function Variants({ value, children }: VariantsProps) {
   const parentVariants = React.useContext(VariantsContext)
   const variants = React.useMemo(
     () => ({

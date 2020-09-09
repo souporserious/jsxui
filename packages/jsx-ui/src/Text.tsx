@@ -58,7 +58,7 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       style = {},
       children,
       ...restProps
-    } = useVariantProps<TextProps>(overrideProps)
+    } = useVariantProps(overrideProps)
     const layoutStyles = useLayoutStyles(
       mainAxis === 'horizontal' ? width : height
     )

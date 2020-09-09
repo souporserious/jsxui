@@ -158,7 +158,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       visible = true,
       style: _style,
       ...restProps
-    } = useVariantProps<StackProps>(overrideProps)
+    } = useVariantProps(overrideProps)
     const { colors } = useTokens()
     const flattenedChildren = React.Children.toArray(children)
       .flatMap((child: any) =>
