@@ -42,15 +42,13 @@ export type VariantsProps = {
 
 export function Variants({ value, children }: VariantsProps) {
   const parentVariants = React.useContext(VariantsContext)
-  const variants = React.useMemo(
-    () => ({
-      ...parentVariants,
-      ...value,
-    }),
-    [...parentVariants, ...Object.values(value)]
-  )
   return (
-    <VariantsContext.Provider value={variants}>
+    <VariantsContext.Provider
+      value={{
+        ...parentVariants,
+        ...value,
+      }}
+    >
       {children}
     </VariantsContext.Provider>
   )
