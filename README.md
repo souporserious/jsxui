@@ -3,15 +3,11 @@
 This library is currently unstable and the API is in flux. It is being worked on in the open for better exposure, please feel free to file an issue if you have any questions or suggestions. As of right now, packages aren't published yet and documentation may be lacking or stale.
 
 <p align="center">
-  <img src="images/logo.png?raw=true" width="400" height="145" alt="JSXUI" />
+  <img src="images/logo.jpg?raw=true" width="577" height="215" alt="JSXUI Prototype & Ship Ideas Faster" />
 </p>
 
-<h3 align="center">
-  Prototype & Ship Ideas Faster
-</h3>
-
 <p align="center">
-  JSXUI is a set of primitive elements and concepts to help build cross-platform user interfaces in React.
+  A set of primitive elements to help build cross-platform user interfaces in React.
 </p>
 
 ## Example
