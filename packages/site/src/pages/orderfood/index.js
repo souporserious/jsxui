@@ -1,15 +1,23 @@
 import React from 'react'
-import { Image, Stack, Text, Spacer, Divider, Modifiers } from 'jsx-ui'
+import { Image, Stack, Text, Spacer, Divider, Overrides } from 'jsx-ui'
+import { usePress } from '@react-aria/interactions'
 import GoogleMap, { Marker } from 'react-maps-google'
 
 function Button({ title }) {
+  let { pressProps, isPressed } = usePress({})
   return (
     <Stack
+      role="button"
+      tabIndex={0}
       height={32}
       spaceMain="1fr"
       spaceCross={16}
-      background="#1a73e8"
+      background={isPressed ? 'hsl(214 84% 42%)' : 'hsl(214 82% 51%)'}
       radius={16}
+      style={{
+        cursor: 'pointer',
+      }}
+      {...pressProps}
     >
       <Text size={12} color="white">
         {title}
@@ -18,7 +26,7 @@ function Button({ title }) {
   )
 }
 
-function Card({ title, children, ...restProps }) {
+function Card({ title, actions, children, ...restProps }) {
   return (
     <Stack
       space={24}
@@ -27,25 +35,137 @@ function Card({ title, children, ...restProps }) {
       strokeWeight={1}
       {...restProps}
     >
-      {typeof title === 'string' ? (
-        <Text size={14} weight={600}>
-          {title}
-        </Text>
-      ) : (
-        title
-      )}
+      <Stack axis="horizontal">
+        {typeof title === 'string' ? (
+          <Text size={14} weight={600}>
+            {title}
+          </Text>
+        ) : (
+          title
+        )}
+        <Spacer />
+        {actions}
+      </Stack>
       <Spacer size={24} />
       {children}
     </Stack>
   )
 }
 
+function OrderDetails() {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <Card
+      title="Order details"
+      actions={
+        <>
+          <button onClick={() => setOpen((bool) => !bool)}>
+            {open ? '🔼' : '🔽'}
+          </button>
+        </>
+      }
+    >
+      {open ? (
+        <>
+          <Text size={14}>Order# 83308521</Text>
+          <Spacer size={16} />
+          <Text size={12} color="gray">
+            Order placed on Aug 5, 2020, 5:31 PM
+          </Text>
+
+          <Spacer size={32} />
+
+          <Text size={14}>Pizza Port Carlsbad</Text>
+          <Spacer size={16} />
+          <Text size={12} color="gray">
+            571 Carlsbad Village Dr, Carlsbad, CA 92008
+          </Text>
+
+          <Spacer size={32} />
+
+          <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
+            <Text size={12} color="gray">
+              Large Pizza Bressi Ranch x 1
+            </Text>
+            <Text size={12} color="gray">
+              $24.25
+            </Text>
+          </Stack>
+
+          <Spacer size={16} />
+
+          <Divider />
+
+          <Spacer size={16} />
+
+          <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
+            <Text size={12} color="gray">
+              Subtotal
+            </Text>
+            <Text size={12} color="gray">
+              $24.25
+            </Text>
+          </Stack>
+
+          <Spacer size={16} />
+
+          <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
+            <Text size={12} color="gray">
+              Tax
+            </Text>
+            <Text size={12} color="gray">
+              $1.94
+            </Text>
+          </Stack>
+
+          <Spacer size={16} />
+
+          <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
+            <Text size={12} color="gray">
+              Tip
+            </Text>
+            <Text size={12} color="gray">
+              $4.85
+            </Text>
+          </Stack>
+
+          <Spacer size={16} />
+
+          <Divider />
+
+          <Spacer size={16} />
+
+          <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
+            <Text size={12} weight={700} color="gray">
+              Total:
+            </Text>
+            <Text size={12} weight={700} color="gray">
+              $31.04
+            </Text>
+          </Stack>
+        </>
+      ) : (
+        <>
+          <Text size={12} color="gray">
+            Large Pizza Bressi Ranch x 1
+          </Text>
+          <Spacer size={16} />
+          <Text size={12} color="gray">
+            Total: $31.04
+          </Text>
+        </>
+      )}
+    </Card>
+  )
+}
+
 export default function Index() {
   return (
-    <Modifiers value={[[Divider, { color: 'lightgray' }]]}>
+    <Overrides value={[[Divider, { color: 'lightgray' }]]}>
       <Stack height="100vh">
         <Stack
           axis="horizontal"
+          height="auto"
           spaceMainStart={32}
           spaceMainEnd={16}
           spaceCross={16}
@@ -100,93 +220,7 @@ export default function Index() {
                   the ‘Get help’ section below
                 </Text>
               </Card>
-              <Card title="Order details">
-                <Text size={12} color="gray">
-                  Large Pizza Bressi Ranch x 1
-                </Text>
-                <Spacer size={16} />
-                <Text size={12} color="gray">
-                  Total: $31.04
-                </Text>
-              </Card>
-              <Card title="Order details">
-                <Text size={14}>Order# 83308521</Text>
-                <Spacer size={16} />
-                <Text size={12} color="gray">
-                  Order placed on Aug 5, 2020, 5:31 PM
-                </Text>
-
-                <Spacer size={32} />
-
-                <Text size={14}>Pizza Port Carlsbad</Text>
-                <Spacer size={16} />
-                <Text size={12} color="gray">
-                  571 Carlsbad Village Dr, Carlsbad, CA 92008
-                </Text>
-
-                <Spacer size={32} />
-
-                <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
-                  <Text size={12} color="gray">
-                    Large Pizza Bressi Ranch x 1
-                  </Text>
-                  <Text size={12} color="gray">
-                    $24.25
-                  </Text>
-                </Stack>
-
-                <Spacer size={16} />
-
-                <Divider />
-
-                <Spacer size={16} />
-
-                <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
-                  <Text size={12} color="gray">
-                    Subtotal
-                  </Text>
-                  <Text size={12} color="gray">
-                    $24.25
-                  </Text>
-                </Stack>
-
-                <Spacer size={16} />
-
-                <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
-                  <Text size={12} color="gray">
-                    Tax
-                  </Text>
-                  <Text size={12} color="gray">
-                    $1.94
-                  </Text>
-                </Stack>
-
-                <Spacer size={16} />
-
-                <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
-                  <Text size={12} color="gray">
-                    Tip
-                  </Text>
-                  <Text size={12} color="gray">
-                    $4.85
-                  </Text>
-                </Stack>
-
-                <Spacer size={16} />
-
-                <Divider />
-
-                <Spacer size={16} />
-
-                <Stack axis="horizontal" width="1fr" spaceBetween="1fr">
-                  <Text size={12} weight={700} color="gray">
-                    Total:
-                  </Text>
-                  <Text size={12} weight={700} color="gray">
-                    $31.04
-                  </Text>
-                </Stack>
-              </Card>
+              <OrderDetails />
             </Stack>
             <Stack
               width="4fr"
@@ -194,7 +228,7 @@ export default function Index() {
               radius={8}
               style={{ overflow: 'hidden' }}
             >
-              <GoogleMap>
+              <GoogleMap apiKey="AIzaSyBxqTRXjhUfGUrPFRGmJUC0rz3hqvia1RM">
                 <Marker
                   position={{
                     lat: 33.15988,
@@ -206,6 +240,6 @@ export default function Index() {
           </Stack>
         </Stack>
       </Stack>
-    </Modifiers>
+    </Overrides>
   )
 }

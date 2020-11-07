@@ -19,5 +19,6 @@ public
 
 # General
 *.log
+.env
 coverage
 dist
