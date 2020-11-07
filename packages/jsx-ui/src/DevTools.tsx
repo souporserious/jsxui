@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import { Overrides } from './Overrides'
+import { Overrides, OverridesProps } from './Overrides'
 import { Spacer } from './Spacer'
 
-const overrides = [
+const overrides: OverridesProps['value'] = [
   [
     Spacer,
     {
