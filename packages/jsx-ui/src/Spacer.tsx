@@ -8,6 +8,7 @@ import { useLayoutStyles } from './use-layout-styles'
 
 type SpacerProps = {
   size?: number | string
+  backgroundColor?: string
   variants?: any
   visible?: boolean | string
   children?: React.ReactNode
@@ -15,9 +16,12 @@ type SpacerProps = {
 
 export function Spacer(props: SpacerProps) {
   const modifiedProps = useOverrideProps(Spacer, props)
-  const { children, size = '1fr', visible = true } = useVariantProps(
-    modifiedProps
-  )
+  const {
+    children,
+    size = '1fr',
+    backgroundColor,
+    visible = true,
+  } = useVariantProps(modifiedProps)
   const { fontFamilies } = useTokens()
   const mainAxis = React.useContext(StackContext)
   const layoutStyles = useLayoutStyles(size)
@@ -31,6 +35,7 @@ export function Spacer(props: SpacerProps) {
       style={{
         position: 'relative',
         fontFamily: fontFamilies.body,
+        backgroundColor,
         ...layoutStyles,
       }}
     >

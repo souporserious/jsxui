@@ -8,9 +8,11 @@ export type ImageProps = {
   width?: number
   height?: number
   aspectRatio?: string
+  style?: React.CSSProperties
+  children?: React.ReactNode
 } & SharedProps
 
-export const Image = React.forwardRef<HTMLSpanElement, ImageProps>(
+export const Image = React.forwardRef<HTMLImageElement, ImageProps>(
   (props, ref) => {
     const {
       source,
@@ -27,8 +29,8 @@ export const Image = React.forwardRef<HTMLSpanElement, ImageProps>(
         ref={ref}
         src={source}
         style={{
-          column,
-          row,
+          gridColumn: column,
+          gridRow: row,
           width,
           height,
           ...style,
