@@ -9,6 +9,7 @@ export type SharedProps = {
 export * from './Circle'
 export * from './DevTools'
 export * from './Divider'
+export * from './Graphic'
 export * from './Grid'
 export * from './Image'
 export * from './Overrides'
