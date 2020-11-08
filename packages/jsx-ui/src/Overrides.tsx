@@ -12,12 +12,21 @@ export function useOverrideProps<C extends React.ElementType>(
   let modifiedProps = {} as React.ComponentProps<typeof component>
   overridesStack.forEach(overrides => {
     overrides.forEach(override => {
-      const components = override.slice(0, -1).map(getInstance)
-      const overrideProps = override.slice(-1)[0]
-      if (components.includes(getInstance(component))) {
-        modifiedProps = {
-          ...modifiedProps,
-          ...overrideProps,
+      if (React.isValidElement(override)) {
+        if (getInstance(override.type) === getInstance(component)) {
+          modifiedProps = {
+            ...modifiedProps,
+            ...(override.props as object),
+          }
+        }
+      } else {
+        const components = override.slice(0, -1).map(getInstance)
+        const overrideProps = override.slice(-1)[0]
+        if (components.includes(getInstance(component))) {
+          modifiedProps = {
+            ...modifiedProps,
+            ...overrideProps,
+          }
         }
       }
     })
@@ -36,7 +45,7 @@ export function override<C extends React.ElementType>(
 }
 
 export type OverridesProps = {
-  value: [React.ElementType, object][]
+  value: [React.ElementType, object][] | React.ReactNode[]
   children: React.ReactNode
 }
 

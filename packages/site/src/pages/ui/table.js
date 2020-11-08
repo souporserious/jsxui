@@ -1,32 +1,33 @@
 import React from 'react'
-import { Overrides, Stack, Text, Variants } from 'jsx-ui'
+import { Overrides, Text, Variants } from 'jsx-ui'
 import { getData } from '../../utils'
 
-function Cell({ children, ...props }) {
-  return (
-    <Stack {...props}>
-      <Text>{children}</Text>
-    </Stack>
-  )
+function Column({ header, cell, cellVariants = null, width = null }) {
+  return null
 }
 
-function Table({ columns, data, spacing }) {
+function Table({ children, data, spacing }) {
+  const columns = React.Children.toArray(children).map((child) => child.props)
   return (
     <div
       style={{
         display: 'grid',
-        gridGap: spacing,
         gridTemplateColumns: columns
           .map((column) => column.width || 'min-content')
           .join(' '),
+        gridGap: spacing,
+        padding: spacing,
       }}
     >
-      {columns.map((column) => (
-        <Text weight={600}>{column.header}</Text>
+      {columns.map((column, columnIndex) => (
+        <Text key={columnIndex} weight={600}>
+          {column.header}
+        </Text>
       ))}
-      {data.map((row) =>
+      {data.map((row, rowIndex) =>
         columns.map((column, columnIndex) => (
           <Variants
+            key={`${rowIndex}-${columnIndex}`}
             value={{
               firstCell: columnIndex === 0,
               lastCell: columnIndex === columns.length - 1,
@@ -35,11 +36,11 @@ function Table({ columns, data, spacing }) {
                 : column.cellVariants),
             }}
           >
-            <Cell>
+            <Text>
               {typeof column.cell === 'string'
                 ? row[column.cell]
                 : column.cell(row)}
-            </Cell>
+            </Text>
           </Variants>
         ))
       )}
@@ -52,44 +53,23 @@ const data = getData(50)
 export default () => (
   <Overrides
     value={[
-      [
-        Text,
-        {
-          variants: {
-            pastDue: {
-              color: 'red',
-            },
-          },
-        },
-      ],
+      <Text
+        variants={{
+          pastDue: { color: 'red' },
+        }}
+      />,
     ]}
   >
-    <Table
-      columns={[
-        {
-          header: 'Name',
-          cell: (data) => `${data.firstName} ${data.lastName}`,
-          cellVariants: (data) => ({
-            pastDue: data.pastDue,
-          }),
-          width: 'max-content',
-        },
-        {
-          header: 'Age',
-          cell: 'age',
-        },
-        {
-          header: 'Username',
-          cell: 'username',
-        },
-        {
-          header: 'Occupation',
-          cell: 'occupation',
-          width: '1fr',
-        },
-      ]}
-      data={data}
-      spacing="32px"
-    />
+    <Table data={data} spacing="32px">
+      <Column
+        header="Name"
+        cell={(data) => `${data.firstName} ${data.lastName}`}
+        cellVariants={(data) => ({ pastDue: data.pastDue })}
+        width="max-content"
+      />
+      <Column header="Age" cell="age" />
+      <Column header="Username" cell="username" />
+      <Column header="Occupation" cell="occupation" width="1fr" />
+    </Table>
   </Overrides>
 )
