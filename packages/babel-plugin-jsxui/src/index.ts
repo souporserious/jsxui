@@ -63,10 +63,14 @@ export default function() {
           }
           if (arrayExpression) {
             arrayExpression.get('elements').forEach(element => {
-              const openingElement = element.get('openingElement')
-              if (openingElement.node) {
-                const { name } = openingElement.node.name
-                const objectValue = openingElement.node.attributes.map(
+              // handle already transpiled JSX
+              if (element.node.type === 'CallExpression') {
+                element.node.leadingComments = []
+                element.replaceWith(t.arrayExpression(element.node.arguments))
+              } else {
+                const openingElement = element.get('openingElement')
+                const name = openingElement.node.name.name
+                const objectValues = openingElement.node.attributes.map(
                   convertAttribute
                 )
                 element.replaceWith(
@@ -74,7 +78,7 @@ export default function() {
                     name[0] === name[0].toUpperCase()
                       ? t.identifier(name)
                       : t.stringLiteral(name),
-                    t.objectExpression(objectValue),
+                    t.objectExpression(objectValues),
                   ])
                 )
               }
