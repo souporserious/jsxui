@@ -42,26 +42,43 @@ export default function() {
   return {
     name: 'babel-plugin-jsxui',
     inherits: jsx,
+    pre() {
+      this.cache = new Set()
+    },
     visitor: {
       JSXOpeningElement(path) {
         if (path.node.name.name === 'Overrides') {
-          const [valueProp] = path.node.attributes
-          if (valueProp) {
-            const { elements } = valueProp.value.expression
-            if (elements && elements.length > 0) {
-              valueProp.value.expression.elements = elements.map(element => {
-                const { name } = element.openingElement.name
-                const objectValue = element.openingElement.attributes.map(
+          const [valuePath] = path.get('attributes')
+          const expressionPath = valuePath.get('value').get('expression')
+          const expressionName = expressionPath.node.name
+          const binding = expressionPath.scope.getBinding(expressionName)
+          let arrayExpression
+          if (binding) {
+            if (!this.cache.has(expressionName)) {
+              arrayExpression = binding.path.get('init')
+              this.cache.add(expressionName)
+            }
+          } else {
+            arrayExpression = expressionPath
+          }
+          if (arrayExpression) {
+            arrayExpression.get('elements').forEach(element => {
+              const openingElement = element.get('openingElement')
+              if (openingElement.node) {
+                const { name } = openingElement.node.name
+                const objectValue = openingElement.node.attributes.map(
                   convertAttribute
                 )
-                return t.arrayExpression([
-                  name[0] === name[0].toUpperCase()
-                    ? t.identifier(name)
-                    : t.stringLiteral(name),
-                  t.objectExpression(objectValue),
-                ])
-              })
-            }
+                element.replaceWith(
+                  t.arrayExpression([
+                    name[0] === name[0].toUpperCase()
+                      ? t.identifier(name)
+                      : t.stringLiteral(name),
+                    t.objectExpression(objectValue),
+                  ])
+                )
+              }
+            })
           }
         }
       },

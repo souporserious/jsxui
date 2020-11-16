@@ -34,3 +34,39 @@ function App() {
 }
 "
 `;
+
+exports[`babel-plugin-jsxui 2. babel-plugin-jsxui: 2. babel-plugin-jsxui 1`] = `
+"
+import { Overrides, Text } from '@jsxui/core'
+
+const overrides = [
+  <Text color=\\"tomato\\" variants={{ hover: { color: 'papayawhip' } }} />,
+]
+
+function App() {
+  return (
+    <Overrides value={overrides}>
+      <Text>Hello World</Text>
+    </Overrides>
+  )
+}
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { Overrides, Text } from '@jsxui/core';
+const overrides = [[Text, {
+  color: \\"tomato\\",
+  variants: {
+    hover: {
+      color: 'papayawhip'
+    }
+  }
+}]];
+
+function App() {
+  return <Overrides value={overrides}>
+      <Text>Hello World</Text>
+    </Overrides>;
+}
+"
+`;
