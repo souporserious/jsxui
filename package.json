@@ -5,8 +5,8 @@
   ],
   "scripts": {
     "babel": "yarn workspace babel-plugin-jsxui",
-    "site": "yarn workspace site",
-    "jsx-ui": "yarn workspace jsx-ui"
+    "jsxui": "yarn workspace @jsxui/core",
+    "site": "yarn workspace site"
   },
   "prettier": {
     "printWidth": 80,

@@ -2,7 +2,7 @@
 
 exports[`babel-plugin-jsxui 1. babel-plugin-jsxui: 1. babel-plugin-jsxui 1`] = `
 "
-import { Overrides, Text } from 'jsxui'
+import { Overrides, Text } from '@jsxui/core'
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { Overrides, Text } from 'jsxui';
+import { Overrides, Text } from '@jsxui/core';
 
 function App() {
   return <Overrides value={[[Text, {

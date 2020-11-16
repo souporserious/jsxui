@@ -1,12 +1,12 @@
 {
-  "name": "jsx-ui",
+  "name": "@jsxui/core",
   "version": "0.0.0",
   "author": "Travis Arnold",
   "description": "Primitive elements to build isomorphic user interfaces in React.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/souporserious/jsx-ui.git"
+    "url": "git+https://github.com/souporserious/jsxui.git"
   },
   "module": "dist/jsx-ui.esm.js",
   "main": "dist/index.js",
@@ -47,12 +47,6 @@
     "hooks": {
       "pre-commit": "tsdx lint"
     }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
   },
   "dependencies": {
     "capsize": "^1.0.0"
