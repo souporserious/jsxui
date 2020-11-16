@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { getInstance } from './utils'
+import { isSameInstance } from './utils'
 
-const OverridesContext = React.createContext([])
+export const OverridesContext = React.createContext([])
 
 export function useOverrideProps<C extends React.ElementType>(
   component: C,
@@ -11,22 +11,11 @@ export function useOverrideProps<C extends React.ElementType>(
   const overridesStack = React.useContext(OverridesContext)
   let modifiedProps = {} as React.ComponentProps<typeof component>
   overridesStack.forEach(overrides => {
-    overrides.forEach(override => {
-      if (React.isValidElement(override)) {
-        if (getInstance(override.type) === getInstance(component)) {
-          modifiedProps = {
-            ...modifiedProps,
-            ...(override.props as object),
-          }
-        }
-      } else {
-        const components = override.slice(0, -1).map(getInstance)
-        const overrideProps = override.slice(-1)[0]
-        if (components.includes(getInstance(component))) {
-          modifiedProps = {
-            ...modifiedProps,
-            ...overrideProps,
-          }
+    overrides.forEach(([instance, props]) => {
+      if (isSameInstance(instance, component)) {
+        modifiedProps = {
+          ...modifiedProps,
+          ...props,
         }
       }
     })
@@ -37,22 +26,16 @@ export function useOverrideProps<C extends React.ElementType>(
   }
 }
 
-export function override<C extends React.ElementType>(
-  component: C,
-  props: React.ComponentProps<C>
-): [C, React.ComponentProps<C>] {
-  return [component, props]
-}
-
 export type OverridesProps = {
-  value: [React.ElementType, object][] | React.ReactNode[]
+  value: React.ReactNode[] | [React.ElementType, object][]
   children: React.ReactNode
 }
 
 export function Overrides({ value, children }: OverridesProps) {
   const parentOverrides = React.useContext(OverridesContext)
+  const mergedOverrides = React.useMemo(() => [...parentOverrides, value], [])
   return (
-    <OverridesContext.Provider value={[...parentOverrides, value]}>
+    <OverridesContext.Provider value={mergedOverrides}>
       {children}
     </OverridesContext.Provider>
   )
