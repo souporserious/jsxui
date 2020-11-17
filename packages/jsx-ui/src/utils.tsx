@@ -46,5 +46,10 @@ export function getInstance(instance) {
  * Determines if two component instances are the same.
  */
 export function isSameInstance(element1, element2) {
-  return getInstance(element1).toString() === getInstance(element2).toString()
+  return element2.constructor === Array
+    ? element2.some(
+        element =>
+          getInstance(element1).toString() === getInstance(element).toString()
+      )
+    : getInstance(element1).toString() === getInstance(element2).toString()
 }
