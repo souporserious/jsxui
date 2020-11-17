@@ -11,7 +11,6 @@ export function Head({
   lang = `en`,
   meta = [],
   keywords = [],
-  noIndex,
   image,
 }) {
   const { site } = useStaticQuery(
@@ -41,10 +40,6 @@ export function Head({
       title={pageTitle}
       titleTemplate={hasTitle ? `%s | ${site.siteMetadata.title}` : `%s`}
       meta={[
-        noIndex && {
-          name: `robots`,
-          content: `noindex`,
-        },
         {
           name: `description`,
           content: pageDescription,
@@ -71,7 +66,7 @@ export function Head({
         },
         {
           name: `twitter:card`,
-          content: postImageSource ? `summary_large_image` : `summary`,
+          content: `summary_large_image`,
         },
         {
           property: `twitter:image`,
