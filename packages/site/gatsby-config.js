@@ -1,6 +1,19 @@
 module.exports = {
   siteMetadata: {
-    title: 'JSXUI',
+    siteUrl: `https://www.jsxui.com`,
+    title: `JSXUI`,
+    author: `JSXUI Authors`,
+    description: `Primitive elements to build isomorphic user interfaces in React.`,
+    social: [
+      {
+        name: `Twitter`,
+        url: `https://twitter.com/souporserious`,
+      },
+      {
+        name: `GitHub`,
+        url: `https://github.com/souporserious/jsxui`,
+      },
+    ],
   },
   plugins: [
     {

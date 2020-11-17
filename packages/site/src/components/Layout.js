@@ -2,6 +2,7 @@ import React from 'react'
 import { DevTools, Overrides, Text, Tokens, Stack } from '@jsxui/react'
 
 import './layout.css'
+import { Head } from './Head'
 
 const tokens = {
   fontFamilies: {
@@ -78,31 +79,36 @@ const overrides = [
   <Text family="body" size="medium" weight="light" color="foreground" />,
 ]
 
+function Wrapper({ children }) {
+  return (
+    <DevTools>
+      <Head />
+      <Overrides value={overrides}>{children}</Overrides>
+    </DevTools>
+  )
+}
+
 function Layout({ children, location }) {
   if (location.pathname.includes('playstation')) {
     return (
-      <DevTools>
+      <Wrapper>
         <Tokens value={playstationTokens}>
-          <Overrides value={overrides}>
-            <Stack
-              width="100%"
-              height="minmax(100vh, 1fr)"
-              background="linear-gradient(-180deg, rgb(8, 60, 182), rgb(14, 30, 69))"
-            >
-              {children}
-            </Stack>
-          </Overrides>
+          <Stack
+            width="100%"
+            height="minmax(100vh, 1fr)"
+            background="linear-gradient(-180deg, rgb(8, 60, 182), rgb(14, 30, 69))"
+          >
+            {children}
+          </Stack>
         </Tokens>
-      </DevTools>
+      </Wrapper>
     )
   }
 
   return (
-    <DevTools>
-      <Tokens value={tokens}>
-        <Overrides value={overrides}>{children}</Overrides>
-      </Tokens>
-    </DevTools>
+    <Wrapper>
+      <Tokens value={tokens}>{children}</Tokens>
+    </Wrapper>
   )
 }
 
