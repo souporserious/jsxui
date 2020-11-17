@@ -22,17 +22,6 @@ export function parseValue(value) {
 }
 
 /**
- * Parses number values as Spacer
- */
-export function parseSpaceValue(value) {
-  return typeof value === 'string' || typeof value === 'number' ? (
-    <Spacer size={value} />
-  ) : (
-    value
-  )
-}
-
-/**
  * Returns the instance of a component.
  */
 export function getInstance(instance) {
@@ -46,10 +35,12 @@ export function getInstance(instance) {
  * Determines if two component instances are the same.
  */
 export function isSameInstance(element1, element2) {
-  return element2.constructor === Array
-    ? element2.some(
-        element =>
-          getInstance(element1).toString() === getInstance(element).toString()
-      )
-    : getInstance(element1).toString() === getInstance(element2).toString()
+  return element1 && element2
+    ? element2.constructor === Array
+      ? element2.some(
+          (element) =>
+            getInstance(element1).toString() === getInstance(element).toString()
+        )
+      : getInstance(element1).toString() === getInstance(element2).toString()
+    : false
 }

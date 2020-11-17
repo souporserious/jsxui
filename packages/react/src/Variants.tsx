@@ -12,7 +12,7 @@ export function useVariantProps<Props>({
     const activeVariants = Object.entries(contextVariants)
       .filter(([, active]) => active)
       .map(([prop]) => prop)
-    activeVariants.forEach(activeVariant => {
+    activeVariants.forEach((activeVariant) => {
       const variantProps = variants[activeVariant]
       mergedProps = {
         ...mergedProps,

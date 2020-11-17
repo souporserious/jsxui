@@ -28,7 +28,7 @@ export default ({ style }) => {
     <Stack height="100vh" style={style}>
       <Spacer size="32px" />
       <Stack axis="horizontal" spaceMainStart="64px" spaceMainEnd="1fr">
-        <Text size="40px">Add to New Folder</Text>
+        <Text size={40}>Add to New Folder</Text>
       </Stack>
       <Spacer size="16px" />
       <Divider size={1} color="white" />

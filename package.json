@@ -9,6 +9,9 @@
     "jsxui": "yarn workspace @jsxui/react",
     "site": "yarn workspace site"
   },
+  "devDependencies": {
+    "prettier": "^2.1.2"
+  },
   "prettier": {
     "printWidth": 80,
     "semi": false,

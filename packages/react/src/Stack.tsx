@@ -9,7 +9,7 @@ import { useTokens } from './Tokens'
 import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
 import { useLayoutStyles } from './use-layout-styles'
-import { parseValue, parseSpaceValue, isSameInstance } from './utils'
+import { parseValue, isSameInstance } from './utils'
 
 export type StackProps = {
   as?: any
@@ -70,6 +70,14 @@ function joinChildren(children, separator: any = ', ') {
       return result.concat(child)
     }
   }, [])
+}
+
+ function parseSpaceValue(value) {
+  return typeof value === 'string' || typeof value === 'number' ? (
+    <Spacer size={value} />
+  ) : (
+    value
+  )
 }
 
 function getOrthogonalAxis(axis) {
