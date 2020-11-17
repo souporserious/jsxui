@@ -1,6 +1,6 @@
 {
-  "name": "@jsxui/core",
-  "version": "0.0.0",
+  "name": "@jsxui/react",
+  "version": "0.1.0",
   "author": "Travis Arnold",
   "description": "Primitive elements to build isomorphic user interfaces in React.",
   "license": "MIT",
