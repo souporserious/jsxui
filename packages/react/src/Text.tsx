@@ -70,11 +70,15 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       fontMetrics,
     } = useTokens()
     const fontFamilyMetrics = fontMetrics && fontMetrics[family]
-    const fontStyles = capsize({
-      capHeight: fontSizes[size] || size,
-      lineGap: lineSpacing,
-      fontMetrics: fontFamilyMetrics,
-    })
+    const capHeight = fontSizes[size] || size
+    const fontStyles =
+      typeof capHeight === 'number' && fontFamilyMetrics
+        ? capsize({
+            capHeight: capHeight,
+            lineGap: lineSpacing,
+            fontMetrics: fontFamilyMetrics,
+          })
+        : {}
 
     if (visible === false) {
       return null
@@ -114,14 +118,14 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
         <span
           style={{
             display: 'block',
-            marginTop: fontStyles['::before'].marginTop,
+            marginTop: fontStyles['::before']?.marginTop,
           }}
         />
         {children}
         <span
           style={{
             display: 'block',
-            marginBottom: fontStyles['::after'].marginBottom,
+            marginBottom: fontStyles['::after']?.marginBottom,
           }}
         />
       </Component>
