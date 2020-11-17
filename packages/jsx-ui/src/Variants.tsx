@@ -12,19 +12,18 @@ export function useVariantProps<Props>({
     const activeVariants = Object.entries(contextVariants)
       .filter(([, active]) => active)
       .map(([prop]) => prop)
-    let variantProps = {}
     activeVariants.forEach(activeVariant => {
-      variantProps = {
-        ...variantProps,
-        ...variants[activeVariant],
+      const variantProps = variants[activeVariant]
+      mergedProps = {
+        ...mergedProps,
+        ...(typeof variantProps === 'function'
+          ? variantProps(mergedProps)
+          : variantProps),
       }
     })
-    mergedProps = {
-      ...mergedProps,
-      ...variantProps,
-    }
   }
   // check and convert boolean props that have a variant value
+  // <Text visible="checkout-success">Success!</Text>
   Object.entries(contextVariants).forEach(([variant, active]) => {
     Object.entries(props).forEach(([prop, value]) => {
       if (value === variant) {

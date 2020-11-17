@@ -15,7 +15,7 @@ export function useOverrideProps<C extends React.ElementType>(
       if (isSameInstance(instance, component)) {
         modifiedProps = {
           ...modifiedProps,
-          ...props,
+          ...(typeof props === 'function' ? props(modifiedProps) : props),
         }
       }
     })
