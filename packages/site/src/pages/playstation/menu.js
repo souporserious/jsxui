@@ -1,5 +1,5 @@
 import React from 'react'
-import { Spacer, Stack, Text, Variants } from 'jsx-ui'
+import { Spacer, Stack, Text, Variants } from '@jsxui/react'
 import { useRovingIndex } from 'use-roving-index'
 import { Link } from 'gatsby'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Overrides, Text, Variants } from 'jsx-ui'
+import { Overrides, Text, Variants } from '@jsxui/react'
 import { getData } from '../../utils'
 
 function Column({ header, cell, cellVariants = null, width = null }) {

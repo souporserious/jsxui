@@ -1,5 +1,5 @@
 import React from 'react'
-import { Circle, Stack, Text, Spacer, Overrides } from 'jsx-ui'
+import { Circle, Stack, Text, Spacer, Overrides } from '@jsxui/react'
 import { Link } from 'gatsby'
 
 // based on:
@@ -102,7 +102,7 @@ export default function Index() {
 
       <Spacer size={64} />
 
-      <Overrides value={[[Text, { color: 'white' }]]}>
+      <Overrides value={[<Text color="white" />]}>
         <Stack
           background={
             <Stack width="100%" height="100%" background="#27272E">

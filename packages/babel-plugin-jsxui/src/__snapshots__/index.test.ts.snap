@@ -2,7 +2,7 @@
 
 exports[`babel-plugin-jsxui 1. babel-plugin-jsxui: 1. babel-plugin-jsxui 1`] = `
 "
-import { Overrides, Text } from '@jsxui/core'
+import { Overrides, Text } from '@jsxui/react'
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { Overrides, Text } from '@jsxui/core';
+import { Overrides, Text } from '@jsxui/react';
 
 function App() {
   return <Overrides value={[[Text, {
@@ -37,7 +37,7 @@ function App() {
 
 exports[`babel-plugin-jsxui 2. babel-plugin-jsxui: 2. babel-plugin-jsxui 1`] = `
 "
-import { Overrides, Text } from '@jsxui/core'
+import { Overrides, Text } from '@jsxui/react'
 
 const overrides = [
   <Text color=\\"tomato\\" variants={{ hover: { color: 'papayawhip' } }} />,
@@ -53,7 +53,7 @@ function App() {
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { Overrides, Text } from '@jsxui/core';
+import { Overrides, Text } from '@jsxui/react';
 const overrides = [[Text, {
   color: \\"tomato\\",
   variants: {

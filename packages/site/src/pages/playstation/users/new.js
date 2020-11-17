@@ -1,5 +1,5 @@
 import React from 'react'
-import { Spacer, Stack, Text } from 'jsx-ui'
+import { Spacer, Stack, Text } from '@jsxui/react'
 
 export default ({ style, column, row }) => {
   return (

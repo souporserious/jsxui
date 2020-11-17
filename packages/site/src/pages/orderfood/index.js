@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Stack, Text, Spacer, Divider, Overrides } from 'jsx-ui'
+import { Image, Stack, Text, Spacer, Divider, Overrides } from '@jsxui/react'
 import { usePress } from '@react-aria/interactions'
 import GoogleMap, { Marker } from 'react-maps-google'
 
@@ -161,7 +161,7 @@ function OrderDetails() {
 
 export default function Index() {
   return (
-    <Overrides value={[[Divider, { color: 'lightgray' }]]}>
+    <Overrides value={[<Divider color="lightgray" />]}>
       <Stack height="100vh">
         <Stack
           axis="horizontal"

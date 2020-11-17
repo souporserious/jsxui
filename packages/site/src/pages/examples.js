@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Text } from 'jsx-ui'
+import { Stack, Text } from '@jsxui/react'
 import { Link } from 'gatsby'
 
 export default function Index() {

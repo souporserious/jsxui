@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Spacer, Stack, Text } from 'jsx-ui'
+import { Image, Spacer, Stack, Text } from '@jsxui/react'
 import { Link } from 'gatsby'
 
 function useUsers(amount = 3) {

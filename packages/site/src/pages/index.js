@@ -1,14 +1,6 @@
+/** @jsx jsx */
 import React from 'react'
-import {
-  Graphic,
-  Overrides,
-  override as o,
-  Text,
-  Tokens,
-  Spacer,
-  Stack,
-  Variants,
-} from 'jsx-ui'
+import { jsx, Text, Tokens, Spacer, Stack, Variants } from '@jsxui/react'
 
 import { Github, Logo, Wave } from '../assets'
 
@@ -52,34 +44,7 @@ export default function Index() {
     })
   }, [])
   return (
-    <Variants
-      value={{ xray, ...matches }}
-      overrides={[
-        <Text
-          variants={{
-            xray: {
-              color: 'black',
-            },
-          }}
-        />,
-        <Stack
-          variants={{
-            xray: {
-              strokeWeight: 1,
-              strokeColor: 'black',
-              background: 'white',
-            },
-          }}
-        />,
-        <path
-          variants={{
-            xray: {
-              fill: 'black',
-            },
-          }}
-        />,
-      ]}
-    >
+    <Variants value={{ xray, ...matches }}>
       <Tokens
         value={{
           colors: {
@@ -95,10 +60,17 @@ export default function Index() {
         }}
         variants={{
           'breakpoints.medium': {
-            fontSizes: {
-              xlarge: 64,
-              large: 28,
-              medium: 16,
+            value: {
+              colors: {
+                brand: '#8D6CEE',
+                foreground: 'black',
+                foregroundSecondary: 'gray',
+              },
+              fontSizes: {
+                xlarge: 64,
+                large: 28,
+                medium: 16,
+              },
             },
           },
         }}
@@ -164,9 +136,15 @@ export default function Index() {
               </Stack>
             </Stack>
           </Stack>
-          {/* <Spacer size="0.5fr" /> */}
           <Wave width="1fr" height="auto" />
-          <Spacer backgroundColor="#7B5AD9" />
+          <Spacer
+            background="#7B5AD9"
+            variants={{
+              xray: {
+                background: 'url(#diagonalHatch)',
+              },
+            }}
+          />
         </Stack>
       </Tokens>
     </Variants>

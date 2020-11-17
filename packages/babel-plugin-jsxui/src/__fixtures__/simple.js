@@ -1,4 +1,4 @@
-import { Overrides, Text } from '@jsxui/core'
+import { Overrides, Text } from '@jsxui/react'
 
 function App() {
   return (

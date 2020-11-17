@@ -1,5 +1,5 @@
 import React from 'react'
-import { Divider, Spacer, Stack, Text } from 'jsx-ui'
+import { Divider, Spacer, Stack, Text } from '@jsxui/react'
 
 function TextInput({ value, row, column, onChange }) {
   return (

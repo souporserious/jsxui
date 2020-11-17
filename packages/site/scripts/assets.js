@@ -15,7 +15,7 @@ fetchImages({
 }).then(async (svgs) => {
   const imports = `
     import React from 'react'
-    import { Graphic } from 'jsx-ui'
+    import { Graphic } from '@jsxui/react'
   `
   const jsx = await Promise.all(svgs.map((svg) => svgtojsx(svg.buffer)))
   const data = svgs

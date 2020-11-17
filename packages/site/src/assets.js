@@ -1,5 +1,5 @@
-import React from "react";
-import { Graphic } from "jsx-ui";
+/** @jsx jsx */
+import { Graphic, jsx } from '@jsxui/react'
 export const Logo = (props) => (
   <Graphic
     height="80"
@@ -65,7 +65,7 @@ export const Logo = (props) => (
       </linearGradient>
     </defs>
   </Graphic>
-);
+)
 export const Mark = (props) => (
   <Graphic
     height="80"
@@ -114,7 +114,7 @@ export const Mark = (props) => (
       </linearGradient>
     </defs>
   </Graphic>
-);
+)
 export const Wave = (props) => (
   <Graphic
     height="331"
@@ -148,7 +148,7 @@ export const Wave = (props) => (
       </linearGradient>
     </defs>
   </Graphic>
-);
+)
 export const Github = (props) => (
   <Graphic
     height="32"
@@ -167,4 +167,4 @@ export const Github = (props) => (
       />
     </g>
   </Graphic>
-);
+)

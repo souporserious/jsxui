@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Text, Spacer } from 'jsx-ui'
+import { Stack, Text, Spacer } from '@jsxui/react'
 
 // https://dribbble.com/shots/13931173-Task-Management-Dashboard/attachments/5541807?mode=media
 
