@@ -14,7 +14,7 @@ This library is currently unstable and the API is in flux. It is being worked on
 
 ```jsx
 import React from 'react'
-import { Tokens, Overrides, Stack, Text } from '@jsxui/react'
+import { Overrides, Stack, Text, Tokens } from '@jsxui/react'
 
 const tokens = {
   fontFamilies: {
@@ -39,15 +39,7 @@ const tokens = {
 }
 
 const overrides = [
-  [
-    Text,
-    {
-      family: 'body',
-      size: 'medium',
-      weight: 'light',
-      color: 'foreground',
-    },
-  ],
+  <Text family="body" size="medium" weight="light" color="foreground" />,
 ]
 
 export default () => {
@@ -55,7 +47,7 @@ export default () => {
     <Tokens value={tokens}>
       <Overrides value={overrides}>
         <Stack space="1fr">
-          <Text size="large">JSX UI</Text>
+          <Text>JSX UI</Text>
         </Stack>
       </Overrides>
     </Tokens>
