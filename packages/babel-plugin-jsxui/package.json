@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-jsxui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Travis Arnold",
   "description": "Babel plugin to optimize JSXUI components.",
   "license": "MIT",
