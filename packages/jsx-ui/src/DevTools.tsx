@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import { Overrides, OverridesProps } from './Overrides'
 import { Spacer } from './Spacer'
+import { Stack } from './Stack'
+import { Text } from './Text'
 
 const overrides: OverridesProps['value'] = [
   [
@@ -53,38 +55,12 @@ const overrides: OverridesProps['value'] = [
                   zIndex: 100,
                 }}
               >
-                <defs>
-                  <pattern
-                    id="horizontal"
-                    width="8"
-                    height="8"
-                    y="2"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <polyline
-                      points="0,0 4,4 8,0"
-                      fill="none"
-                      stroke="hotpink"
-                      strokeWidth="1"
-                    />
-                  </pattern>
-                  <pattern
-                    id="vertical"
-                    width="8"
-                    height="8"
-                    x="2"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <polyline
-                      points="0,0 4,4 0,8"
-                      fill="none"
-                      stroke="hotpink"
-                      strokeWidth="1"
-                    />
-                  </pattern>
-                </defs>
                 {isFractional ? (
-                  <rect width="100%" height="100%" fill={`url(#${mainAxis})`} />
+                  <rect
+                    width="100%"
+                    height="100%"
+                    fill={`url(#${mainAxis}Wave)`}
+                  />
                 ) : (
                   <rect width="100%" height="100%" fill="hotpink" />
                 )}
@@ -131,8 +107,93 @@ const overrides: OverridesProps['value'] = [
       },
     },
   ],
+  [
+    Text,
+    {
+      variants: {
+        xray: {
+          color: 'black',
+        },
+      },
+    },
+  ],
+  [
+    Stack,
+    {
+      variants: {
+        xray: {
+          strokeWeight: 1,
+          strokeColor: 'black',
+          background: 'white',
+        },
+      },
+    },
+  ],
+  [
+    'path',
+    {
+      variants: {
+        xray: {
+          fill: 'url(#diagonalHatch)',
+          stroke: 'black',
+          strokeWidth: 1,
+        },
+      },
+    },
+  ],
 ]
 
 export function DevTools({ children }) {
-  return <Overrides value={overrides}>{children}</Overrides>
+  return (
+    <Overrides value={overrides}>
+      {children}
+      <svg width="0" height="0" style={{ display: 'block' }}>
+        <defs>
+          <pattern
+            id="horizontalWave"
+            width="8"
+            height="8"
+            y="2"
+            patternUnits="userSpaceOnUse"
+          >
+            <polyline
+              points="0,0 4,4 8,0"
+              fill="none"
+              stroke="hotpink"
+              strokeWidth="1"
+            />
+          </pattern>
+          <pattern
+            id="verticalWave"
+            width="8"
+            height="8"
+            x="2"
+            patternUnits="userSpaceOnUse"
+          >
+            <polyline
+              points="0,0 4,4 0,8"
+              fill="none"
+              stroke="hotpink"
+              strokeWidth="1"
+            />
+          </pattern>
+          <pattern
+            id="diagonalHatch"
+            width="6"
+            height="10"
+            patternTransform="rotate(45 0 0)"
+            patternUnits="userSpaceOnUse"
+          >
+            <line
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="10"
+              style={{ stroke: 'black', strokeWidth: 2 }}
+            />
+          </pattern>
+        </defs>
+      </svg>
+    </Overrides>
+  )
 }
