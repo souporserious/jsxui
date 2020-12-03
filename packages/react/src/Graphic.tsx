@@ -15,8 +15,6 @@ export function Graphic(props) {
     name,
     scale,
     visible = true,
-    stackChildStyles,
-    style,
     // width,
     // height,
     ...restProps
@@ -29,9 +27,5 @@ export function Graphic(props) {
   //   style.width = width * scale
   //   style.height = height * scale
   // }
-  return (
-    <svg {...restProps} style={{ ...style, ...stackChildStyles }}>
-      {children}
-    </svg>
-  )
+  return <svg {...restProps}>{children}</svg>
 }

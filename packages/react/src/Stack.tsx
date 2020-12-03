@@ -41,11 +41,6 @@ export type StackProps = {
   strokeColor?: string
   background?: string | React.ReactNode
   style?: React.CSSProperties
-  stackChildStyles?: {
-    flexGrow: number
-    flexShrink: number
-    flexBasis: number
-  }
   children?: React.ReactNode
 } & SharedProps
 
@@ -158,7 +153,6 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       scaleY,
       translateX,
       translateY,
-      stackChildStyles,
       children,
       visible = true,
       style: _style,
@@ -205,7 +199,6 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       zIndex: 1,
       width: width ?? size,
       height: height ?? size,
-      ...stackChildStyles,
       ...layoutStyles,
       ..._style,
     }
@@ -248,7 +241,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
                       space
                   )}
                   {React.cloneElement(child, {
-                    stackChildStyles: getStackChildStyles({
+                    style: getStackChildStyles({
                       width:
                         axis === 'horizontal'
                           ? 'auto'

@@ -3,7 +3,6 @@ export type SharedProps = {
   row?: string
   variants?: any
   visible?: boolean | string
-  stackChildStyles?: object
 }
 
 export * from './Circle'

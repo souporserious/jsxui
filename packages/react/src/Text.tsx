@@ -51,7 +51,6 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
       spaceAfter,
       spaceBefore,
       visible = true,
-      stackChildStyles,
       style = {},
       children,
       ...restProps
@@ -107,7 +106,6 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
           height,
           ...style,
           ...fontStyles,
-          ...stackChildStyles,
           ...layoutStyles,
         }}
         {...restProps}
