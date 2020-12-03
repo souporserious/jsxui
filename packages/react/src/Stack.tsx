@@ -2,10 +2,11 @@ import * as React from 'react'
 
 import { StackContext } from './Contexts'
 import { Divider } from './Divider'
+import { SharedProps } from './index'
+import { jsx } from './jsx'
 import { Spacer } from './Spacer'
 import { Text } from './Text'
 import { useTokens } from './Tokens'
-import { SharedProps } from './index'
 import { useLayoutStyles } from './use-layout-styles'
 import { parseValue, isSameInstance } from './utils'
 
@@ -66,11 +67,9 @@ function joinChildren(children, separator: any = ', ') {
 }
 
 function parseSpaceValue(value) {
-  return typeof value === 'string' || typeof value === 'number' ? (
-    <Spacer size={value} />
-  ) : (
-    value
-  )
+  return typeof value === 'string' || typeof value === 'number'
+    ? jsx(Spacer, { size: value })
+    : value
 }
 
 function getOrthogonalAxis(axis) {
