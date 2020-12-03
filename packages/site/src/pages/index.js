@@ -31,19 +31,13 @@ function useMatches(queries) {
 }
 
 export default function Index() {
-  const [xray, setXray] = React.useState(false)
   const matches = useMatches({
     'breakpoints.small': '(min-width: 0px)',
     'breakpoints.medium': '(min-width: 768px)',
     'breakpoints.large': '(min-width: 1280px)',
   })
-  React.useEffect(() => {
-    document.addEventListener('click', () => {
-      setXray((bool) => !bool)
-    })
-  }, [])
   return (
-    <Variants value={{ xray, ...matches }}>
+    <Variants value={matches}>
       <Tokens
         value={{
           colors: {

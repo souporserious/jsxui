@@ -1,9 +1,41 @@
 import * as React from 'react'
+import debounce from 'lodash.debounce'
 
 import { Overrides, OverridesProps } from './Overrides'
 import { Spacer } from './Spacer'
 import { Stack } from './Stack'
 import { Text } from './Text'
+import { Variants } from './Variants'
+
+const useTextEditor = (props) => {
+  const [hover, setHover] = React.useState(false)
+  return {
+    contentEditable: true,
+    suppressContentEditableWarning: true,
+    onInput: debounce((event) => {
+      event.stopPropagation()
+      fetch('http://localhost:4000/props/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: props.__jsxuiSource,
+          value: event.target.innerText,
+        }),
+      })
+    }, 120),
+    onMouseOver: (event) => {
+      event.stopPropagation()
+      setHover(true)
+    },
+    onMouseOut: () => {
+      setHover(false)
+    },
+    style: {
+      outline: 0,
+      boxShadow: hover && `0px 0px 0px 2px blue`,
+    },
+  }
+}
 
 const overrides: OverridesProps['value'] = [
   [
@@ -111,6 +143,7 @@ const overrides: OverridesProps['value'] = [
     Text,
     {
       variants: {
+        editor: useTextEditor,
         xray: {
           color: 'black',
         },
@@ -144,9 +177,23 @@ const overrides: OverridesProps['value'] = [
 ]
 
 export function DevTools({ children }) {
+  const [editor, setEditor] = React.useState(false)
+  const [xray, setXray] = React.useState(false)
+  React.useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'e':
+          setEditor((bool) => !bool)
+          break
+        case 'x':
+          setXray((bool) => !bool)
+          break
+      }
+    })
+  }, [])
   return (
     <Overrides value={overrides}>
-      {children}
+      <Variants value={{ editor, xray }}>{children}</Variants>
       <svg width="0" height="0" style={{ display: 'block' }}>
         <defs>
           <pattern

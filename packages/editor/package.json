@@ -1,36 +1,31 @@
 {
-  "name": "@jsxui/react",
+  "name": "@jsxui/editor",
   "version": "0.1.0",
   "author": "Travis Arnold",
-  "description": "Primitive elements to build isomorphic user interfaces in React.",
+  "description": "JSX editor used to update components.",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/souporserious/jsxui.git"
   },
-  "module": "dist/jsx-ui.esm.js",
+  "module": "dist/editor.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "keywords": [
-    "react",
-    "react-native",
+    "jsx",
+    "editor",
     "ui",
-    "primitives",
-    "elements",
-    "isomorphic"
+    "design-tool"
   ],
   "scripts": {
-    "develop": "tsdx watch",
-    "build": "tsdx build",
+    "develop": "tsdx watch --target node",
+    "build": "tsdx build --target node",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
-  },
-  "peerDependencies": {
-    "react": ">=16.8"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
@@ -49,8 +44,10 @@
     }
   },
   "dependencies": {
-    "capsize": "^1.1.0",
-    "lodash.debounce": "^4.0.8",
-    "zustand": "^3.2.0"
+    "@codemod/core": "^1.1.0",
+    "@tinyhttp/app": "^1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "prettier": "^2.2.0"
   }
 }
