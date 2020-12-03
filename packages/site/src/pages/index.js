@@ -39,31 +39,22 @@ export default function Index() {
   return (
     <Variants value={matches}>
       <Tokens
-        value={{
-          colors: {
-            brand: '#8D6CEE',
-            foreground: 'black',
-            foregroundSecondary: 'gray',
-          },
-          fontSizes: {
-            xlarge: 40,
-            large: 20,
-            medium: 12,
-          },
+        colors={{
+          brand: '#8D6CEE',
+          foreground: 'black',
+          foregroundSecondary: 'gray',
+        }}
+        fontSizes={{
+          xlarge: 40,
+          large: 20,
+          medium: 12,
         }}
         variants={{
           'breakpoints.medium': {
-            value: {
-              colors: {
-                brand: '#8D6CEE',
-                foreground: 'black',
-                foregroundSecondary: 'gray',
-              },
-              fontSizes: {
-                xlarge: 64,
-                large: 28,
-                medium: 16,
-              },
+            fontSizes: {
+              xlarge: 64,
+              large: 28,
+              medium: 16,
             },
           },
         }}

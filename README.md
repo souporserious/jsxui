@@ -44,7 +44,7 @@ const overrides = [
 
 export default () => {
   return (
-    <Tokens value={tokens}>
+    <Tokens {...tokens}>
       <Overrides value={overrides}>
         <Stack space="1fr">
           <Text>JSX UI</Text>

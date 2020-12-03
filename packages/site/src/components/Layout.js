@@ -92,7 +92,7 @@ function Layout({ children, location }) {
   if (location.pathname.includes('playstation')) {
     return (
       <Wrapper>
-        <Tokens value={playstationTokens}>
+        <Tokens {...playstationTokens}>
           <Stack
             width="100%"
             height="minmax(100vh, 1fr)"
@@ -107,7 +107,7 @@ function Layout({ children, location }) {
 
   return (
     <Wrapper>
-      <Tokens value={tokens}>{children}</Tokens>
+      <Tokens {...tokens}>{children}</Tokens>
     </Wrapper>
   )
 }
