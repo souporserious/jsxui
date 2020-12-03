@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { useOverrideProps } from './Overrides'
 import { SharedProps } from './index'
 
 export type ImageProps = {
@@ -23,7 +22,7 @@ export const Image = React.forwardRef<HTMLImageElement, ImageProps>(
       style,
       children,
       ...restProps
-    } = useOverrideProps(Image, props)
+    } = props
     return (
       <img
         ref={ref}

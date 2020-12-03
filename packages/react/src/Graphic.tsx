@@ -1,8 +1,6 @@
 import * as React from 'react'
 
-import { useOverrideProps } from './Overrides'
 import { useTokens } from './Tokens'
-import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
 
 export type GraphicProps = {
@@ -12,7 +10,6 @@ export type GraphicProps = {
 } & SharedProps
 
 export function Graphic(props) {
-  const overrideProps = useOverrideProps(Graphic, props)
   const {
     children,
     name,
@@ -23,7 +20,7 @@ export function Graphic(props) {
     // width,
     // height,
     ...restProps
-  } = useVariantProps(overrideProps)
+  } = props
   const { graphics } = useTokens()
   // if (scale === 'auto') {
   //   style.preserveAspectRatio = 'xMinYMin meet'

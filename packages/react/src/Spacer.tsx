@@ -1,9 +1,7 @@
 import * as React from 'react'
 
 import { StackContext } from './Contexts'
-import { useOverrideProps } from './Overrides'
 import { useTokens } from './Tokens'
-import { useVariantProps } from './Variants'
 import { useLayoutStyles } from './use-layout-styles'
 
 type SpacerProps = {
@@ -15,13 +13,7 @@ type SpacerProps = {
 }
 
 export function Spacer(props: SpacerProps) {
-  const modifiedProps = useOverrideProps(Spacer, props)
-  const {
-    children,
-    size = '1fr',
-    background,
-    visible = true,
-  } = useVariantProps(modifiedProps)
+  const { children, size = '1fr', background, visible = true } = props
   const { fontFamilies } = useTokens()
   const mainAxis = React.useContext(StackContext)
   const layoutStyles = useLayoutStyles(size)

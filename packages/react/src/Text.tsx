@@ -2,9 +2,7 @@ import * as React from 'react'
 import capsize from 'capsize'
 
 import { StackContext } from './Contexts'
-import { useOverrideProps } from './Overrides'
 import { useTokens } from './Tokens'
-import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
 import { useLayoutStyles } from './use-layout-styles'
 import { parseValue } from './utils'
@@ -33,7 +31,6 @@ export type TextProps = {
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>(
   (props, ref) => {
     const mainAxis = React.useContext(StackContext)
-    // const overrideProps = useOverrideProps(Text, props)
     const {
       as: Component = 'span',
       alignment,

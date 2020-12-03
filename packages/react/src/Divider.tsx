@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { StackContext } from './Contexts'
-import { useOverrideProps } from './Overrides'
 import { SharedProps } from './index'
 
 export type DividerProps = {
@@ -12,7 +11,7 @@ export type DividerProps = {
 export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
   (props, ref) => {
     const parentAxis = React.useContext(StackContext)
-    const { color = '#000', size = 1 } = useOverrideProps(Divider, props)
+    const { color = '#000', size = 1 } = props
     const isHorizontal = parentAxis === 'horizontal'
     return (
       <div

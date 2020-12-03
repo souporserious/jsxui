@@ -2,11 +2,9 @@ import * as React from 'react'
 
 import { StackContext } from './Contexts'
 import { Divider } from './Divider'
-import { useOverrideProps } from './Overrides'
 import { Spacer } from './Spacer'
 import { Text } from './Text'
 import { useTokens } from './Tokens'
-import { useVariantProps } from './Variants'
 import { SharedProps } from './index'
 import { useLayoutStyles } from './use-layout-styles'
 import { parseValue, isSameInstance } from './utils'
@@ -131,7 +129,6 @@ export function getStackChildStyles({ width, height }) {
 export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
   (props: StackProps, ref) => {
     const mainAxis = React.useContext(StackContext)
-    const overrideProps = useOverrideProps(Stack, props)
     const {
       as: Component = 'div',
       axis = 'vertical',
@@ -166,7 +163,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       visible = true,
       style: _style,
       ...restProps
-    } = useVariantProps(overrideProps)
+    } = props
     const { colors } = useTokens()
     const flattenedChildren = React.Children.toArray(children)
       .flatMap((child: any) =>
