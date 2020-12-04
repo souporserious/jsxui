@@ -10,38 +10,101 @@ import { useTokens } from './Tokens'
 import { useLayoutStyles } from './use-layout-styles'
 import { parseValue, isSameInstance } from './utils'
 
+export type SpaceValue = number | string | React.ReactNode
+
 export type StackOwnProps = {
+  /** Changes the underlying rendered element. */
   as?: any
+
+  /** The axis along which children are positioned. */
   axis?: 'horizontal' | 'vertical'
-  size?: number | string
+
+  /** Defines the width of the view area. */
   width?: number | string
+
+  /** Defines the height of the view area. */
   height?: number | string
-  space?: number | string
-  spaceAfter?: number | string
-  spaceBefore?: number | string
-  spaceBetween?: number | string
-  spaceCross?: number | string
-  spaceCrossStart?: number | string
-  spaceCrossEnd?: number | string
-  spaceMain?: number | string
-  spaceMainStart?: number | string
-  spaceMainEnd?: number | string
+
+  /** Shortcut to set both width and height. */
+  size?: number | string
+
+  /** Shortcut to set all space props. */
+  space?: SpaceValue
+
+  /** Defines space along the main axis. */
+  spaceMain?: SpaceValue
+
+  /** Defines space along the main start axis. */
+  spaceMainStart?: SpaceValue
+
+  /** Defines space along the main end axis. */
+  spaceMainEnd?: SpaceValue
+
+  /** Defines space along the cross axis. */
+  spaceCross?: SpaceValue
+
+  /** Defines space along the cross start axis. */
+  spaceCrossStart?: SpaceValue
+
+  /** Defines space along the cross end axis. */
+  spaceCrossEnd?: SpaceValue
+
+  /** Defines space between child views. */
+  spaceBetween?: SpaceValue
+
+  /** Overrides the parent defined cross start space. */
+  spaceBefore?: SpaceValue
+
+  /** Overrides the parent defined cross end space. */
+  spaceAfter?: SpaceValue
+
+  /** Shortcut to set all radius props. */
   radius?: number
+
+  /** Defines top left radius. */
   radiusTopLeft?: number
+
+  /** Defines top right radius. */
   radiusTopRight?: number
+
+  /** Defines bottom left radius. */
   radiusBottomLeft?: number
+
+  /** Defines bottom right radius. */
   radiusBottomRight?: number
+
+  /** Defines offset along the x-axis. */
   offsetX?: string | number
+
+  /** Defines offset along the y-axis. */
   offsetY?: string | number
+
+  /** Defines translation transforms along the x-axis. */
   translateX?: string | number
+
+  /** Defines translation transforms along the y-axis. */
   translateY?: string | number
+
+  /** Defines scale equal scale transforms. */
   scale?: number
+
+  /** Defines scale transforms along the x-axis. */
   scaleX?: number
+
+  /** Defines scale transforms along the y-axis. */
   scaleY?: number
+
+  /** Defines view stroke weight. */
   strokeWeight?: number
+
+  /** Defines view stroke color. */
   strokeColor?: string
+
+  /** Defines view background. */
   background?: string | React.ReactNode
+
   style?: React.CSSProperties
+
   children?: React.ReactNode
 }
 
@@ -173,7 +236,7 @@ export const Stack = React.forwardRef(
         child && child.type === React.Fragment ? child.props.children : child
       )
       .filter(
-        child =>
+        (child) =>
           // @ts-ignore
           React.isValidElement(child) && child.props.visible !== false
       )
