@@ -56,7 +56,7 @@ function joinChildren(children, separator: any = ', ') {
   const childrenArray = React.Children.toArray(children)
   const lastChildIndex = childrenArray.length - 1
   return childrenArray.reduce((result: any, child: any, index) => {
-    if (child.type === separator.type) {
+    if (isSameInstance(child, separator)) {
       const nextResult = [...result]
       nextResult.pop()
       return nextResult.concat(child)
@@ -214,8 +214,7 @@ export const Stack = React.forwardRef(
     const childrenToRender =
       spaceCrossStart ?? spaceCrossEnd ?? spaceCross ?? space
         ? flattenedChildren.map((child: any, index) => {
-            const type = child.props.__originalType || child.type
-            return isSameInstance(type, [Spacer, Divider]) ? (
+            return isSameInstance(child, [Spacer, Divider]) ? (
               child
             ) : (
               <StackContext.Provider
