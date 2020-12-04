@@ -295,7 +295,7 @@ export const Stack = React.forwardRef(
             ) : (
               <StackContext.Provider
                 key={index}
-                value={getOrthogonalAxis(axis)}
+                value={getOrthogonalAxis(axis) === 'x'}
               >
                 <div
                   style={{
