@@ -1,8 +1,16 @@
 import React from 'react'
-import { DevTools, Overrides, Text, Tokens, Stack } from '@jsxui/react'
+import {
+  DevTools,
+  Overrides,
+  Text,
+  Tokens,
+  Stack,
+  Variants,
+} from '@jsxui/react'
 
 import './layout.css'
 import { Head } from './Head'
+import { useMatches } from './hooks'
 
 const tokens = {
   fontFamilies: {
@@ -80,10 +88,17 @@ const overrides = [
 ]
 
 function Wrapper({ children }) {
+  const matches = useMatches({
+    'breakpoints.small': '(min-width: 0px)',
+    'breakpoints.medium': '(min-width: 768px)',
+    'breakpoints.large': '(min-width: 1280px)',
+  })
   return (
     <DevTools>
       <Head />
-      <Overrides value={overrides}>{children}</Overrides>
+      <Variants value={matches}>
+        <Overrides value={overrides}>{children}</Overrides>
+      </Variants>
     </DevTools>
   )
 }
