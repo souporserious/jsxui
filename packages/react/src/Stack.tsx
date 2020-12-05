@@ -288,6 +288,8 @@ export const Stack = React.forwardRef(
       zIndex: 1,
       width: width ?? size,
       height: height ?? size,
+      minWidth: 0,
+      minHeight: 0,
       ...layoutStyles,
       ..._style,
     }
@@ -307,6 +309,8 @@ export const Stack = React.forwardRef(
                     position: 'relative',
                     display: 'flex',
                     flexDirection: isHorizontal ? 'column' : 'row',
+                    minWidth: 0,
+                    minHeight: 0,
                     ...getStackChildStyles({
                       width: isHorizontal
                         ? childProps.width ?? childProps.size

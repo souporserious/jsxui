@@ -102,6 +102,8 @@ export const Text = React.forwardRef(
         ref={ref}
         style={{
           display: 'inline-block',
+          minWidth: 0,
+          minHeight: 0,
           gridColumn: column,
           gridRow: row,
           textAlign: alignment,
