@@ -12,6 +12,7 @@ export type TextOwnProps = {
   family?: string
   size?: string | number
   lineSpacing?: number
+  letterSpacing?: number | string
   weight?: string | number
   backgroundColor?: string
   color?: string
@@ -23,6 +24,7 @@ export type TextOwnProps = {
   height?: string | number
   spaceAfter?: number | string
   spaceBefore?: number | string
+  opacity?: number | string
   style?: React.CSSProperties
   children?: React.ReactNode
 }
@@ -48,6 +50,7 @@ export const Text = React.forwardRef(
       family,
       size,
       lineSpacing = 0,
+      letterSpacing,
       weight,
       backgroundColor,
       color,
@@ -59,6 +62,7 @@ export const Text = React.forwardRef(
       height,
       spaceAfter,
       spaceBefore,
+      opacity,
       visible = true,
       style = {},
       children,
@@ -111,6 +115,8 @@ export const Text = React.forwardRef(
           )})`,
           width,
           height,
+          letterSpacing,
+          opacity,
           ...style,
           ...fontStyles,
           ...layoutStyles,
