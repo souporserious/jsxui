@@ -1,4 +1,5 @@
-import { Graphic } from '@jsxui/react'
+import React from "react";
+import { Graphic } from "@jsxui/react";
 export const Logo = (props) => (
   <Graphic
     height="80"
@@ -64,7 +65,7 @@ export const Logo = (props) => (
       </linearGradient>
     </defs>
   </Graphic>
-)
+);
 export const Mark = (props) => (
   <Graphic
     height="80"
@@ -113,20 +114,20 @@ export const Mark = (props) => (
       </linearGradient>
     </defs>
   </Graphic>
-)
+);
 export const Wave = (props) => (
   <Graphic
-    height="331"
+    height="236"
     width="1440"
     fill="none"
-    viewBox="0 0 1440 331"
+    viewBox="0 0 1440 236"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <g id="Wave">
       <path
         id="path"
-        d="M1440 35.1596V331H0V35.0996C127.547 -13.4524 287.23 31.5114 437.633 73.8623C530.145 99.9123 619.147 124.974 695 126.675C860.502 130.388 995.537 91.3823 1110.97 58.0401C1240.12 20.7342 1344.72 -9.48191 1440 35.1596Z"
+        d="M1440 22.3098V236H0V22.2497C127.547 -26.3819 287.23 18.6557 437.633 61.0759C530.145 87.1687 619.147 112.271 695 113.975C860.502 117.694 995.537 78.6247 1110.97 45.2278C1240.12 7.86077 1344.72 -22.4049 1440 22.3098Z"
         fill="url(#3_paint0_linear)"
         fillRule="evenodd"
       />
@@ -137,17 +138,17 @@ export const Wave = (props) => (
         gradientUnits="userSpaceOnUse"
         x1="720"
         x2="720"
-        y1="12.8863"
-        y2="331"
+        y1="0"
+        y2="236"
       >
         <stop offset="0.119792" stopColor="#B89FFF" />
         <stop offset="0.307292" stopColor="#9F81F4" />
         <stop offset="0.494792" stopColor="#8B68EE" />
-        <stop offset="0.713542" stopColor="#7B5AD9" />
+        <stop offset="0.619792" stopColor="#7B5AD9" />
       </linearGradient>
     </defs>
   </Graphic>
-)
+);
 export const Github = (props) => (
   <Graphic
     height="32"
@@ -166,4 +167,4 @@ export const Github = (props) => (
       />
     </g>
   </Graphic>
-)
+);

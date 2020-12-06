@@ -5,7 +5,6 @@ import { Divider } from './Divider'
 import { DefaultProps } from './index'
 import { jsx } from './jsx'
 import { Spacer } from './Spacer'
-import { Text } from './Text'
 import { useTokens } from './Tokens'
 import { useChildProps } from './use-child-props'
 import { useLayoutStyles } from './use-layout-styles'
@@ -167,7 +166,7 @@ function getTransformValue({
   )}) scale(${scaleX ?? scale}, ${scaleY ?? scale})`
 }
 
-export function getStackChildStyles({ width, height }) {
+export function getStackLayoutStyles({ width, height }) {
   const style = {
     flexGrow: 0,
     flexShrink: 0,
@@ -311,7 +310,7 @@ export const Stack = React.forwardRef(
                     flexDirection: isHorizontal ? 'column' : 'row',
                     minWidth: 0,
                     minHeight: 0,
-                    ...getStackChildStyles({
+                    ...getStackLayoutStyles({
                       width: isHorizontal
                         ? childProps.width ?? childProps.size
                         : 'auto',
@@ -325,7 +324,7 @@ export const Stack = React.forwardRef(
                 >
                   {parseSpaceValue(childProps.spaceBefore ?? spaceCrossStart)}
                   {React.cloneElement(child, {
-                    style: getStackChildStyles({
+                    style: getStackLayoutStyles({
                       width: isHorizontal
                         ? 'auto'
                         : childProps.width ?? childProps.size,

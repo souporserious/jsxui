@@ -45,8 +45,8 @@ export function useLayoutStyles(value) {
         'Negative fractions cannot exist. Use a positive fraction.'
       )
     }
-    style.flexGrow = parseFloat(value)
-    style.flexShrink = parseFloat(value)
+    style.flexGrow = float
+    style.flexShrink = float
     style.flexBasis = 0
   } else {
     style[mainDimension.toLowerCase()] = value
