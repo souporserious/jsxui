@@ -134,13 +134,18 @@ const overrides: OverridesProps['value'] = [
           </div>
         )
       },
+      variants: {
+        xray: {
+          background: 'white',
+        },
+      },
     },
   ],
   [
     Text,
     {
       variants: {
-        editor: useTextEditor,
+        // editor: useTextEditor,
         xray: {
           color: 'black',
         },
