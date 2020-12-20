@@ -27,5 +27,8 @@ export function Graphic(props) {
   //   style.width = width * scale
   //   style.height = height * scale
   // }
+  if (visible === false) {
+    return null
+  }
   return <svg {...restProps}>{children}</svg>
 }
