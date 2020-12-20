@@ -21,12 +21,12 @@ export const Logo = (props) => (
         <path
           id="Polygon 4"
           d="M161.374 53.8856C158.148 58.027 151.852 58.027 148.626 53.8856L116.699 12.894C112.603 7.63592 116.378 -6.33006e-06 123.072 -5.79106e-06L186.928 -6.49918e-07C193.622 -1.1092e-07 197.397 7.63593 193.302 12.894L161.374 53.8856Z"
-          fill="url(#1_paint0_linear)"
+          fill="url(#0_paint0_linear)"
         />
         <path
           id="Polygon 3"
           d="M148.626 26.1143C151.852 21.9729 158.148 21.9729 161.374 26.1143L193.301 67.106C197.397 72.364 193.622 80 186.928 80H123.072C116.378 80 112.603 72.364 116.698 67.106L148.626 26.1143Z"
-          fill="url(#1_paint1_linear)"
+          fill="url(#0_paint1_linear)"
         />
       </g>
       <g id="JS">
@@ -42,7 +42,7 @@ export const Logo = (props) => (
     </g>
     <defs>
       <linearGradient
-        id="1_paint0_linear"
+        id="0_paint0_linear"
         gradientUnits="userSpaceOnUse"
         x1="155"
         x2="155"
@@ -53,7 +53,7 @@ export const Logo = (props) => (
         <stop offset="1" stopColor="#AC94F3" stopOpacity="0" />
       </linearGradient>
       <linearGradient
-        id="1_paint1_linear"
+        id="0_paint1_linear"
         gradientUnits="userSpaceOnUse"
         x1="155"
         x2="155"
@@ -80,18 +80,18 @@ export const Mark = (props) => (
         <path
           id="Polygon 4"
           d="M46.3738 53.8856C43.1482 58.027 36.8518 58.027 33.6262 53.8856L1.6985 12.894C-2.3969 7.63592 1.37774 1.29933e-06 8.07234 1.83833e-06L71.9277 6.97947e-06C78.6223 7.51847e-06 82.3969 7.63593 78.3015 12.894L46.3738 53.8856Z"
-          fill="url(#2_paint0_linear)"
+          fill="url(#1_paint0_linear)"
         />
         <path
           id="Polygon 3"
           d="M33.6261 26.1143C36.8517 21.9729 43.1481 21.9729 46.3738 26.1143L78.3014 67.1059C82.3968 72.364 78.6222 79.9999 71.9276 79.9999H8.07227C1.37767 79.9999 -2.39696 72.364 1.69845 67.1059L33.6261 26.1143Z"
-          fill="url(#2_paint1_linear)"
+          fill="url(#1_paint1_linear)"
         />
       </g>
     </g>
     <defs>
       <linearGradient
-        id="2_paint0_linear"
+        id="1_paint0_linear"
         gradientUnits="userSpaceOnUse"
         x1="40"
         x2="40"
@@ -102,7 +102,7 @@ export const Mark = (props) => (
         <stop offset="1" stopColor="#AC94F3" stopOpacity="0" />
       </linearGradient>
       <linearGradient
-        id="2_paint1_linear"
+        id="1_paint1_linear"
         gradientUnits="userSpaceOnUse"
         x1="39.9999"
         x2="39.9999"
@@ -117,34 +117,169 @@ export const Mark = (props) => (
 );
 export const Wave = (props) => (
   <Graphic
-    height="236"
+    height="331"
     width="1440"
     fill="none"
-    viewBox="0 0 1440 236"
+    viewBox="0 0 1440 331"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <g id="Wave">
       <path
         id="path"
-        d="M1440 22.3098V236H0V22.2497C127.547 -26.3819 287.23 18.6557 437.633 61.0759C530.145 87.1687 619.147 112.271 695 113.975C860.502 117.694 995.537 78.6247 1110.97 45.2278C1240.12 7.86077 1344.72 -22.4049 1440 22.3098Z"
-        fill="url(#3_paint0_linear)"
+        d="M437.633 73.8623C530.145 99.9123 619.147 124.974 695 126.675C860.502 130.388 995.537 91.3823 1110.97 58.0401C1190.68 35.0153 1261.04 14.6912 1325.63 13H1342.65C1376.46 13.9214 1408.73 20.5095 1440 35.1596V331H0L0 35.0996C127.547 -13.4524 287.23 31.5114 437.633 73.8623Z"
+        fill="url(#2_paint0_linear)"
         fillRule="evenodd"
+      />
+    </g>
+    <defs>
+      <linearGradient
+        id="2_paint0_linear"
+        gradientUnits="userSpaceOnUse"
+        x1="720"
+        x2="720"
+        y1="13"
+        y2="331"
+      >
+        <stop offset="0.119792" stopColor="#B89FFF" />
+        <stop offset="0.307292" stopColor="#9F81F4" />
+        <stop offset="0.494792" stopColor="#8B68EE" />
+        <stop offset="0.619792" stopColor="#7B5AD9" />
+      </linearGradient>
+    </defs>
+  </Graphic>
+);
+export const Shapes = (props) => (
+  <Graphic
+    height="384"
+    width="1478"
+    fill="none"
+    viewBox="0 0 1478 384"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <g id="Shapes">
+      <path
+        id="Polygon 1"
+        d="M319.695 177.392L307.496 246.781L253.503 201.522L319.695 177.392Z"
+        fill="url(#3_paint0_linear)"
+      />
+      <path
+        id="Polygon 2"
+        d="M1267.74 142.117L1249.29 73.2939L1318.12 91.735L1267.74 142.117Z"
+        fill="url(#3_paint1_linear)"
+      />
+      <path
+        id="Union"
+        d="M105.053 255.962L118.909 247.962L107.909 228.909L126.962 217.909L118.962 204.053L99.909 215.053L88.909 196L75.0526 204L86.0526 223.053L67 234.053L75 247.909L94.0526 236.909L105.053 255.962Z"
+        fill="#BFACF9"
+        fillRule="evenodd"
+      />
+      <path
+        id="Union_2"
+        d="M1210.21 257.629L1217.64 245.096L1200.41 234.88L1210.63 217.648L1198.1 210.217L1187.88 227.449L1170.65 217.232L1163.22 229.764L1180.45 239.981L1170.23 257.213L1182.76 264.644L1192.98 247.412L1210.21 257.629Z"
+        fill="#BFACF9"
+        fillRule="evenodd"
+      />
+      <circle
+        id="Ellipse 1"
+        cx="178"
+        cy="113"
+        fill="url(#3_paint2_linear)"
+        r="40"
+      />
+      <circle
+        id="Ellipse 2"
+        cx="1310"
+        cy="317"
+        fill="url(#3_paint3_linear)"
+        r="35"
+      />
+      <rect
+        height="65"
+        id="Rectangle 24"
+        width="65"
+        fill="url(#3_paint4_linear)"
+        transform="rotate(-15 173 298.823)"
+        x="173"
+        y="298.823"
+      />
+      <rect
+        height="79.3932"
+        id="Rectangle 25"
+        width="79.3932"
+        fill="url(#3_paint5_linear)"
+        transform="rotate(30 1384.7 138)"
+        x="1384.7"
+        y="138"
       />
     </g>
     <defs>
       <linearGradient
         id="3_paint0_linear"
         gradientUnits="userSpaceOnUse"
-        x1="720"
-        x2="720"
-        y1="0"
-        y2="236"
+        x1="280.765"
+        x2="329.402"
+        y1="172.183"
+        y2="254.505"
       >
-        <stop offset="0.119792" stopColor="#B89FFF" />
-        <stop offset="0.307292" stopColor="#9F81F4" />
-        <stop offset="0.494792" stopColor="#8B68EE" />
-        <stop offset="0.619792" stopColor="#7B5AD9" />
+        <stop stopColor="#9978F9" />
+        <stop offset="1" stopColor="#7C5CDA" />
+      </linearGradient>
+      <linearGradient
+        id="3_paint1_linear"
+        gradientUnits="userSpaceOnUse"
+        x1="1267.74"
+        x2="1289.03"
+        y1="142.117"
+        y2="62.647"
+      >
+        <stop stopColor="#8D6CEE" />
+        <stop offset="1" stopColor="#B09AEF" />
+      </linearGradient>
+      <linearGradient
+        id="3_paint2_linear"
+        gradientUnits="userSpaceOnUse"
+        x1="178"
+        x2="211.462"
+        y1="73"
+        y2="134.923"
+      >
+        <stop stopColor="#B49EF2" />
+        <stop offset="1" stopColor="#8D6CEE" />
+      </linearGradient>
+      <linearGradient
+        id="3_paint3_linear"
+        gradientUnits="userSpaceOnUse"
+        x1="1310"
+        x2="1310"
+        y1="282"
+        y2="352"
+      >
+        <stop stopColor="#AC90FD" />
+        <stop offset="1" stopColor="#8563EB" />
+      </linearGradient>
+      <linearGradient
+        id="3_paint4_linear"
+        gradientUnits="userSpaceOnUse"
+        x1="205.5"
+        x2="205.5"
+        y1="298.823"
+        y2="363.823"
+      >
+        <stop stopColor="#A288F1" />
+        <stop offset="1" stopColor="#8D6CEE" />
+      </linearGradient>
+      <linearGradient
+        id="3_paint5_linear"
+        gradientUnits="userSpaceOnUse"
+        x1="1424.39"
+        x2="1377.75"
+        y1="138"
+        y2="249.509"
+      >
+        <stop stopColor="#A184F9" />
+        <stop offset="1" stopColor="#5F3BC8" />
       </linearGradient>
     </defs>
   </Graphic>
