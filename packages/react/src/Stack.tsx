@@ -264,7 +264,8 @@ export const Stack = React.forwardRef(
       flexDirection: isHorizontal ? 'row' : 'column',
       boxShadow:
         strokeWeight ?? strokeColor
-          ? `inset 0px 0px 0px ${strokeWeight}px ${strokeColor}`
+          ? `inset 0px 0px 0px ${strokeWeight}px ${colors[strokeColor] ||
+              strokeColor}`
           : undefined,
       borderRadius: [
         parseValue(radiusTopLeft ?? radius),
