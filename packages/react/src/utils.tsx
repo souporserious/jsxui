@@ -25,11 +25,15 @@ export function parseValue(value) {
  * Returns the instance of a component. Takes pragma wrapped components into account.
  */
 export function getInstance(instance) {
-  return (
-    instance.render ||
-    instance?.props?.__originalType ||
-    (instance.type ? instance.type.render || instance.type : instance)
-  )
+  const originalType = instance?.props?.__originalType
+  if (originalType) {
+    return getInstance(originalType)
+  } else {
+    return (
+      instance.render ||
+      (instance.type ? instance.type.render || instance.type : instance)
+    )
+  }
 }
 
 /**
