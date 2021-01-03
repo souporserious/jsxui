@@ -49,6 +49,7 @@ const tokens = {
   },
   colors: {
     foreground: '#000',
+    brand: '#996DE1',
   },
 }
 

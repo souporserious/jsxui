@@ -18,6 +18,9 @@ export default function Index() {
       <Text as={Link} to="/orderfood">
         Order Food (Google)
       </Text>
+      <Text as={Link} to="/signup">
+        Signup Form
+      </Text>
     </Stack>
   )
 }

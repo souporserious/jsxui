@@ -1,46 +1,145 @@
 import React from 'react'
-import { Text, Stack } from '@jsxui/react'
+import { Overrides, Text, Stack, Tokens, useTokens } from '@jsxui/react'
 
-function Field({ name, ...props }) {
+function TextField({ strokeWeight, strokeColor, ...props }) {
+  const tokens = useTokens()
   return (
-    <Stack spaceBetween={16}>
+    <input
+      {...props}
+      style={{
+        outline: 0,
+        border: 'none',
+        boxShadow:
+          strokeWeight ?? strokeColor
+            ? `inset 0px 0px 0px ${strokeWeight}px ${
+                tokens.colors[strokeColor] || strokeColor
+              }`
+            : undefined,
+        transition: 'all 200ms ease-out',
+        ...props.style,
+      }}
+    />
+  )
+}
+
+TextField.variants = {
+  hover: () => {
+    const [hover, setHover] = React.useState(false)
+    return [
+      hover,
+      {
+        onMouseOver: () => setHover(true),
+        onMouseOut: () => setHover(false),
+      },
+    ]
+  },
+  focus: () => {
+    const [focus, setFocus] = React.useState(false)
+    return [
+      focus,
+      {
+        onFocus: () => setFocus(true),
+        onBlur: () => setFocus(false),
+      },
+    ]
+  },
+}
+
+function Field({ name, style, ...props }) {
+  return (
+    <Stack spaceBetween={16} style={style}>
       <Text as="label" htmlFor={name}>
         {name}
       </Text>
-      <input name={name} id={name} {...props} />
+      <TextField
+        name={name}
+        id={name}
+        style={{
+          width: '100%',
+          padding: '16px',
+          borderRadius: '3px',
+        }}
+        {...props}
+      />
     </Stack>
   )
 }
 
-function Button({ title }) {
+function Button({ title, style }) {
   return (
-    <Stack as="button" spaceX={16} spaceY={8} background="brand">
-      <Text color="white">{title}</Text>
+    <Stack
+      axis="x"
+      as="button"
+      spaceX="minmax(16px, 1fr)"
+      spaceY="16px"
+      background="brand"
+      style={{
+        padding: 0,
+        border: 'none',
+        borderRadius: 3,
+        ...style,
+      }}
+    >
+      <Text weight={600} color="white">
+        {title}
+      </Text>
     </Stack>
   )
 }
 
 export default () => {
   return (
-    <Stack width="100%" height="100vh" space="1fr">
-      <Stack
-        as="form"
-        onChange={(event) => console.log(event.target.name, event.target.value)}
-        width="1fr"
-        space={32}
-        spaceBetween={32}
-        radius={8}
-        strokeWeight={1}
-        strokeColor="black"
+    <Tokens
+      colors={{
+        brand: '#996DE1',
+        separator: 'darkgray',
+        separatorHover: 'gray',
+        separatorFocus: 'brand',
+      }}
+    >
+      <Overrides
+        value={[
+          <TextField
+            strokeWeight={1}
+            strokeColor="separator"
+            variants={{
+              hover: {
+                strokeColor: 'separatorHover',
+              },
+              focus: {
+                strokeWeight: 2,
+                strokeColor: 'separatorFocus',
+              },
+            }}
+          />,
+        ]}
       >
-        <Text size={24}>Signup</Text>
-        <Stack spaceBetween={16}>
-          <Field name="Name" />
-          <Field name="Email" type="email" />
-          <Field name="Password" type="password" />
+        <Stack width="100%" height="100vh" space="1fr">
+          <Stack
+            as="form"
+            onChange={(event) =>
+              console.log(event.target.name, event.target.value)
+            }
+            width="320px"
+            strokeWeight={1}
+            strokeColor="separator"
+          >
+            <Stack space={32} background="brand">
+              <Text width="1fr" size={24} color="white">
+                Signup
+              </Text>
+            </Stack>
+            <Stack space={32} spaceBetween={32}>
+              <Stack width="1fr" spaceBetween={24}>
+                <Field name="Name" />
+                <Field name="Email" type="email" />
+                <Field name="Password" type="password" />
+              </Stack>
+              <Button title="Submit" width="1fr" />
+            </Stack>
+          </Stack>
         </Stack>
-        <Button title="Submit" />
-      </Stack>
-    </Stack>
+      </Overrides>
+    </Tokens>
   )
 }
