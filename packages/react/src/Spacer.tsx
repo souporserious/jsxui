@@ -9,11 +9,19 @@ type SpacerProps = {
   background?: string
   variants?: any
   visible?: boolean | string
+  style?: CSSStyleDeclaration
   children?: React.ReactNode
 }
 
 export function Spacer(props: SpacerProps) {
-  const { children, size = '1fr', background, visible = true } = props
+  const {
+    children,
+    size = '1fr',
+    background,
+    visible = true,
+    style,
+    ...restProps
+  } = props
   const { fontFamilies } = useTokens()
   const isMainAxisHorizontal = React.useContext(StackContext)
   const layoutStyles = useLayoutStyles(size)
@@ -28,7 +36,9 @@ export function Spacer(props: SpacerProps) {
         position: 'relative',
         fontFamily: fontFamilies.body,
         ...layoutStyles,
+        ...style,
       }}
+      {...restProps}
     >
       {background ? (
         <svg
