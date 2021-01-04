@@ -11,7 +11,7 @@ export function getVariantProps(variantsContext, { variants, ...props }: any) {
       // contain hooks and need to run in the same order on every render
       const nextProps =
         typeof variantProps === 'function'
-          ? variantProps(mergedProps)
+          ? variantProps(mergedProps, active)
           : variantProps
       if (active) {
         mergedProps = {
