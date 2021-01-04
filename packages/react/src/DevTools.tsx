@@ -1,4 +1,5 @@
 import * as React from 'react'
+import create from 'zustand'
 import debounce from 'lodash.debounce'
 
 import { Overrides, OverridesProps } from './Overrides'
@@ -7,22 +8,25 @@ import { Stack } from './Stack'
 import { Text } from './Text'
 import { Variants } from './Variants'
 
-const useTextEditor = (props) => {
+const useEditorStore = create((set) => ({
+  activeComponent: null,
+  setActiveComponent: (id) => set({ activeComponent: id }),
+}))
+const useEditor = (props, variantActive) => {
+  const activeComponent = useEditorStore((state) => state.activeComponent)
+  const setActiveComponent = useEditorStore(
+    (state) => state.setActiveComponent
+  ) as any
   const [hover, setHover] = React.useState(false)
+  const active =
+    JSON.stringify(activeComponent) === JSON.stringify(props.__jsxuiSource)
+  React.useEffect(() => {
+    if (variantActive === false) {
+      setActiveComponent(null)
+      setHover(false)
+    }
+  }, [variantActive])
   return {
-    contentEditable: true,
-    suppressContentEditableWarning: true,
-    onInput: debounce((event) => {
-      event.stopPropagation()
-      fetch('http://localhost:4000/props/update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source: props.__jsxuiSource,
-          value: event.target.innerText,
-        }),
-      })
-    }, 120),
     onMouseOver: (event) => {
       event.stopPropagation()
       setHover(true)
@@ -30,10 +34,41 @@ const useTextEditor = (props) => {
     onMouseOut: () => {
       setHover(false)
     },
-    style: {
-      outline: 0,
-      boxShadow: hover && `0px 0px 0px 2px blue`,
+    onClick: (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      setActiveComponent(props.__jsxuiSource)
     },
+    style: {
+      ...props.style,
+      outline: (hover || active) && `3px solid blue`,
+      zIndex: hover || active ? 100 : props.style?.zIndex,
+    },
+  }
+}
+const useTextEditor = (props, variantActive) => {
+  const editorProps = useEditor(props, variantActive)
+  return {
+    contentEditable: true,
+    suppressContentEditableWarning: true,
+    // onInput: debounce((event) => {
+    //   event.stopPropagation()
+    //   fetch('http://localhost:4000/props/update', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({
+    //       source: props.__jsxuiSource,
+    //       value: event.target.innerText,
+    //     }),
+    //   })
+    // }, 120),
+    ...editorProps,
+  }
+}
+const useStackEditor = (props, variantActive) => {
+  const editorProps = useEditor(props, variantActive)
+  return {
+    ...editorProps,
   }
 }
 
@@ -135,6 +170,7 @@ const overrides: OverridesProps['value'] = [
         )
       },
       variants: {
+        editor: useEditor,
         xray: {
           background: 'white',
         },
@@ -145,7 +181,7 @@ const overrides: OverridesProps['value'] = [
     Text,
     {
       variants: {
-        // editor: useTextEditor,
+        editor: useTextEditor,
         xray: {
           color: 'black',
         },
@@ -156,6 +192,7 @@ const overrides: OverridesProps['value'] = [
     Stack,
     {
       variants: {
+        editor: useStackEditor,
         xray: {
           strokeWeight: 1,
           strokeColor: 'black',
@@ -182,8 +219,12 @@ export function DevTools({ children }) {
   const [editor, setEditor] = React.useState(false)
   const [xray, setXray] = React.useState(false)
   React.useEffect(() => {
+    const { setActiveComponent } = useEditorStore.getState() as any
     document.addEventListener('keydown', (event) => {
       switch (event.key) {
+        case 'Escape':
+          setActiveComponent(null)
+          break
         case 'e':
           setEditor((bool) => !bool)
           break
