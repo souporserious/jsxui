@@ -17,7 +17,7 @@ import { parseValue, isSameInstance } from './utils'
 
 const defaultElement = 'div'
 
-export type SpaceValue = number | string | React.ReactNode
+export type SpaceValue = number | string | boolean | React.ReactNode
 
 export type StackOwnProps = {
   /** The axis along which children are positioned. */
@@ -138,8 +138,10 @@ function joinChildren(children, separator: any = ', ') {
 }
 
 function parseSpaceValue(value) {
-  return typeof value === 'string' || typeof value === 'number'
-    ? jsx(Spacer, { size: value })
+  return typeof value === 'string' ||
+    typeof value === 'number' ||
+    value === true
+    ? jsx(Spacer, { size: value === true ? '1fr' : value })
     : value
 }
 
@@ -268,8 +270,9 @@ export const Stack: PolymorphicForwardRefExoticComponent<
       flexDirection: isHorizontal ? 'row' : 'column',
       boxShadow:
         strokeWeight ?? strokeColor
-          ? `inset 0px 0px 0px ${strokeWeight}px ${colors[strokeColor] ||
-              strokeColor}`
+          ? `inset 0px 0px 0px ${strokeWeight}px ${
+              colors[strokeColor] || strokeColor
+            }`
           : undefined,
       borderRadius: [
         parseValue(radiusTopLeft ?? radius),
