@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { StackContext } from './Contexts'
 import { SharedProps } from './index'
+import { useTokens } from './Tokens'
 
 export type DividerProps = {
   color?: string
@@ -11,6 +12,7 @@ export type DividerProps = {
 export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
   (props, ref) => {
     const parentAxis = React.useContext(StackContext)
+    const tokens = useTokens()
     const { color = '#000', size = 1 } = props
     const isHorizontal = parentAxis === 'horizontal'
     return (
@@ -20,7 +22,7 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
           width: isHorizontal ? size : '100%',
           height: isHorizontal ? '100%' : size,
           flexShrink: 0,
-          backgroundColor: color,
+          backgroundColor: tokens.colors[color] || color,
         }}
       />
     )
