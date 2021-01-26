@@ -65,7 +65,7 @@ function Field({ name, style, ...props }) {
   )
 }
 
-function Button({ title, style }) {
+function Button({ title, style, ...restProps }) {
   return (
     <Stack
       axis="x"
@@ -79,6 +79,7 @@ function Button({ title, style }) {
         borderRadius: 3,
         ...style,
       }}
+      {...restProps}
     >
       <Text weight={600} color="white">
         {title}
@@ -87,11 +88,36 @@ function Button({ title, style }) {
   )
 }
 
+Button.variants = {
+  hover: () => {
+    const [hover, setHover] = React.useState(false)
+    return [
+      hover,
+      {
+        onMouseOver: () => setHover(true),
+        onMouseOut: () => setHover(false),
+      },
+    ]
+  },
+  focus: () => {
+    const [focus, setFocus] = React.useState(false)
+    return [
+      focus,
+      {
+        onFocus: () => setFocus(true),
+        onBlur: () => setFocus(false),
+      },
+    ]
+  },
+}
+
 export default () => {
   return (
     <Tokens
       colors={{
-        brand: '#996DE1',
+        brand: 'hsl(263, 66%, 65%)',
+        brandLight: 'hsl(263, 66%, 70%)',
+        brandLighter: 'hsl(263, 66%, 75%)',
         separator: 'darkgray',
         separatorHover: 'gray',
         separatorFocus: 'brand',
@@ -109,6 +135,16 @@ export default () => {
               focus: {
                 strokeWeight: 2,
                 strokeColor: 'separatorFocus',
+              },
+            }}
+          />,
+          <Button
+            variants={{
+              hover: {
+                background: 'brandLight',
+              },
+              focus: {
+                background: 'brandLight',
               },
             }}
           />,
