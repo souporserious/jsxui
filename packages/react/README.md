@@ -47,6 +47,118 @@ These are helpful for things like:
 - A/B Testing
 - User Roles
 
+#### Local
+
+Components can define local variants. These are normally things like focus/hover/press states, but can be anything you want. Because they are defined statically, locally defined variants have the benefit of accepting a function that can utilize hooks.
+
+```jsx
+function Button({ title }) {
+  return (
+    <Stack
+      as="button"
+      axis="x"
+      spaceX="minmax(16px, 1fr)"
+      spaceY="16px"
+      background="brand"
+      style={{
+        padding: 0,
+        border: 'none',
+        borderRadius: 3,
+      }}
+    >
+      <Text weight={600} color="white">
+        {title}
+      </Text>
+    </Stack>
+  )
+}
+
+Button.variants = {
+  hover: () => {
+    const [hover, setHover] = React.useState(false)
+    return [
+      hover,
+      {
+        onMouseOver: () => setHover(true),
+        onMouseOut: () => setHover(false),
+      },
+    ]
+  },
+  focus: () => {
+    const [focus, setFocus] = React.useState(false)
+    return [
+      focus,
+      {
+        onFocus: () => setFocus(true),
+        onBlur: () => setFocus(false),
+      },
+    ]
+  },
+}
+```
+
+#### Global
+
+Global variants allow turning props on/off for a tree of components. Any element can utilize the `variants` prop to define the element's props for each respective variation.
+
+```jsx
+function App() {
+  return (
+    <Variants hover={true}>
+      <div variants={{ hover: { style: { color: 'hotpink' } } }}>
+        Hello Variants
+      </div>
+    </Variants>
+  )
+}
+```
+
+#### Media Queries
+
+Variants have the ability to define media queries that will be converted to use [window.matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia).
+
+```jsx
+function App() {
+  return (
+    <Variants dark="@media (prefers-color-scheme: dark)">
+      <div
+        style={{ background: 'white', color: 'black' }}
+        variants={{
+          dark: {
+            style: { background: 'black', color: 'white' },
+          },
+        }}
+      >
+        Hello Variants
+      </div>
+    </Variants>
+  )
+}
+```
+
+#### Chaining
+
+Variants can be chained using a colon. This is similar to chaining pseudo selectors in CSS. Props will only be applied when all variants in the chain are active. Local and global variants can be changed to offer fine grained control.
+
+```jsx
+<Text
+  color="green.500"
+  variants={{
+    hover: {
+      color: 'green.800',
+    },
+    dark: {
+      color: 'green.200',
+    },
+    'dark:hover': {
+      color: 'green.700',
+    },
+  }}
+>
+  Hello Text
+</Text>
+```
+
 ### Modifiers
 
 Modifiers allow aliasing a set of props that can be reused.
@@ -57,8 +169,8 @@ Modifiers allow aliasing a set of props that can be reused.
 import { Modifiers, useModifierProps } from '@jsxui/react'
 
 function Button({ title, ...props }) {
-  const modifierProps = useModifierProps('button', props)
-  return <button {...modifierProps}>{title}</button>
+  const { spaceX, spaceY } = useModifierProps('button', props)
+  return <button style={{ padding: `${spaceY} ${spaceX}` }}>{title}</button>
 }
 
 function App() {
