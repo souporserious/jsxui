@@ -46,3 +46,99 @@ These are helpful for things like:
 - Media Queries
 - A/B Testing
 - User Roles
+
+### Modifiers
+
+Modifiers allow aliasing a set of props that can be reused.
+
+#### Local
+
+```jsx
+import { Modifiers, useModifierProps } from '@jsxui/react'
+
+function Button({ title, ...props }) {
+  const modifierProps = useModifierProps('button', props)
+  return <button {...modifierProps}>{title}</button>
+}
+
+function App() {
+  return (
+    <Modifiers
+      button={{
+        primary: {
+          background: 'brand',
+          foreground: 'white',
+        },
+        'primary.outline': {
+          strokeColor: 'brand',
+          strokeWeight: 1,
+        },
+        'size.small': {
+          spaceX: 1,
+          spaceY: 2,
+        },
+        'size.medium': {
+          spaceX: 1.5,
+          spaceY: 3,
+        },
+        'size.large': {
+          spaceX: 3,
+          spaceY: 4,
+        },
+      }}
+    >
+      <Overrides value={[<Button modifiers="size.medium" />]}>
+        <Button
+          title="Hello Button"
+          modifiers={['primary.outline', 'size.small']}
+        />
+      </Overrides>
+    </Modifiers>
+  )
+}
+```
+
+#### Global
+
+```jsx
+const Heading = ({ level, children }) => (
+  <Text modifiers={[`heading`, `heading${level}`]}>{children}</Text>
+)
+const App = () => (
+  <Modifiers
+    value={{
+      heading: { color: 'foreground' },
+      heading1: { size: 32 },
+      heading2: { size: 24 },
+      heading3: { size: 18 },
+      body: { size: 16, color: 'foreground' },
+    }}
+  >
+    <Heading level={1}>Heading 1</Heading>
+    <Heading level={2}>Heading 2</Heading>
+    <Heading level={3}>Heading 3</Heading>
+    <Text modifiers="body">Body</Text>
+  </Modifiers>
+)
+```
+
+```jsx
+const App = () => (
+  <Variants dark="@media (prefers-color-scheme: dark)">
+    <Theme
+      colors={{ foreground: '#111', background: '#fff' }}
+      variants={{
+        dark: {
+          colors: { foreground: '#eee', background: '#222' },
+        },
+      }}
+    >
+      <Modifiers body={{ size: 16, color: 'foreground' }}>
+        <Overrides value={[<Text modifiers="body" />]}>
+          <Text>Inherits "body" styles by default.</Text>
+        </Overrides>
+      </Modifiers>
+    </Theme>
+  </Variants>
+)
+```
