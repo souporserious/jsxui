@@ -111,6 +111,8 @@ export const Text: PolymorphicForwardRefExoticComponent<
           display: 'inline-block',
           minWidth: 0,
           minHeight: 0,
+          padding: 0,
+          margin: 0,
           gridColumn: column,
           gridRow: row,
           textAlign: alignment,
