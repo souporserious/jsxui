@@ -23,6 +23,9 @@ export type StackOwnProps = {
   /** The axis along which children are positioned. */
   axis?: 'x' | 'y'
 
+  /** Determines if the element should flow inline with text elements. */
+  inline?: boolean
+
   /** Defines the width of the view area. */
   width?: number | string
 
@@ -200,6 +203,7 @@ export const Stack: PolymorphicForwardRefExoticComponent<
   <T extends React.ElementType = typeof defaultElement>(
     {
       as,
+      inline,
       axis = 'y',
       size,
       width,
@@ -266,7 +270,7 @@ export const Stack: PolymorphicForwardRefExoticComponent<
       ? spaceYEnd ?? spaceY ?? space
       : spaceXEnd ?? spaceX ?? space
     const style = {
-      display: 'flex',
+      display: inline ? 'inline-flex' : 'flex',
       flexDirection: isHorizontal ? 'row' : 'column',
       boxShadow:
         strokeWeight ?? strokeColor
@@ -297,6 +301,8 @@ export const Stack: PolymorphicForwardRefExoticComponent<
       height: height ?? size,
       minWidth: 0,
       minHeight: 0,
+      padding: 0,
+      margin: 0,
       ...layoutStyles,
       ..._style,
     }
