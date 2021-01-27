@@ -10,11 +10,10 @@ export type DividerProps = {
 } & SharedProps
 
 export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
-  (props, ref) => {
+  ({ color = '#000', size = 1 }, ref) => {
     const parentAxis = React.useContext(StackContext)
     const tokens = useTokens()
-    const { color = '#000', size = 1 } = props
-    const isHorizontal = parentAxis === 'horizontal'
+    const isHorizontal = parentAxis === 'x'
     return (
       <div
         ref={ref}
