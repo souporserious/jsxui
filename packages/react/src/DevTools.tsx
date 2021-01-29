@@ -1,76 +1,10 @@
 import * as React from 'react'
-import create from 'zustand'
-import debounce from 'lodash.debounce'
 
 import { Overrides, OverridesProps } from './Overrides'
 import { Spacer } from './Spacer'
 import { Stack } from './Stack'
 import { Text } from './Text'
 import { Variants } from './Variants'
-
-const useEditorStore = create((set) => ({
-  activeComponent: null,
-  setActiveComponent: (id) => set({ activeComponent: id }),
-}))
-const useEditor = (props, variantActive) => {
-  const activeComponent = useEditorStore((state) => state.activeComponent)
-  const setActiveComponent = useEditorStore(
-    (state) => state.setActiveComponent
-  ) as any
-  const [hover, setHover] = React.useState(false)
-  const active =
-    JSON.stringify(activeComponent) === JSON.stringify(props.__jsxuiSource)
-  React.useEffect(() => {
-    if (variantActive === false) {
-      setActiveComponent(null)
-      setHover(false)
-    }
-  }, [variantActive])
-  return {
-    onMouseOver: (event) => {
-      event.stopPropagation()
-      setHover(true)
-    },
-    onMouseOut: () => {
-      setHover(false)
-    },
-    onClick: (event) => {
-      event.preventDefault()
-      event.stopPropagation()
-      setActiveComponent(props.__jsxuiSource)
-    },
-    style: {
-      ...props.style,
-      outline: (hover || active) && `3px solid blue`,
-      zIndex: hover || active ? 100 : props.style?.zIndex,
-    },
-  }
-}
-const useTextEditor = (props, variantActive) => {
-  const editorProps = useEditor(props, variantActive)
-  return {
-    contentEditable: true,
-    suppressContentEditableWarning: true,
-    // onInput: debounce((event) => {
-    //   event.stopPropagation()
-    //   fetch('http://localhost:4000/props/update', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({
-    //       source: props.__jsxuiSource,
-    //       value: event.target.innerText,
-    //     }),
-    //   })
-    // }, 120),
-    ...editorProps,
-  }
-}
-const useStackEditor = (props, variantActive) => {
-  const editorProps = useEditor(props, variantActive)
-  return {
-    ...editorProps,
-  }
-}
 
 const overrides: OverridesProps['value'] = [
   [
@@ -170,7 +104,6 @@ const overrides: OverridesProps['value'] = [
         )
       },
       variants: {
-        editor: useEditor,
         xray: {
           background: 'white',
         },
@@ -181,7 +114,6 @@ const overrides: OverridesProps['value'] = [
     Text,
     {
       variants: {
-        editor: useTextEditor,
         xray: {
           color: 'black',
         },
@@ -192,7 +124,6 @@ const overrides: OverridesProps['value'] = [
     Stack,
     {
       variants: {
-        editor: useStackEditor,
         xray: {
           strokeWeight: 1,
           strokeColor: 'black',
@@ -215,19 +146,107 @@ const overrides: OverridesProps['value'] = [
   ],
 ]
 
+function Editor({ children }) {
+  const [editorMode, setEditorMode] = React.useState(false)
+  const [editorActiveElement, setEditorActiveElement] = React.useState(null)
+  const editorVariant = (props) => ({
+    ...props,
+    onMouseOver: (event) => {
+      event.stopPropagation()
+      setEditorActiveElement(props.__jsxuiSource)
+    },
+    onMouseOut: () => {
+      setEditorActiveElement(null)
+    },
+    onClick: (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      setEditorActiveElement(props.__jsxuiSource)
+    },
+  })
+  const editorActiveVariant = (props, state) => {
+    const active = JSON.stringify(state) === JSON.stringify(props.__jsxuiSource)
+    return active
+      ? {
+          ...props,
+          style: {
+            ...props.style,
+            outline: `3px solid blue`,
+            zIndex: 100,
+          },
+        }
+      : props
+  }
+  React.useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'e':
+          setEditorMode((bool) => !bool)
+          break
+        case 'Escape':
+          setEditorActiveElement(null)
+          break
+      }
+    })
+  }, [])
+  React.useEffect(() => {
+    if (editorMode === false) {
+      setEditorActiveElement(null)
+    }
+  }, [editorMode])
+  return (
+    <Variants value={{ editorMode, editorActiveElement }}>
+      <Overrides
+        value={[
+          [
+            Stack,
+            {
+              variants: {
+                editorMode: editorVariant,
+                editorActiveElement: editorActiveVariant,
+              },
+            },
+          ],
+          [
+            Text,
+            {
+              variants: {
+                editorMode: (props) => {
+                  return {
+                    contentEditable: true,
+                    suppressContentEditableWarning: true,
+                    // onInput: debounce((event) => {
+                    //   event.stopPropagation()
+                    //   fetch('http://localhost:4000/props/update', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify({
+                    //       source: props.__jsxuiSource,
+                    //       value: event.target.innerText,
+                    //     }),
+                    //   })
+                    // }, 120),
+                    ...editorVariant(props),
+                  }
+                },
+                editorActiveElement: editorActiveVariant,
+              },
+            },
+          ],
+        ]}
+      >
+        {children}
+      </Overrides>
+    </Variants>
+  )
+}
+
 export function DevTools({ children }) {
-  const [editor, setEditor] = React.useState(false)
   const [xray, setXray] = React.useState(false)
   React.useEffect(() => {
-    const { setActiveComponent } = useEditorStore.getState() as any
     document.addEventListener('keydown', (event) => {
       switch (event.key) {
         case 'Escape':
-          setActiveComponent(null)
-          break
-        case 'e':
-          setEditor((bool) => !bool)
-          break
         case 'x':
           setXray((bool) => !bool)
           break
@@ -236,7 +255,9 @@ export function DevTools({ children }) {
   }, [])
   return (
     <Overrides value={overrides}>
-      <Variants value={{ editor, xray }}>{children}</Variants>
+      <Editor>
+        <Variants value={{ xray }}>{children}</Variants>
+      </Editor>
       <svg width="0" height="0" style={{ display: 'block' }}>
         <defs>
           <pattern
