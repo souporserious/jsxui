@@ -19,6 +19,10 @@ export function getOverrideProps(overridesContext, component, props) {
   return {
     ...overrideProps,
     ...props,
+    variants: {
+      ...overrideProps.variants,
+      ...props.variants,
+    },
   }
 }
 
