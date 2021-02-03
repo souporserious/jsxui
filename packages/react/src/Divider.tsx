@@ -11,15 +11,14 @@ export type DividerProps = {
 
 export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
   ({ color = '#000', size = 1 }, ref) => {
-    const parentAxis = React.useContext(StackContext)
+    const isMainAxisHorizontal = React.useContext(StackContext)
     const tokens = useTokens()
-    const isHorizontal = parentAxis === 'x'
     return (
       <div
         ref={ref}
         style={{
-          width: isHorizontal ? size : '100%',
-          height: isHorizontal ? '100%' : size,
+          width: isMainAxisHorizontal ? size : '100%',
+          height: isMainAxisHorizontal ? '100%' : size,
           flexShrink: 0,
           backgroundColor: tokens.colors[color] || color,
         }}
