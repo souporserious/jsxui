@@ -1,11 +1,13 @@
 import * as React from 'react'
 import mergeProps from 'merge-props'
+import { useId } from '@reach/auto-id'
 
 import { useModifierProps } from './Modifiers'
 import { useOverrideProps } from './Overrides'
 import { useVariantProps } from './Variants'
 
 export const CreateElement = React.forwardRef((props: any, ref) => {
+  const uuid = useId()
   const variants = props.__originalType.variants
   const localVariants = {}
   if (variants) {
@@ -17,11 +19,16 @@ export const CreateElement = React.forwardRef((props: any, ref) => {
     }
   }
   const modifierProps = useModifierProps(props)
-  const overrideProps = useOverrideProps(props.__originalType, modifierProps)
-  const { __originalType, __jsxuiSource, ...variantProps } = useVariantProps(
-    overrideProps,
-    localVariants
-  )
+  const overrideProps = useOverrideProps(props.__originalType, {
+    __uuid: uuid,
+    ...modifierProps,
+  })
+  const {
+    __originalType,
+    __jsxuiSource,
+    __uuid,
+    ...variantProps
+  } = useVariantProps(overrideProps, localVariants)
   return React.createElement(props.__originalType, { ref, ...variantProps })
 })
 

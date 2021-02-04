@@ -49,6 +49,7 @@
     }
   },
   "dependencies": {
+    "@reach/auto-id": "^0.13.0",
     "capsize": "^1.1.0",
     "dlv": "^1.1.3",
     "lodash.debounce": "^4.0.8",
