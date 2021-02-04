@@ -5,25 +5,26 @@ import { isSameInstance } from './utils'
 export const OverridesContext = React.createContext([])
 
 export function getOverrideProps(overridesContext, component, props) {
-  let overrideProps = {} as React.ComponentProps<typeof component>
+  let mergedProps = {
+    ...props,
+  } as React.ComponentProps<typeof component>
   overridesContext.forEach((overrides) => {
-    overrides.forEach(([instance, props]) => {
+    overrides.forEach(([instance, overrideProps]) => {
       if (isSameInstance(instance, component)) {
-        overrideProps = {
-          ...overrideProps,
-          ...(typeof props === 'function' ? props(overrideProps) : props),
+        mergedProps = {
+          ...(typeof overrideProps === 'function'
+            ? overrideProps(mergedProps)
+            : overrideProps),
+          ...mergedProps,
+          variants: {
+            ...overrideProps.variants,
+            ...mergedProps.variants,
+          },
         }
       }
     })
   })
-  return {
-    ...overrideProps,
-    ...props,
-    variants: {
-      ...overrideProps.variants,
-      ...props.variants,
-    },
-  }
+  return mergedProps
 }
 
 export function useOverrideProps<C extends React.ElementType>(
@@ -41,9 +42,8 @@ export type OverridesProps = {
 
 export function Overrides({ value, children }: OverridesProps) {
   const parentOverrides = React.useContext(OverridesContext)
-  const mergedOverrides = React.useMemo(() => [...parentOverrides, value], [])
   return (
-    <OverridesContext.Provider value={mergedOverrides}>
+    <OverridesContext.Provider value={[...parentOverrides, value]}>
       {children}
     </OverridesContext.Provider>
   )
