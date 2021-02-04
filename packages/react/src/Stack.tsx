@@ -177,7 +177,7 @@ export function getStackLayoutStyles({ width, height }) {
     flexGrow: 0,
     flexShrink: 0,
     flexBasis: 0,
-  } as any
+  } as React.CSSProperties
   if (typeof width === 'string' && width.includes('fr')) {
     style.flexGrow = parseFloat(width)
   } else {
