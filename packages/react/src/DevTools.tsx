@@ -10,99 +10,6 @@ const overrides: OverridesProps['value'] = [
   [
     Spacer,
     {
-      children: ({ size, isMainAxisHorizontal }) => {
-        const [hover, setHover] = React.useState(false)
-        const [altDown, setAltDown] = React.useState(false)
-        const isFractional = typeof size === 'string' && size.includes('fr')
-        React.useEffect(() => {
-          function handleKeyDown(event) {
-            setAltDown(event.key === 'Alt')
-          }
-          function handleKeyUp() {
-            setAltDown(false)
-          }
-          window.addEventListener('keydown', handleKeyDown)
-          window.addEventListener('keyup', handleKeyUp)
-          return () => {
-            window.removeEventListener('keydown', handleKeyDown)
-            window.removeEventListener('keyup', handleKeyUp)
-          }
-        }, [])
-        return (
-          <div
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-            }}
-          >
-            {altDown && hover && (
-              <svg
-                width={isMainAxisHorizontal ? '100%' : isFractional ? 8 : 1}
-                height={isMainAxisHorizontal ? (isFractional ? 8 : 1) : '100%'}
-                style={{
-                  position: 'absolute',
-                  [isMainAxisHorizontal ? 'top' : 'left']: `calc(50% - ${
-                    isFractional ? 4 : 0.5
-                  }px)`,
-                  zIndex: 100,
-                }}
-              >
-                {isFractional ? (
-                  <rect
-                    width="100%"
-                    height="100%"
-                    fill={`url(#${
-                      isMainAxisHorizontal ? 'horizontal' : 'vertical'
-                    }Wave)`}
-                  />
-                ) : (
-                  <rect width="100%" height="100%" fill="hotpink" />
-                )}
-              </svg>
-            )}
-            {altDown && hover && (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                  zIndex: 100,
-                  backgroundColor: isMainAxisHorizontal
-                    ? 'hsla(214, 72%, 56%, 0.5)'
-                    : 'hsla(214, 84%, 74%, 0.5)',
-                }}
-              >
-                <span
-                  style={{
-                    display: 'inline-block',
-                    backgroundColor: 'hotpink',
-                    color: 'white',
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: 0.8,
-                    padding: '2px 4px',
-                    whiteSpace: 'nowrap',
-                    position: 'absolute',
-                    left: '50%',
-                    top: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    cursor: 'default',
-                  }}
-                >
-                  {size}
-                </span>
-              </div>
-            )}
-          </div>
-        )
-      },
       variants: {
         xray: {
           background: 'white',
@@ -153,7 +60,7 @@ function Editor({ children }) {
     ...props,
     onMouseOver: (event) => {
       event.stopPropagation()
-      setEditorActiveElement(props.__jsxuiSource)
+      setEditorActiveElement(props.__uuid)
     },
     onMouseOut: () => {
       setEditorActiveElement(null)
@@ -161,11 +68,11 @@ function Editor({ children }) {
     onClick: (event) => {
       event.preventDefault()
       event.stopPropagation()
-      setEditorActiveElement(props.__jsxuiSource)
+      setEditorActiveElement(props.__uuid)
     },
   })
   const editorActiveVariant = (props, state) => {
-    const active = JSON.stringify(state) === JSON.stringify(props.__jsxuiSource)
+    const active = state === props.__uuid
     return active
       ? {
           ...props,
@@ -215,23 +122,131 @@ function Editor({ children }) {
                   return {
                     contentEditable: true,
                     suppressContentEditableWarning: true,
-                    // onInput: debounce((event) => {
-                    //   event.stopPropagation()
-                    //   fetch('http://localhost:4000/props/update', {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify({
-                    //       source: props.__jsxuiSource,
-                    //       value: event.target.innerText,
-                    //     }),
-                    //   })
-                    // }, 120),
                     ...editorVariant(props),
                   }
                 },
                 editorActiveElement: editorActiveVariant,
               },
             },
+          ],
+        ]}
+      >
+        {children}
+      </Overrides>
+    </Variants>
+  )
+}
+
+function ViewSize({ children }) {
+  const [hoveredElement, setHoveredElement] = React.useState(false)
+  const [altDown, setAltDown] = React.useState(false)
+  React.useEffect(() => {
+    function handleKeyDown(event) {
+      setAltDown(event.key === 'Alt')
+    }
+    function handleKeyUp() {
+      setAltDown(false)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [])
+  return (
+    <Variants value={{ hoveredElement }}>
+      <Overrides
+        value={[
+          [
+            Spacer,
+            (props) => ({
+              children: ({ size, isMainAxisHorizontal }) => {
+                const hover = hoveredElement === props.__uuid
+                const isFractional =
+                  typeof size === 'string' && size.includes('fr')
+                return (
+                  <div
+                    onMouseEnter={() => setHoveredElement(props.__uuid)}
+                    onMouseLeave={() => setHoveredElement(null)}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: 0,
+                    }}
+                  >
+                    {altDown && hover && (
+                      <svg
+                        width={
+                          isMainAxisHorizontal ? '100%' : isFractional ? 8 : 1
+                        }
+                        height={
+                          isMainAxisHorizontal ? (isFractional ? 8 : 1) : '100%'
+                        }
+                        style={{
+                          position: 'absolute',
+                          [isMainAxisHorizontal
+                            ? 'top'
+                            : 'left']: `calc(50% - ${
+                            isFractional ? 4 : 0.5
+                          }px)`,
+                          zIndex: 100,
+                        }}
+                      >
+                        {isFractional ? (
+                          <rect
+                            width="100%"
+                            height="100%"
+                            fill={`url(#${
+                              isMainAxisHorizontal ? 'horizontal' : 'vertical'
+                            }Wave)`}
+                          />
+                        ) : (
+                          <rect width="100%" height="100%" fill="hotpink" />
+                        )}
+                      </svg>
+                    )}
+                    {altDown && hover && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          left: 0,
+                          zIndex: 100,
+                          backgroundColor: isMainAxisHorizontal
+                            ? 'hsla(214, 72%, 56%, 0.5)'
+                            : 'hsla(214, 84%, 74%, 0.5)',
+                        }}
+                      >
+                        <span
+                          style={{
+                            display: 'inline-block',
+                            backgroundColor: 'hotpink',
+                            color: 'white',
+                            fontSize: 12,
+                            fontWeight: 700,
+                            letterSpacing: 0.8,
+                            padding: '2px 4px',
+                            whiteSpace: 'nowrap',
+                            position: 'absolute',
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            cursor: 'default',
+                          }}
+                        >
+                          {size}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )
+              },
+            }),
           ],
         ]}
       >
@@ -256,7 +271,9 @@ export function DevTools({ children }) {
   return (
     <Overrides value={overrides}>
       <Editor>
-        <Variants value={{ xray }}>{children}</Variants>
+        <ViewSize>
+          <Variants value={{ xray }}>{children}</Variants>
+        </ViewSize>
       </Editor>
       <svg width="0" height="0" style={{ display: 'block' }}>
         <defs>
