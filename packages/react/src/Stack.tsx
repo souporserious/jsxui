@@ -274,9 +274,8 @@ export const Stack: PolymorphicForwardRefExoticComponent<
       flexDirection: isHorizontal ? 'row' : 'column',
       boxShadow:
         strokeWeight ?? strokeColor
-          ? `inset 0px 0px 0px ${strokeWeight}px ${
-              colors[strokeColor] || strokeColor
-            }`
+          ? `inset 0px 0px 0px ${strokeWeight}px ${colors[strokeColor] ||
+              strokeColor}`
           : undefined,
       borderRadius: [
         parseValue(radiusTopLeft ?? radius),
@@ -303,8 +302,8 @@ export const Stack: PolymorphicForwardRefExoticComponent<
       minHeight: 0,
       padding: 0,
       margin: 0,
-      ...layoutStyles,
       ..._style,
+      ...layoutStyles,
     }
     const childrenToRender =
       spaceCrossStart ?? spaceCrossEnd
