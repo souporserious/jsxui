@@ -23,7 +23,7 @@ export function useLayoutStyles(value) {
     } else {
       style.flexGrow = 1
       style.flexShrink = 1
-      style[`min${mainDimension}`] = min
+      style.flexBasis = min
     }
     if (max.includes('fr')) {
       const maxFloat = parseFloat(max)
@@ -35,7 +35,6 @@ export function useLayoutStyles(value) {
       style.flexGrow = maxFloat
       style.flexBasis = 0
     } else {
-      style[mainDimension.toLowerCase()] = '100%'
       style[`max${mainDimension}`] = max
     }
   } else if (typeof value === 'string' && value.includes('fr')) {

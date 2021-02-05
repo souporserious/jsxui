@@ -1,4 +1,5 @@
 import * as React from 'react'
+import mergeProps from 'merge-props'
 
 export const VariantsContext = React.createContext([])
 
@@ -11,9 +12,13 @@ export function getVariantProps(variantsContext, { variants, ...props }: any) {
         if (typeof variantProps === 'function') {
           mergedProps = variantProps(mergedProps, state)
         } else {
-          mergedProps = {
-            ...mergedProps,
-            ...variantProps,
+          try {
+            mergedProps = mergeProps(mergedProps, variantProps)
+          } catch (err) {
+            mergedProps = {
+              ...mergedProps,
+              ...variantProps,
+            }
           }
         }
       }
